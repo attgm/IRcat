@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                applySheet = id; 
+                cancelSheet = id; 
+                enterMessage = id; 
+                switchChannelbyChannelPopup = id; 
+            }; 
+            CLASS = MainWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_menuCaption" = NSTextField; 
+                "_menuPopUp" = NSPopUpButton; 
+                "_menuSheet" = NSWindow; 
+                "_menuTitle" = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = "java.lang.Object"; LANGUAGE = Java; }
+    ); 
+    IBVersion = 1; 
+}

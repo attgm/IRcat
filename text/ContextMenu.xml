@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NickList</key>
+	<array>
+		<dict>
+			<key>command</key>
+			<string>WHOIS$s $,</string>
+			<key>multi</key>
+			<true/>
+			<key>title</key>
+			<string>Whois</string>
+		</dict>
+		<dict>
+			<key>command</key>
+			<string>JOIN$s $_</string>
+			<key>multi</key>
+			<false/>
+			<key>title</key>
+			<string>Talk on Private</string>
+		</dict>
+		<dict>
+			<key>separator</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>command</key>
+			<string>MODE$s $c +$(o) $@</string>
+			<key>multi</key>
+			<true/>
+			<key>title</key>
+			<string>op</string>
+		</dict>
+		<dict>
+			<key>separator</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>command</key>
+			<string>CTCP$s VERSION $@</string>
+			<key>multi</key>
+			<false/>
+			<key>title</key>
+			<string>CTCP VERSION</string>
+		</dict>
+		<dict>
+			<key>command</key>
+			<string>CTCP$s PING $@</string>
+			<key>multi</key>
+			<false/>
+			<key>title</key>
+			<string>CTCP PING</string>
+		</dict>
+	</array>
+	<key>ServerMenu</key>
+	<array>
+		<dict>
+			<key>command</key>
+			<string>CONNECT $@</string>
+			<key>multi</key>
+			<false/>
+			<key>title</key>
+			<string>Connect</string>
+		</dict>
+		<dict>
+			<key>command</key>
+			<string>DISCONNECT $_</string>
+			<key>multi</key>
+			<false/>
+			<key>title</key>
+			<string>Disconnect</string>
+		</dict>
+	</array>
+</dict>
+</plist>

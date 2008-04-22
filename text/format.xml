@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>0</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>200</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S LINK (%2) : %3 -&gt; %4</string>
+	</dict>
+	<key>201</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S TRY (%2) -&gt; %3</string>
+	</dict>
+	<key>202</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S HAND SHAKE (%2) -&gt; %3</string>
+	</dict>
+	<key>203</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S ???? (%2) -&gt; %3</string>
+	</dict>
+	<key>204</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S OPERATOR (%2) = %3</string>
+	</dict>
+	<key>205</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S USER (%2) = %3</string>
+	</dict>
+	<key>206</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S SERVER (%2) -&gt; %5 {%3, %4} %6</string>
+	</dict>
+	<key>208</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S CLASS %1 (%3 entries)</string>
+	</dict>
+	<key>211</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %1 send %2 %3(%4 bytes) reseived %5(%6 bytes) time %7</string>
+	</dict>
+	<key>212</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %1 %2 times</string>
+	</dict>
+	<key>213</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S C-LINE %2(%4) %5 (class %6)</string>
+	</dict>
+	<key>214</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S N-LINE %2(%4) %5 (class %6)</string>
+	</dict>
+	<key>215</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S I-LINE %2 : %4 %5 (class %6)</string>
+	</dict>
+	<key>216</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S K-LINE %2 : %4 %5 (class %6)</string>
+	</dict>
+	<key>218</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S Y-LINE CLASS:%1 PING:%2 CONNECT:%3 SENDQ:%4</string>
+	</dict>
+	<key>219</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S End of /STATS report</string>
+	</dict>
+	<key>221</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S Your mode is %1</string>
+	</dict>
+	<key>241</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S L-LINE %2 : : %4 : %5</string>
+	</dict>
+	<key>242</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %1</string>
+	</dict>
+	<key>243</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S H-LINE %2 : : %4</string>
+	</dict>
+	<key>256</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S Adminstrative info at %1</string>
+	</dict>
+	<key>261</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S LOG FILE -&gt; %2 (%3)</string>
+	</dict>
+	<key>301</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %1 is marked as being AWAY (%2)</string>
+	</dict>
+	<key>302</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S *1</string>
+	</dict>
+	<key>303</key>
+	<dict>
+		<key>appendFormat</key>
+		<string>%1</string>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S *1 is on</string>
+	</dict>
+	<key>305</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %1</string>
+	</dict>
+	<key>306</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %1</string>
+	</dict>
+	<key>311</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %1 is %2@%3 (%5)</string>
+	</dict>
+	<key>312</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S server is %2 </string>
+	</dict>
+	<key>313</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %n is an IRC operator</string>
+	</dict>
+	<key>314</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %1 was %2@%3 (%5)</string>
+	</dict>
+	<key>315</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>317</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S Idle: %2 seconds</string>
+	</dict>
+	<key>318</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>319</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S channel : *2</string>
+	</dict>
+	<key>321</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>322</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %c (%2) : *3</string>
+	</dict>
+	<key>323</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>324</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>%S %c: MODE : %2 %3</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S MODE : %2 %3</string>
+	</dict>
+	<key>332</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S Topic for %c :%M%2</string>
+	</dict>
+	<key>333</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>%S %2 set topic on %c in +3</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S %2 set topic in +3</string>
+	</dict>
+	<key>341</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>2</integer>
+		<key>commonFormat</key>
+		<string>%S You are inviting %1 to %c</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S You are inviting %1 to here</string>
+	</dict>
+	<key>342</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S Summoning %1 to IRC</string>
+	</dict>
+	<key>351</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %2 is running IRC version %1 (%3)</string>
+	</dict>
+	<key>352</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %6%1 %5 &lt;%2@%3&gt; %8</string>
+	</dict>
+	<key>353</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>2</integer>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%M%c: *3</string>
+	</dict>
+	<key>364</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %3 : -&gt; %2 (%4)</string>
+	</dict>
+	<key>365</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>366</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>367</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>%S %1 : +b %2</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S %1 : +b %2</string>
+	</dict>
+	<key>368</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>369</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>371</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %M%1</string>
+	</dict>
+	<key>372</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%1</string>
+	</dict>
+	<key>374</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>375</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>376</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>382</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %1 %2</string>
+	</dict>
+	<key>391</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>Time : %2 (%1)</string>
+	</dict>
+	<key>392</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>393</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S USERS %1 %2 %3</string>
+	</dict>
+	<key>394</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>401</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>0</integer>
+		<key>format</key>
+		<string></string>
+	</dict>
+	<key>406</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%E No such nick : %1</string>
+	</dict>
+	<key>CTCP_ACTION</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>%S %n *3</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S %n *3</string>
+	</dict>
+	<key>CTCP_DEFAULT</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %2(%n):*3</string>
+	</dict>
+	<key>CTCP_PING</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S PING(%n):%x sec</string>
+	</dict>
+	<key>CTCP_RECIVE</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>%S CTCP %2:%n send to %1</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S CTCP %2:%n send to %1</string>
+	</dict>
+	<key>DEFAULT_COMMAND</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S *1</string>
+	</dict>
+	<key>DEFAULT_ERROR</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%E %C *1</string>
+	</dict>
+	<key>DEFAULT_REPLY</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>*1</string>
+	</dict>
+	<key>INTERNAL_MESSAGE</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%s[%1] %2</string>
+	</dict>
+	<key>INTERNAL_ERROR</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%e[%1] %2</string>
+	</dict>
+	<key>INVITE</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>2</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S Inviting %1 to channel %c</string>
+	</dict>
+	<key>INVITE_SELF</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>2</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S %n invites you to channel %c</string>
+	</dict>
+	<key>JOIN</key>
+	<dict>
+		<key>appendFormat</key>
+		<string> %s%2%n</string>
+		<key>commonFormat</key>
+		<string>%S%A has joined channel %c</string>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S%A has joined</string>
+	</dict>
+	<key>JOIN_SELF</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>%S You have joined channel %c</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S You have joined channel %c</string>
+	</dict>
+	<key>KICK</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>%S %2 has kicked %c by %n(%3)</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S %2 has kicked by %n(%3)</string>
+	</dict>
+	<key>KICK_SELF</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%T%S You were kicked out from %c by %n (%3)</string>
+	</dict>
+	<key>MODE_CHANNEL</key>
+	<dict>
+		<key>appendFormat</key>
+		<string>%s*2</string>
+		<key>commonFormat</key>
+		<string>%S %n changed mode for %c : %A</string>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S %n changed mode : %A</string>
+	</dict>
+	<key>MODE_USER</key>
+	<dict>
+		<key>appendFormat</key>
+		<string>%s*2</string>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S You changed your mode to %A</string>
+	</dict>
+	<key>NICK</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>110</integer>
+		<key>commonFormat</key>
+		<string>%S %n has known as %1</string>
+		<key>displayPlace</key>
+		<integer>3</integer>
+		<key>format</key>
+		<string>%T%S %n has known as %1</string>
+	</dict>
+	<key>NOTICE</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>(%c:%n) %[%2%]</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%t(%n) %[%2%]</string>
+	</dict>
+	<key>PART</key>
+	<dict>
+		<key>appendFormat</key>
+		<string> %s%n</string>
+		<key>commonFormat</key>
+		<string>%S%A has just left %c(%2)</string>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S%A has just left (%2)</string>
+	</dict>
+	<key>PART_SELF</key>
+	<dict>
+		<key>appendFormat</key>
+		<string> %s%c</string>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S You have left%A(%2)</string>
+	</dict>
+	<key>PRIVMSG_CHANNEL</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>&lt;%c:%n&gt; %[*2%]</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%t&lt;%n&gt; %[*2%]</string>
+	</dict>
+	<key>PRIVMSG_CHANNEL_SELF</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>&gt;%c:%n&lt; %[*2%]</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%t&gt;%n&lt; %[*2%]</string>
+	</dict>
+	<key>PRIVMSG_CONSOLE</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>commonFormat</key>
+		<string>*2</string>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%t *2</string>
+	</dict>
+	<key>PRIVMSG_SERVER</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%t%M *2</string>
+	</dict>
+	<key>PRIVMSG_USER</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>110</integer>
+		<key>commonFormat</key>
+		<string>=%n= %{*2%}</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%t=%N= %[*2%]</string>
+	</dict>
+	<key>PRIVMSG_USER_SELF</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>-%n- %[%2%]</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%t-%n- %[*2%]</string>
+	</dict>
+	<key>QUIT</key>
+	<dict>
+		<key>appendFormat</key>
+		<string> %s%n</string>
+		<key>channelPosition</key>
+		<integer>110</integer>
+		<key>commonFormat</key>
+		<string>%S%A has quit IRC(%1)</string>
+		<key>displayPlace</key>
+		<integer>3</integer>
+		<key>format</key>
+		<string>%T%S%A has quit IRC(%1)</string>
+	</dict>
+	<key>QUIT_SELF</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>0</integer>
+		<key>displayPlace</key>
+		<integer>2</integer>
+		<key>format</key>
+		<string>%S You quit IRC(%1)</string>
+	</dict>
+	<key>TOPIC</key>
+	<dict>
+		<key>channelPosition</key>
+		<integer>1</integer>
+		<key>commonFormat</key>
+		<string>%S %n set topic for %c to %2</string>
+		<key>displayPlace</key>
+		<integer>1</integer>
+		<key>format</key>
+		<string>%T%S %n set topic to %2</string>
+	</dict>
+</dict>
+</plist>

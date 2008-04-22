@@ -1,0 +1,232 @@
+//
+//  $RCSfile: ServerModal.m,v $
+//  
+//  $Revision: 49 $
+//  $Date: 2008-01-21 21:07:07 +0900#$
+//
+
+#import "ServerModal.h"
+
+
+static NSDictionary *defaultValues()
+{
+    static NSDictionary *defaults = nil;
+    
+    if(!defaults){
+        defaults = [[NSDictionary alloc] initWithObjectsAndKeys:
+			[NSNumber numberWithBool:NO], @"invisibleMode",
+			[NSString stringWithString:@"blue"], @"serverLabel",
+            [NSString stringWithString:@""], @"password",
+            [NSNumber numberWithInt:6667], @"port",
+            [NSString stringWithString:@""], @"address",
+            [NSString stringWithString:@""], @"mailAddress",
+            [NSString stringWithString:@""], @"realName",
+            [NSString stringWithString:@""], @"nick",
+            [NSMutableArray arrayWithCapacity:8], @"autoJoinChannels",
+            [NSString stringWithString:@"default"], @"name",
+			[NSString stringWithString:@"ISO-2022-JP"], @"encoding",
+            nil];
+    }
+    return defaults;
+};
+
+
+static NSDictionary *preferenceConverter()
+{
+	static NSDictionary *preferenceConverter = nil;
+    
+    if(!preferenceConverter){
+        preferenceConverter = [[NSDictionary alloc] initWithObjectsAndKeys:
+			[NSString stringWithString:@"InvisibleMode"], @"invisibleMode",
+			[NSString stringWithString:@"Label"], @"serverLabel",
+            [NSString stringWithString:@"Password"], @"password",
+			[NSString stringWithString:@"Port"], @"port",
+            [NSString stringWithString:@"Address"], @"address",
+            [NSString stringWithString:@"MailAddress"], @"mailAddress",
+            [NSString stringWithString:@"RealName"], @"realName",
+			[NSString stringWithString:@"Nick"], @"nick",
+            [NSString stringWithString:@"AutoJoinChannels"], @"autoJoinChannels",
+			[NSString stringWithString:@"Name"], @"name",
+			[NSString stringWithString:@"Encoding"], @"encoding",
+            nil];
+    }
+    return preferenceConverter;
+}
+
+
+@implementation ServerModal
+
+
+#pragma mark allocator
+
+//-- init
+//
+-(id) init
+{
+	[super init];
+	if(self){
+		_parameters = [[NSMutableDictionary alloc] init];
+		[self initializeDictionary:nil];
+	}
+	return self;
+}
+
+
+//-- initWithDictionary
+//
+-(id) initWithDictionary:(NSDictionary*) dic
+{
+	[super init];
+	if(self){
+		_parameters = [[NSMutableDictionary alloc] init];
+		[self initializeDictionary:dic];
+	}
+	return self;
+}
+
+
+//-- dealloc
+//
+-(void) dealloc
+{
+	[_parameters release];
+	[super dealloc];
+}
+
+
+//-- serverModal
++(ServerModal*) serverModal
+{
+	return [[[ServerModal alloc] init] autorelease];
+}
+
+//-- initWithDictionary
+//
++(ServerModal*) serverModalWithDictionary:(NSDictionary*) dic
+{
+	return [[[ServerModal alloc] initWithDictionary:dic] autorelease];
+}
+
+
+//-- initializeDictionary
+//
+-(void) initializeDictionary:(NSDictionary*) dic
+{
+	NSDictionary* defaluts = defaultValues();
+	NSDictionary* converter = preferenceConverter();
+	NSEnumerator* e = [defaluts keyEnumerator];
+	id key;
+	while(key = [e nextObject]){
+		id value = [dic objectForKey:key];
+		if(!value){
+			id oldKey = [converter objectForKey:key];
+			value = [dic objectForKey:oldKey];
+			if(!value){
+				value = [defaluts objectForKey:key];
+			}
+		}
+		
+		if([value isKindOfClass:[NSArray class]]){
+			[_parameters setObject:[self mutableArrayFromArray:value] forKey:key];
+		}else{
+			[_parameters setObject:value forKey:key];
+		}
+	}
+	[_parameters setObject:[NSNumber numberWithInt:[ServerModal bookIdentifier]] forKey:@"id"];	
+}
+
+
+//-- mutableArrayFromArray
+//
+-(NSMutableArray*) mutableArrayFromArray:(NSArray*) array
+{
+	NSEnumerator* e = [array objectEnumerator];
+	NSMutableArray* copy = [NSMutableArray arrayWithCapacity:[array count]];
+	id it;
+	while(it = [e nextObject]){
+		if([it isKindOfClass:[NSDictionary class]]){
+			[copy addObject:[it mutableCopy]];
+		}else{
+			[copy addObject:[NSMutableDictionary dictionaryWithObject:[it copyWithZone:[self zone]] 
+															   forKey:@"name"]];
+		}
+	}
+	return copy;
+}
+
+
+//-- isValidParameter
+-(BOOL) isValidParameter
+{
+	static NSArray* examParam = nil;
+	if(!examParam){
+		examParam = 
+			[[NSArray alloc] initWithObjects:@"port", @"address", @"mailAddress", @"realName", @"nick", nil];
+	}
+	NSEnumerator* e = [examParam objectEnumerator];
+	BOOL valid = YES;
+	id key;
+	while((key = [e nextObject])){
+		id value = [_parameters objectForKey:key];
+		if(value == nil || ([value isKindOfClass:[NSString class]] && [value length] == 0)){
+			valid = NO;
+		}
+	}
+	return valid;
+}
+
+#pragma mark -
+
+//-- bookIdentifier
+// book server id
++ (int) bookIdentifier
+{
+	static int sServerIdentifier = 1;
+	return sServerIdentifier++;
+}
+
+
+
+#pragma mark Bindings Interface
+
+//-- setValue:forKey
+//
+-(void) setValue:(id) value
+		  forKey:(NSString*) key
+{
+	id newValue = value ? value : [NSString stringWithString:@""];
+	[self willChangeValueForKey:key];
+	[_parameters setObject:newValue forKey:key];
+    [self didChangeValueForKey:key];
+	
+	if([key isEqualToString:@"serverLabel"]){
+		[self willChangeValueForKey:@"serverIconLabel"];
+		[self didChangeValueForKey:@"serverIconLabel"];
+	}
+}
+
+
+//-- valueForKey
+// bindで利用するパラメタを返す
+-(id) valueForKey:(NSString*) key
+{
+	if([key isEqualToString:@"serverIconLabel"]){
+		return ([self isValidParameter]) ?
+			[NSString stringWithFormat:@"server_%@", [_parameters objectForKey:@"serverLabel"]]
+		: @"icon_warning.tiff"; 
+	}else{
+		return [_parameters objectForKey:key];
+	}
+}
+
+
+#pragma mark Interface
+//-- parameters
+//
+-(NSDictionary*) parameters
+{
+	return _parameters;
+}
+
+
+@end
