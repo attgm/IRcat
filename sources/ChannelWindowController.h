@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ChannelWindowController.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -38,6 +38,9 @@
 
 - (id) initWithInterface:(IRcatInterface*) inInterface;
 - (void) dealloc;
+
+
+-(NSObjectController*) preferenceController;
 
 -(void) createWindow;
 

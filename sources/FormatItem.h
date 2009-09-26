@@ -1,16 +1,16 @@
 //
 //  $RCSfile: FormatItem.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 #import <Foundation/Foundation.h>
 
 enum {
-    insert_Channel = 1,
-    insert_Console = 2,
+    insert_Channel		= 1,
+    insert_Console		= 2,
     insert_JoinedChannel = 3,
-    insert_Nothing = 0
+    insert_Nothing		= 0
 };
 
 

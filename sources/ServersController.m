@@ -1,12 +1,12 @@
 //
 //  $RCSfile: ServersController.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
 #import "ServersController.h"
-#import "PreferenceHeader.h"
+#import "PreferenceConstants.h"
 #import "ServerModal.h"
 
 @implementation ServersController
@@ -15,7 +15,7 @@
 // 
 - (IBAction) addItem:(id)sender
 {
-	int index = [self selectionIndex] + 1;
+	NSUInteger index = [self selectionIndex] + 1;
 	
 	ServerModal* newserver;
 	if(index != NSNotFound){
@@ -32,7 +32,8 @@
 							row:index withEvent:nil select:YES];
 }
 
-
+//-- canRemove
+// 削除できるかどうか
 - (BOOL) canRemove
 {
 	return (([[self arrangedObjects] count] > [[self selectionIndexes] count])

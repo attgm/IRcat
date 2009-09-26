@@ -1,7 +1,7 @@
 //
 //  $RCSfile: TCPConnection.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -72,6 +72,7 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 	[super dealloc];
 }
 
+
 #pragma mark -
 
 //--- connectTo
@@ -133,6 +134,7 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 			[self handleDisconnect];
 			break;
         default:
+			NSLog(@"%d", eventCode);
             break;
     }
 }
@@ -152,7 +154,8 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 		case NSStreamEventEndEncountered:
 			[self handleDisconnect];
 			break;
-        default:
+		default:
+			NSLog(@"%d", eventCode);
 			break;
 	}
 }
@@ -195,10 +198,16 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 
 //--- sendData
 // データの送信
-- (BOOL) sendData : (NSData*) inData
+-(BOOL) sendData:(NSData*)inData
+	 immediately:(BOOL)immediate
 {
-    [_dataQueue addObject:inData]; // queueの先頭にobjectを挿入する
-    return YES;
+	if(immediate == YES){ // 即座に送信する
+		[_dataQueue insertObject:inData atIndex:0];
+		[self sendDataInInterval:nil];
+	}else{
+		[_dataQueue addObject:inData]; // queueの先頭にobjectを挿入する
+	}
+	return YES;
 }
 
 
@@ -247,7 +256,7 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 	while([_inputStream hasBytesAvailable]){
 		uint8_t		buffer[1024];
 		
-		unsigned int length = [_inputStream read:(void*)&buffer maxLength:1024];
+		NSInteger length = [_inputStream read:(void*)&buffer maxLength:1024];
 		[_localDataBuffer appendBytes:buffer length:length];
     
 		data = [_localDataBuffer bytes];
@@ -290,9 +299,9 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 - (void) handleDisconnect
 {
 	if(_state != IRStateDisconnect){
-		_state = IRStateDisconnect;
 		[_session handleDisconnect];
 		[self stopTimer];
+		_state = IRStateDisconnect;
 	}
 }
 

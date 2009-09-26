@@ -1,7 +1,7 @@
 //
 //  $RCSfile: IRCSender.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -10,7 +10,7 @@
 
 @implementation IRCSender
 
-#pragma mark ･･･  ･･･
+#pragma mark Sender Message
 //-- sendPRIVMSG
 // PRIVMSGの送信
 - (void) sendPRIVMSG:(NSString*)inMessage to:(NSString*)inChannelName

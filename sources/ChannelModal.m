@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ChannelModal.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -187,7 +187,7 @@
 
 //-- setFlag:nick:ison
 // フラグの設定
-- (BOOL) setFlag:(UserFlag) inFlag
+- (BOOL) setFlag:(UserModeFlag) inFlag
 			nick:(NSString*) inNick
 			ison:(BOOL) inIsOn
 {
@@ -263,9 +263,9 @@
 			return [NSImage imageNamed:[[_nickList objectAtIndex:rowIndex] label]];
 		}else{
 			int flag = [[_nickList objectAtIndex:rowIndex] flag];
-			if((flag & flag_Operator) != 0){
+			if((flag & IRFlagOperator) != 0){
 				return [NSImage imageNamed:@"op"];
-			}else if((flag & flag_SpeakAbility) != 0){
+			}else if((flag & IRFlagSpeakAbility) != 0){
 				return [NSImage imageNamed:@"voice"];
 			}else{
 				return nil;
@@ -287,11 +287,11 @@
 // 選択済みのnickを返す
 - (NSArray*) arraySelected:(NSIndexSet*) inSelected
 {
-	unsigned int bufSize = [inSelected count];
-	unsigned int buf[bufSize];
+	NSUInteger bufSize = [inSelected count];
+	NSUInteger buf[bufSize];
 	NSRange range = NSMakeRange([inSelected firstIndex], [inSelected lastIndex] - [inSelected firstIndex] + 1);
 	
-	unsigned int num = [inSelected getIndexes:buf maxCount:bufSize inIndexRange:&range];
+	NSUInteger num = [inSelected getIndexes:buf maxCount:bufSize inIndexRange:&range];
 	NSMutableArray* nicks = [[[NSMutableArray alloc] initWithCapacity:num] autorelease];
 	int i;
 	for(i=0; i<num; i++){
@@ -495,7 +495,7 @@
 				   ison:(BOOL)inIsOn
 {
 	NSString* mode = [NSString stringWithFormat:@"%c", inFlag];
-	unsigned index = [_channelMode indexOfObject:mode];
+	NSUInteger index = [_channelMode indexOfObject:mode];
 	if(inIsOn){
 		if(index == NSNotFound){
 			[_channelMode addObject:mode];

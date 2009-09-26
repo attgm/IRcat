@@ -1,7 +1,7 @@
 //
 //  $RCSfile: MainWindowController.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 #import "MainWindowController.h"
@@ -21,10 +21,11 @@
 #import "ConsoleTextView.h"
 #import "BufferedFieldEditor.h"
 
-NSString* IRMainToolbarLabelTable = @"MainToolbar";
-NSString* IRTopicIdentifier = @"Topic";
-NSString* IRChannelPopupIdentifier = @"ChannelPopup";
-NSString* IRTopicPrefix = @"TopicPrefix";
+NSString* const IRMainToolbarLabelTable	 = @"MainToolbar";
+NSString* const IRTopicIdentifier		 = @"Topic";
+NSString* const IRChannelPopupIdentifier = @"ChannelPopup";
+NSString* const IRTopicPrefix			 = @"TopicPrefix";
+
 
 @implementation MainWindowController
 
@@ -72,18 +73,11 @@ NSString* IRTopicPrefix = @"TopicPrefix";
         [_nickListView setIntercellSpacing:NSMakeSize(0.0, 0.0)]; // cell間隔を0にする
         [[_nickListView tableColumnWithIdentifier:@"icon"] setDataCell:imageCell];
         [[_nickListView tableColumnWithIdentifier:@"op"] setDataCell:imageCell];
-        // ChannelPopupの設定
-        //[mChannelPopup removeAllItems];
-        //[[mChannelPopup menu] setAutoenablesItems:NO];
-		
 		[_channelMenu setAutoenablesItems:NO];
 		
 		// clipのbackground colorを設定
 		[_channelClipView setBackgroundColor:[NSColor windowBackgroundColor]];
-        // 共有TextViewの設定
-        //mCommonTextController = [[ChannelViewController alloc] init];
-        //[mCommonTextController setTextView:_commonTextView];
-		
+
 		// splitの位置を設定
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		NSNumber* number;
@@ -627,9 +621,8 @@ NSString* IRTopicPrefix = @"TopicPrefix";
 	[item setPaletteLabel:label];
 	
 	NSPopUpButton *popup = [[[NSPopUpButton alloc] initWithFrame:NSZeroRect] autorelease];
-	
-	//[[popup cell] setBezelStyle:NSRegularSquareBezelStyle];
-	//[[popup cell] setArrowPosition:NSPopUpArrowAtBottom];
+	[[popup cell] setBezelStyle:NSTexturedRoundedBezelStyle];
+	[[popup cell] setArrowPosition:NSPopUpArrowAtBottom];
     [[popup cell] setControlSize:NSRegularControlSize];
 	[popup setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
 	[popup setMenu:_channelMenu];

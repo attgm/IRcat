@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ApplicationController.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -61,15 +61,9 @@ static NSArray *commandMenu()
 									forName:[ImageNameToImageTransformer className]];
 	[NSValueTransformer setValueTransformer:[[[IsEmptyStringTransformer alloc] init] autorelease]
 									forName:[IsEmptyStringTransformer className]];
-	[NSValueTransformer setValueTransformer:[[[SelectedValueToIndexTransformer alloc] init] autorelease]
+    [NSValueTransformer setValueTransformer:[[[SelectedValueToIndexTransformer alloc] init] autorelease]
 									forName:[SelectedValueToIndexTransformer className]];
-
-    _interface = [[IRcatInterface alloc] init];
-	
-#ifdef NOG_PATCH	
-	mList = [[NSMutableArray alloc] init];
-	[mList addObject:_interface];
-#endif
+	_interface = [[IRcatInterface alloc] init];
 }
 
 
@@ -152,7 +146,7 @@ static NSArray *commandMenu()
 - (BOOL) validateMenuItem:(NSMenuItem*) inItem
 {
 	int tag = [inItem tag];
-	if(tag == mt_logging){
+	if(tag == IRMenuTagLogging){
 		[inItem setState:(([[_interface activeChannel] loggingChannel]) ? NSOnState : NSOffState)];
 	}
 	
@@ -162,7 +156,7 @@ static NSArray *commandMenu()
 		if([[_interface connectedServerMenu] numberOfItems] == 0){
 			return YES;
 		}
-	}else if(tag == mt_disconnect){
+	}else if(tag == IRMenuTagDisconnect){
 		int servers = [[_interface connectedServerMenu] numberOfItems];
 		if(servers == 1){
 			[inItem setTitle:NSLocalizedString(@"MTDisconnect", @"Disconnect")];

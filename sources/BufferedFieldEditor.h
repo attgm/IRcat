@@ -1,7 +1,7 @@
 //
 //  BufferedFieldEditor.h
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -12,11 +12,10 @@
 	NSTextField*	_keyView;
 }
 
--(void) setFirstKeyEvent:(NSEvent*) event;
--(void) performFirstKeyEvent:(id) sender;
--(void) keyDown:(NSEvent*) event;
+-(void) setFirstKeyEvent:(NSEvent*)event;
+-(void) performFirstKeyEvent:(id)sender;
+-(void) keyDown:(NSEvent*)event;
 
 -(id) keyView;
--(void) setKeyView:(id) keyView;
-
+-(void) setKeyView:(id)keyView;
 @end

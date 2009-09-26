@@ -1,7 +1,7 @@
 //
 //  $RCSfile: PreferenceWindowController.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 #import "PreferenceModal.h"
@@ -145,8 +145,6 @@ static PreferenceWindowController *sSharedInstance = nil;
 
 
 #pragma mark User Interface
-//-- createSoundMenu
-// sound menuを表示する
 - (void) createSoundMenu
 {
 	[_beepMenu removeAllItems];
@@ -154,9 +152,8 @@ static PreferenceWindowController *sSharedInstance = nil;
 	NSArray* titles = [PreferenceModal soundArray];
 	[_beepMenu addItemsWithTitles:titles];
 	[_beepMenu synchronizeTitleAndSelectedItem];
-//	[_beepMenu bind:@"selectedValue" toObject:_preferenceController
-//		withKeyPath:@"selection.keywordBeepName" options:nil];
 }
+
 
 
 //-- createToolBar
@@ -302,29 +299,7 @@ static PreferenceWindowController *sSharedInstance = nil;
 }
 
 
-
-/*
-- (IBAction) apply : (id) sender
-{
-    [_preferenceModal commitDisplayedValues];
-    [[NSNotificationCenter defaultCenter]
-			postNotificationName:@"IRcatPreferencesChangedNotification" object:self userInfo:nil];	
-}
-
-
-//-- revert
-// 設定をキャンセルする
-- (IBAction) revert : (id) sender
-{
-    [_preferenceModal discardDisplayedValues];
-    [[NSNotificationCenter defaultCenter]
-			postNotificationName:@"IRcatPreferencesChangedNotification" object:self userInfo:nil];
-}
-*/
-
 #pragma mark Sound
-
-
 //-- playSelectedSound
 // NSPopupが選択された時の処理
 - (IBAction) playSelectedSound:(id) sender

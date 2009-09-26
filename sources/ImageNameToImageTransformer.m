@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ImageNameToImageTransformer.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -10,19 +10,25 @@
 
 @implementation ImageNameToImageTransformer
 
-+ (Class) transformedValueClass
+//-- transformedValueClass
+// 
++(Class) transformedValueClass
 {
 	return [NSImage class];
 }
 
 
-+ (BOOL) allowsReverseTransformation
+//-- allowsReverseTransformation
+//
++(BOOL) allowsReverseTransformation
 {
 	return NO;
 }
 
 
-- (id) transformedValue:(id)value
+//-- transformedValue
+//
+-(id) transformedValue:(id)value
 {
 	if (value == nil) return nil;
 	

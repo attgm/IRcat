@@ -1,7 +1,7 @@
 //
 //  $RCSfile: IRCMessage.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -439,20 +439,6 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 }
 
 
-//-- setAdditionalMessage
-// 追加メッセージの変更(メッセージ色変更できないのが面倒やねぇ…)
-/*- (void) setAddtionalMessage:(NSString*) inString
-{
-	
-    NSDictionary* serverMessageColor = [NSDictionary dictionaryWithObjectsAndKeys:
-		[PreferenceWindowController preferenceForKey:kCommandColor], NSForegroundColorAttributeName,
-		nil];
-	
-	[_additionalMessage release];
-	_additionalMessage = [[NSAttributedString alloc] initWithString:inString attributes:serverMessageColor];
-}*/
-
-
 //-- additionalMessage
 // 追加メッセージの取得
 - (NSAttributedString*) additionalMessage
@@ -638,12 +624,14 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 				 range:(NSRange) inRange
 {
 	NSEnumerator* e = [[PreferenceModal prefForKey:kKeywords] objectEnumerator];
-	id keyword;
+	id it;
 	
-	while(keyword = [e nextObject]){
-		NSRange range = [[inMessage string] rangeOfString:[keyword objectForKey:@"name"]
-												  options:0
-													range:inRange];
+	while(it = [e nextObject]){
+		NSRange range = NSMakeRange(NSNotFound, NSNotFound); 
+		id keyword = [it objectForKey:@"name"];
+		if(keyword && [keyword length] > 0){
+			range = [[inMessage string] rangeOfString:keyword options:0 range:inRange];
+		}
 		if(range.location != NSNotFound){
 			return YES;
 		}
@@ -664,7 +652,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 	NSArray* morphemes = [AnalysisFilter morphemesFromString:[[inMessage string] substringWithRange:inRange]];
 	
 	while(key = [e nextObject]){
-		NSString* keyword = [key objectForKey:@"name"];
+		NSString* keyword = [key objectForKey:@"keyword"];
 		NSEnumerator* it = [morphemes objectEnumerator];
 		NSString* morpheme;
 		while(morpheme = [it nextObject]){

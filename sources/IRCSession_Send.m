@@ -1,7 +1,7 @@
 //
 //  $RCSfile: IRCSession_Send.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -12,7 +12,7 @@
 
 @implementation IRCSession(send)
 
-#pragma mark ･･･ Connection regsitration (RFC 1459 - Sec. 4.1) ･･･
+#pragma mark Connection regsitration (RFC 1459 - Sec. 4.1)
 //-- sendPASS
 // PASS <password>
 - (void) sendPASS:(NSString*) inPassword
@@ -35,8 +35,7 @@
             server:(NSString*) inServername
           realname:(NSString*) inRealname
 {
-    [self sendCommand:[NSString stringWithFormat:@"%@ %@ 0 * :%@",
-                        kCommandUser, inUsername, inRealname]];
+    [self sendCommand:[NSString stringWithFormat:@"%@ %@ 0 * :%@", kCommandUser, inUsername, inRealname]];
 }
 
 
@@ -60,17 +59,17 @@
 }
 
 
-#pragma mark ･･･ Channel operations (RFC 1459 - Sec. 4.2) ･･･
+#pragma mark Channel operations (RFC 1459 - Sec. 4.2)
 //-- sendJOIN
 // JOIN <channel> [<password>]
 - (void) sendJOIN:(NSString*) inChannelName
          password:(NSString*) inPassword
 {
-    if (inPassword != nil && ![inPassword isEqualToString:@""])
-        [self sendCommand:
-            [NSString stringWithFormat:@"%@ %@ %@", kCommandJoin, inChannelName, inPassword]];
-    else
+    if(inPassword != nil && ![inPassword isEqualToString:@""]){
+        [self sendCommand:[NSString stringWithFormat:@"%@ %@ %@", kCommandJoin, inChannelName, inPassword]];
+	}else{
 		[self sendCommand:[NSString stringWithFormat:@"%@ %@", kCommandJoin, inChannelName]];
+	}
 }
 
 
@@ -92,8 +91,7 @@
 - (void) sendMODE:(NSString*) inMode
 			   to:(NSString*) inChannelOrNick
 {
-    [self sendCommand:[NSString 
-        stringWithFormat:@"%@ %@ %@", kCommandMode, inChannelOrNick, inMode]];
+    [self sendCommand:[NSString stringWithFormat:@"%@ %@ %@", kCommandMode, inChannelOrNick, inMode]];
 }
 
 
@@ -161,12 +159,12 @@
 //-- sendPONG
 - (void) sendPONG:(NSString*) inFrom
 {
-    [self sendCommand:[NSString stringWithFormat:@"%@ :%@", kCommandPong, inFrom]];
+    [self sendCommand:[NSString stringWithFormat:@"%@ :%@", kCommandPong, inFrom] immediately:YES];
 }
 
 
 //-- sendWHOWAS
-// WHOWASコマンドの送信 (servernameとcountが存在する場合は省略)
+// WHOWAS繧ｳ繝槭Φ繝峨�ｮ騾∽ｿ｡ (servername縺ｨcount縺悟ｭ伜惠縺吶ｋ蝣ｴ蜷医�ｯ逵∫払)
 - (void) sendWHOWAS:(NSString*) inNick
 {
     // WHOWAS command w/ nickname only
@@ -174,17 +172,15 @@
 }
 
  
-#pragma mark ･･･ Sending messages ･･･
+#pragma mark Sending messages
 //-- sendPRIVMSG
-// PRIVMSGの送信
+// PRIVMSG縺ｮ騾∽ｿ｡
 - (void) sendPRIVMSG:(NSString*)inMessage to:(NSString*)inChannelName
 {
     IRCMessage* message;
     
     if([inMessage length] > 0){
-        [self sendCommand:[NSString stringWithFormat:@"%@ %@ :%@", kCommandPrivmsg,
-                                                            inChannelName, inMessage]];
-    
+        [self sendCommand:[NSString stringWithFormat:@"%@ %@ :%@", kCommandPrivmsg, inChannelName, inMessage]];
         // local loopback
         message = [[IRCMessage alloc] initWithMessage:[NSString stringWithFormat:@":%@ %@ %@ :%@",
                         _nickname, kCommandPrivmsg, inChannelName, inMessage] server:[self serverid]];
@@ -195,29 +191,24 @@
 
 
 //-- sendNotice:to:
-// NOTICE messageを送信する
+// NOTICE message繧帝∽ｿ｡縺吶ｋ
 - (void) sendNotice:(NSString*)inMessage to:(NSString*)inChannelName
 {
-    [self sendCommand:[NSString stringWithFormat:@"%@ %@ :%@", kCommandNotice,
-                                                inChannelName, inMessage]];
+    [self sendCommand:[NSString stringWithFormat:@"%@ %@ :%@", kCommandNotice, inChannelName, inMessage]];
 }
 
 
 //-- sendAction:to:
-// action messageを送信する
+// action message繧帝∽ｿ｡縺吶ｋ
 - (void) sendAction:(NSString*)inMessage to:(NSString*)inChannelName
 {
-	[self sendCtcpCommand:[NSString stringWithFormat:@"ACTION %@", inMessage]
-					   to:inChannelName]; 
-
+	[self sendCtcpCommand:[NSString stringWithFormat:@"ACTION %@", inMessage] to:inChannelName]; 
 	// local loopback
 	IRCMessage* message = [[[IRCMessage alloc] initWithMessage:
 		[NSString stringWithFormat:@":%@ %@ %@ :\1ACTION %@\1",
 		_nickname, kCommandPrivmsg, inChannelName, inMessage] server:[self serverid]] autorelease];
 	[self handleIRCMessage:message];
 }
-
-
 
 
 @end

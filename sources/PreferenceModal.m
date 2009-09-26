@@ -1,12 +1,12 @@
 //
 //  $RCSfile: PreferenceModal.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
 #import "PreferenceModal.h"
-#import "PreferenceHeader.h"
+#import "PreferenceConstants.h"
 #import "ColorNameToColorTransformer.h"
 
 struct PreferenceModal* sSharedPreferenceModal = nil;
@@ -53,62 +53,26 @@ static NSDictionary *defaultValues()
 				[[NSFont userFontOfSize:0.0] fontName],
 				[[NSFont userFontOfSize:0.0] pointSize]], kTextFont,
 			[NSNumber numberWithBool:NO], kDisplayCommandTime,
-			[NSArray array], kFriends,
-			[NSArray array], kKeywords,
-			[NSArray array], kLogChannels,
+			[NSArray arrayWithObject:
+				[NSDictionary dictionaryWithObjectsAndKeys:
+					[NSString stringWithString:@"nick"], @"name", 
+					[NSString stringWithString:@"0.5 0.0 0.0 1.0"], @"color", nil]], kFriends,
+			[NSArray arrayWithObject:
+				[NSDictionary dictionaryWithObjectsAndKeys:
+					[NSString stringWithString:@"keyword"], IRNotificationTitle,
+					[NSString stringWithString:@""], IRNotificationAlertName,
+					[NSString stringWithString:@"0.5 0.0 0.0 1.0"], IRNotificationColor,
+					[NSNumber numberWithBool:YES], IRNotificationUseAlert,
+					[NSNumber numberWithBool:YES], IRNotificationUseColor, nil]], kKeywords,
+			[NSArray arrayWithObject:
+				[NSDictionary dictionaryWithObjectsAndKeys:
+					[NSString stringWithString:@"#channel"], @"name", nil]], kLogChannels,
 	    nil];
     }
     return defaults;
 };
 
 
-/*
-static NSDictionary *oldDefaultValues()
-{
-    static NSDictionary *defaults = nil;
-    
-    if(!defaults){
-        defaults = [[NSDictionary alloc] initWithObjectsAndKeys:
-			// misc changed
-			[NSNumber numberWithBool:NO], kAutoJoin,
-			[NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0], kBackgroundColor,
-			[NSNumber numberWithBool:YES], kBeepKeyword,
-			[NSNumber numberWithInt:100], kChannelBufferSize,
-			[NSNumber numberWithBool:YES], kColoredCommand,
-			[NSNumber numberWithBool:YES], kColoredError,
-			[NSNumber numberWithBool:YES], kColoredFriends,
-			[NSNumber numberWithBool:YES], kColoredKeyword,
-			[NSNumber numberWithBool:YES], kColoredTime,
-			[NSNumber numberWithBool:YES], kColoredURL,
-			[NSColor colorWithCalibratedRed:0.0 green:0.5 blue:0.0 alpha:1.0], kCommandColor,
-			[NSNumber numberWithBool:YES], kDisplayCTCP,
-			[NSNumber numberWithBool:YES], kDisplayTime,
-			[NSColor colorWithCalibratedRed:0.5 green:0.0 blue:0.0 alpha:1.0], kErrorColor,
-			[NSColor colorWithCalibratedRed:0.5 green:0.0 blue:0.0 alpha:1.0], kFriendsColor,
-			[NSColor colorWithCalibratedRed:0.5 green:0.0 blue:0.0 alpha:1.0], kKeywordColor,
-			[NSString stringWithString:@"IRcat"], kQuitMessage,
-			[NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:1.0], kTextColor,
-			[NSColor blueColor], kTimeColor,
-			[NSColor blueColor], kURLColor,
-			[NSNumber numberWithBool:YES], kUseAnalysis,
-			[NSNumber numberWithBool:NO], kUseCommand,
-			[NSNumber numberWithBool:NO], kUseInternetTime,
-			[NSNumber numberWithBool:NO], kAllowMultiLineMessage,
-			[NSNumber numberWithBool:NO], kNotifyOfNewPrivChannel,
-			[NSNumber numberWithBool:NO], kNotifyOfInvitedChannel,
-			[NSString stringWithString:@"I'm IRcat user"], kUserInfo,
-			[NSString stringWithString:@"Funk"], kBeepFile,
-			[NSString stringWithFormat:@"%@/Desktop", NSHomeDirectory()], kLogFolder,
-			[NSNumber numberWithInt:10], kHistoryNum ,
-			[NSNumber numberWithBool:NO], kLogPrivChannel,
-			// etc...
-			[NSFont userFontOfSize:0.0], kTextFont,
-			[NSNumber numberWithBool:NO], kDisplayCommandTime,
-			nil];
-    }
-    return defaults;
-};
-*/
 
 
 @implementation PreferenceModal
@@ -140,6 +104,7 @@ static NSDictionary *oldDefaultValues()
 }
 
 //-- transforColorNameToColor
+//
 + (NSColor*) transforColorNameToColor:(NSString*) value
 {
 	if (value == nil) return nil;
@@ -151,9 +116,8 @@ static NSDictionary *oldDefaultValues()
 										   blue:[[colorTable objectAtIndex:2] floatValue]
 										  alpha:1.0];
     }
-	return nil;
+	return [NSColor whiteColor];
 }
-
 
 //-- soundArray
 // サウンドの一覧を返す
@@ -191,20 +155,16 @@ static NSDictionary *oldDefaultValues()
 // friendかどうかの判定
 +(NSDictionary*) searchFriend:(NSString*) inString
 {
-
 	NSEnumerator* e = [[[self class] prefForKey:kFriends] objectEnumerator];
-	 
-	 id obj;
-	 while(obj = [e nextObject]){
-		 if([inString isEqualToString:[obj objectForKey:@"name"]]){
-			 return obj;
-		 }
-	 }
+	
+	id obj;
+	while(obj = [e nextObject]){
+		if([inString isEqualToString:[obj objectForKey:@"name"]]){
+			return obj;
+		}
+	}
 	return nil;
 }
-
-
-
 
 #pragma mark Initializing
 //-- init
@@ -229,6 +189,7 @@ static NSDictionary *oldDefaultValues()
 	[super dealloc];
 	sSharedPreferenceModal = nil;
 }
+
 
 #pragma mark Bindings Interface
 //-- setValue:forKey
@@ -259,20 +220,25 @@ static NSDictionary *oldDefaultValues()
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary* defaults = defaultValues();
+	
 	_preferences = [[NSMutableDictionary alloc] initWithCapacity:[defaults count]];
 	
 	NSEnumerator* e = [defaults keyEnumerator];
 	id key;
 	while(key = [e nextObject]){
 		id value = [userDefaults objectForKey:key];
+		id defaultValue = [defaults objectForKey:key];
+		
 		if(!value){
-			value = [defaults objectForKey:key];
-		}
-			
-		if([value isKindOfClass:[NSArray class]]){
-			[_preferences setObject:[self mutableArrayFromArray:value] forKey:key];
+			[_preferences setObject:([defaultValue isKindOfClass:[NSArray class]] ? [NSMutableArray array] : defaultValue)
+							 forKey:key];
 		}else{
-			[_preferences setObject:value forKey:key];
+			if([value isKindOfClass:[NSArray class]]){
+				NSDictionary* defaultKeys = [defaultValue count] > 0 ? [defaultValue objectAtIndex:0] : nil;
+				[_preferences setObject:[self mutableArrayFromArray:value keys:defaultKeys] forKey:key];
+			}else{
+				[_preferences setObject:value forKey:key];
+			}
 		}
 	}
 }
@@ -300,18 +266,29 @@ static NSDictionary *oldDefaultValues()
 
 //-- mutableArrayFromArray
 // 設定ファイルの配列から変更可能な配列を生成する
--(NSMutableArray*) mutableArrayFromArray:(NSArray*) array
+-(NSMutableArray*) mutableArrayFromArray:(NSArray*)array keys:(id)defaults
 {
 	NSEnumerator* e = [array objectEnumerator];
 	NSMutableArray* copy = [NSMutableArray arrayWithCapacity:[array count]];
 	id it;
 	while(it = [e nextObject]){
+		NSMutableDictionary* item;
 		if([it isKindOfClass:[NSDictionary class]]){
-			[copy addObject:[it mutableCopy]];
+			item = [it mutableCopy];
 		}else{
-			[copy addObject:[NSMutableDictionary dictionaryWithObject:[it copyWithZone:[self zone]] 
-															   forKey:@"name"]];
+			item = [NSMutableDictionary dictionaryWithObject:[it copyWithZone:[self zone]] 
+													  forKey:@"name"];
 		}
+		if(defaults && [defaults isKindOfClass:[NSDictionary class]]){
+			NSEnumerator* e = [defaults keyEnumerator];
+			id key;
+			while(key = [e nextObject]){
+				if([item objectForKey:key] == nil){
+					[item setObject:[defaults objectForKey:key] forKey:key];
+				}
+			}
+		}
+		[copy addObject:item];
 	}
 	return copy;
 }

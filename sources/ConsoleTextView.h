@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ConsoleTextView.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -23,21 +23,17 @@
 }
 
 
--(void) setObservedControllerForUrlColor:(id) controller;
--(void) setObservedKeyPathForUrlColor:(NSString*) keypath;
--(void) setUrlColorTransformerName:(NSString*) name;
+-(void) setObservedControllerForUrlColor:(id)controller;
+-(void) setObservedKeyPathForUrlColor:(NSString*)keypath;
+-(void) setUrlColorTransformerName:(NSString*)name;
 -(void) syncUrlColorToController;
 
 
--(void) setObservedControllerForFont:(id) controller;
--(void) setObservedKeyPathForFont:(NSString*) keypath;
--(void) setFontTransformerName:(NSString*) name;
+-(void) setObservedControllerForFont:(id)controller;
+-(void) setObservedKeyPathForFont:(NSString*)keypath;
+-(void) setFontTransformerName:(NSString*)name;
 -(void) syncFontToController;
 
-- (BOOL) appendString:(NSAttributedString*)inString
-			   append:(NSAttributedString*)inAppend
-				   at:(int)inAppendIndex
-		   scrollLock:(BOOL) inScrollLock;
-
--(void) keyDown:(NSEvent*) event;
+-(BOOL) appendString:(NSAttributedString*)string append:(NSAttributedString*)append at:(int)appendIndex scrollLock:(BOOL)scrollLock;
+-(void) keyDown:(NSEvent*)event;
 @end

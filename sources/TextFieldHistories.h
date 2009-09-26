@@ -1,7 +1,7 @@
 //
 //  $RCSfile: TextFieldHistories.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -10,7 +10,7 @@
 
 @interface TextFieldHistories : NSObject {
 	NSMutableArray* _histories;
-	int _historyIndex;
+	NSUInteger _historyIndex;
 }
 
 

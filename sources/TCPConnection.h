@@ -1,7 +1,7 @@
 //
 //  $RCSfile: TCPConnection.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -15,7 +15,7 @@ typedef enum {
 
 typedef enum {
 	IRErrorIllegalAddress	= -1,
-	IRErrorCannotConnect		= -2
+	IRErrorCannotConnect	= -2
 } ConnectionErrorCode;
 
 @protocol Session
@@ -52,7 +52,7 @@ typedef enum {
 -(void) disconnect;
 
 //-- recive and send
--(BOOL) sendData:(NSData*) inData;
+-(BOOL) sendData:(NSData*)inData immediately:(BOOL)immediate;
 -(void) sendDataInInterval:(id) userInfo;
 -(void) stopTimer;
 

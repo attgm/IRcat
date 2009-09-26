@@ -1,22 +1,15 @@
 //
 //  $RCSfile: ChannelModal.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "IRcatConstants.h"
 @class ChannelViewController;
 @class NickListItem;
 
-typedef enum {
-    flag_Nothing		= 0,
-    flag_Operator		= 1 << 0,
-    flag_SpeakAbility 	= 1 << 1,
-    flag_Connecting		= 1 << 3,
-    flag_Connected		= 1 << 4 
-} UserFlag;
 
 @class ChannelWindowController;
 
@@ -57,7 +50,7 @@ typedef enum {
 - (void) appendNick:(NSString*)inNick label:(NSString*)inString flag:(int)inFlag;
 - (BOOL) renameNick:(NSString*)inNick to:(NSString*)inNewNick;
 - (BOOL) removeNick:(NSString*)inNick;
-- (BOOL) setFlag:(UserFlag)inFlag nick:(NSString*)inNick ison:(BOOL)inIsOn;
+- (BOOL) setFlag:(UserModeFlag)inFlag nick:(NSString*)inNick ison:(BOOL)inIsOn;
 - (void) setChannelFlag:(unichar)inFlag ison:(BOOL)inIsOn;
 - (NSString*) channelFlagString;
 

@@ -1,12 +1,12 @@
 //
 //  $RCSfile: PreferenceWindowController.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
 #import <Cocoa/Cocoa.h>
-#import "PreferenceHeader.h"
+#import "PreferenceConstants.h"
 #import "PreferenceModal.h"
 #import "EditCellController.h"
 

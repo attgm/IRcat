@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ColorNameToColorTransformer.m,v $
 //  
-//  $Revision: 53 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -52,7 +52,7 @@
 {
 	if (value == nil || ![value isKindOfClass:[NSColor class]]) return nil;
 	
-	float red, green, blue, alpha;
+	CGFloat red, green, blue, alpha;
 	[value getRed:&red green:&green blue:&blue alpha:&alpha];
     
 	return [NSString stringWithFormat:@"%f %f %f 1.0", red, green, blue];

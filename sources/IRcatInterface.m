@@ -1,7 +1,7 @@
 //
 //  $RCSfile: IRcatInterface.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -199,7 +199,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 	while(obj = [e nextObject]){
 		if([self findSessionWithID:[[obj valueForKey:kIdentifier] intValue]] == nil){
 			item = [menu addItemWithTitle:[obj valueForKey:kServerName] action:nil keyEquivalent:@""];
-			[item setImage:[NSImage imageNamed:[NSString stringWithFormat:@"server_%@", [obj valueForKey:@"serverLabel"]]]];
+			[item setImage:[NSImage imageNamed:[obj valueForKey:@"serverIconLabel"]]];
 			[item setTag:[[obj valueForKey:kIdentifier] intValue]];
 		}
 	}
@@ -264,7 +264,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 	id session;
 	NSMenuItem* item;
 	while(session = [e nextObject]){
-		if([session sessionCondition] == kSessionConditionEstablished){
+		if([session sessionCondition] == IRSessionConditionEstablished){
 			item = [menu addItemWithTitle:[session name] action:nil keyEquivalent:@""];
 			[item setImage:[NSImage imageNamed:[NSString stringWithFormat:@"server_%@", [session label]]]];
 			[item setTag:[session serverid]];
@@ -360,8 +360,8 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 				iconName = [NSString stringWithFormat:@"channel_%@", [session label]];
 			}else{
 				iconName = [NSString stringWithFormat:@"priv_%@", [session label]];
-				[cv appendNick:inChannelName flag:flag_Nothing];
-				[cv appendNick:[session nickname] flag:flag_Nothing];
+				[cv appendNick:inChannelName flag:IRFlagNoting];
+				[cv appendNick:[session nickname] flag:IRFlagNoting];
 			}
 		}
 	}
@@ -440,10 +440,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 // サーバ上のすべてのチャンネルをpartする
 - (void) removeAllChannelAt:(int) inServerID
 {
-	NSEnumerator* e = [_channelList objectEnumerator];
-	
-	id it;
-	while(it = [e nextObject]){
+	for(id it in _channelList){
 	    if([it serverid] == inServerID){
             [self removeChannel:it];
         }
@@ -882,10 +879,10 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 {
 	if (!inChannelModal) return;
 	
-    UserFlag flag = [inNick hasPrefix:@"@"] ? flag_Operator : 
-		([inNick hasPrefix:@"+"] ? flag_SpeakAbility : flag_Nothing);
+    UserModeFlag flag = [inNick hasPrefix:@"@"] ? IRFlagOperator : 
+		([inNick hasPrefix:@"+"] ? IRFlagSpeakAbility : IRFlagNoting);
     // flagがある場合は先頭の1文字をskipする
-    if(flag != flag_Nothing){
+    if(flag != IRFlagNoting){
         [inChannelModal appendNick:[inNick substringWithRange:NSMakeRange(1, [inNick length] - 1)] flag:flag];
     }else{
         [inChannelModal appendNick:inNick flag:flag];
@@ -1011,7 +1008,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
     }
 }
 
-#pragma mark ･･･  Append Message ･･･
+#pragma mark Append Message
 
 //-- appendMessage:format
 // formatに従ってmessageを表示させる
@@ -1052,7 +1049,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
     }
 	// キーワードの処理
 	if([inMessage hasKeyword] || [inMessage hasNotification]){
-		if( [[PreferenceModal prefForKey:kBeepKeyword] boolValue]){
+		if([[PreferenceModal prefForKey:kBeepKeyword] boolValue]){
 			[[NSSound soundNamed:[PreferenceModal prefForKey:kBeepFile]] play];
 		}
 		[NSApp requestUserAttention:NSCriticalRequest];
@@ -1109,9 +1106,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 - (void) appendMessageToJoinedChannel:(IRCMessage*) inMessage
 {
     NSString* nick;
-    NSEnumerator* e;
-    id it;
-    BOOL isAppend = NO, isHidden;
+    BOOL isAppend = NO;
     
     nick = [inMessage nickname];
 	
@@ -1119,13 +1114,12 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
         [self appendMessageToConsole:inMessage];
     }
     
-	isHidden = NO;
-    e = [_channelList objectEnumerator];
-    while(it = [e nextObject]){
-        // 異なるサーバである場合はskipする
+	BOOL isHidden = NO;
+    for(id it in _channelList){
+		// 異なるサーバである場合はskipする
         if ([it serverid] != [inMessage serverid])
             continue;
-        // privだった場合
+        // 参加していた場合, メッセージを表示する
         if([it isJoined:nick] == YES){
             isAppend = YES;
 			[it appendString:[inMessage expandedMessage]

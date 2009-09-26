@@ -1,7 +1,7 @@
 //
 //  FontWell.h
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 #import <Cocoa/Cocoa.h>
@@ -15,15 +15,15 @@
 	NSString* _valueTransformerName;
 }
 
-- (void)activate;
-- (void)deactivate;
-- (void) updateFontValue:(NSFont*) font;
+-(void) activate;
+-(void) deactivate;
+-(void) updateFontValue:(NSFont*)font;
 
 
 -(void) syncValueToController;
 
--(void) setObservedControllerForValue:(id) controller;
--(void) setObservedKeyPathForValue:(NSString*) keypath;
--(void) setValueTransformerName:(NSString*) name;
+-(void) setObservedControllerForValue:(id)controller;
+-(void) setObservedKeyPathForValue:(NSString*)keypath;
+-(void) setValueTransformerName:(NSString*)name;
 
 @end

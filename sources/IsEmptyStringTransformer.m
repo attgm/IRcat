@@ -1,7 +1,7 @@
 //
 //  $RCSfile: IsEmptyStringTransformer.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -9,19 +9,19 @@
 
 @implementation IsEmptyStringTransformer
 
-+ (Class) transformedValueClass
++(Class) transformedValueClass
 {
 	return [NSNumber class];
 }
 
 
-+ (BOOL) allowsReverseTransformation
++(BOOL) allowsReverseTransformation
 {
 	return NO;
 }
 
 
-- (id) transformedValue:(id)value
+-(id) transformedValue:(id)value
 {
 	if (value == nil) return [NSNumber numberWithBool:NO];
 	if ([value isKindOfClass:[NSString class]]){

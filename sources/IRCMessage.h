@@ -1,7 +1,7 @@
 //
 //  $RCSfile: IRCMessage.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -23,11 +23,11 @@ typedef enum {
     IRCMessageType _messageType;
     //int _commandNumber;
     
-    NSString*	_message;
-    NSString*	_nickname;
-    NSString*	_hostname;
-    NSString* _channelname;
-    NSString*	_trailing;
+    NSString*		_message;
+    NSString*		_nickname;
+    NSString*		_hostname;
+    NSString*		_channelname;
+    NSString*		_trailing;
     NSMutableArray* _paramList;
 
     NSAttributedString* _expandedMessage;

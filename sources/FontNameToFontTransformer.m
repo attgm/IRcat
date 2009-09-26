@@ -1,7 +1,7 @@
 //
 //  $RCSfile: FontNameToFontTransformer.m,v $
 //  
-//  $Revision: 53 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -40,9 +40,8 @@
 		valueString = value;
 	}else{
 		return [NSFont systemFontOfSize:0.0];
-		
-		//[NSException raise: NSInternalInconsistencyException
-        //            format: @"Value (%@) does not respond to -stringValue.", [value className]];
+		[NSException raise: NSInternalInconsistencyException
+                    format: @"Value (%@) does not respond to -stringValue.", [value className]];
 	}
 	
 	NSArray* fontTable = [valueString componentsSeparatedByString:@" "];

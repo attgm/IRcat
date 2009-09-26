@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ServerModal.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -20,7 +20,7 @@
 
 +(int) bookIdentifier;
 -(void) initializeDictionary:(NSDictionary*) dic;
--(NSMutableArray*) mutableArrayFromArray:(NSArray*) array;
+-(NSMutableArray*) mutableArrayFromArray:(NSArray*) array keys:(id)key;
 
 -(NSDictionary*) parameters;
 -(void) setValue:(id) value forKey:(NSString*) key;

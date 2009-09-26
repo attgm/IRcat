@@ -1,7 +1,7 @@
 //
 //  $RCSfile: IRcatConstants.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 #define	kDefaultCommandFormat			@"DEFAULT_COMMAND"
@@ -163,42 +163,47 @@ enum IRCResponse{
 };
 
 
-enum IRCModeFlag {
+typedef enum {
 	//User Flags
-	IRcat_MODE_UserInvisible				= 'i',
-	IRcat_MODE_UserReceivesServerNotices	= 's',
-	IRcat_MODE_UserReceivesWallops			= 'w',
-	IRcat_MODE_UserOperatorPrivs			= 'o',
+	IRModeUserInvisible				= 'i',
+	IRModeUserReceivesServerNotices	= 's',
+	IRModeUserReceivesWallops		= 'w',
+	IRModeUserOperatorPrivs			= 'o',
 
 	//Channel Flags
-	IRcat_MODE_ChanOperatorPrivs 			= 'o',
-	IRcat_MODE_ChanPrivateChannel 			= 'p',
-	IRcat_MODE_ChanSecretChannel 			= 's',
-	IRcat_MODE_ChanInviteOnly				= 'i',
-	IRcat_MODE_ChanTopicSettable 			= 't',
-	IRcat_MODE_ChanNoMessagesFromOutside	= 'n',
-	IRcat_MODE_ChanModerated 			= 'm',
-	IRcat_MODE_ChanUserLimit 			= 'l',
-	IRcat_MODE_ChanBanMask 				= 'b',
-	IRcat_MODE_ChanSpeakAbility			= 'v',
-	IRcat_MODE_ChanChannelKey			= 'k'
-};
+	IRModeChanOperatorPrivs 		= 'o',
+	IRModeChanPrivateChannel 		= 'p',
+	IRModeChanSecretChannel 		= 's',
+	IRModeChanInviteOnly			= 'i',
+	IRModeChanTopicSettable 		= 't',
+	IRModeChanNoMessagesFromOutside	= 'n',
+	IRModeChanModerated 			= 'm',
+	IRModeChanUserLimit 			= 'l',
+	IRModeChanBanMask 				= 'b',
+	IRModeChanSpeakAbility			= 'v',
+	IRModeChanChannelKey			= 'k'
+} IRCModeFlag;
 
-
-typedef enum {
-	kIRcatFlagNoting			= 0,
-	kIRcatFlagOperator			= 1 << 0,
-    kIRcatFlagSpeakAbility		= 1 << 1
-} IRCModeFlagMask;
 
 
 typedef enum {
-	kSessionConditionConnecting,
-	kSessionConditionRegistering,
-	kSessionConditionEstablished,
-	kSessionConditionDisconnected
+    IRFlagNoting		= 0,
+    IRFlagOperator		= 1 << 0,
+    IRFlagSpeakAbility 	= 1 << 1,
+    IRFlagConnecting	= 1 << 3,
+    IRFlagConnected		= 1 << 4 
+} UserModeFlag;
+
+
+typedef enum {
+	IRSessionConditionConnecting,
+	IRSessionConditionRegistering,
+	IRSessionConditionEstablished,
+	IRSessionConditionDisconnected
 } SessionCondition;
 
+
+ 
 #define	kCommandPing 		@"PING"
 #define kCommandPrivmsg 	@"PRIVMSG"
 #define kCommandNotice		@"NOTICE"

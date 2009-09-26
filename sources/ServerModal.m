@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ServerModal.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -25,7 +25,22 @@ static NSDictionary *defaultValues()
             [NSMutableArray arrayWithCapacity:8], @"autoJoinChannels",
             [NSString stringWithString:@"default"], @"name",
 			[NSString stringWithString:@"ISO-2022-JP"], @"encoding",
+			[NSNumber numberWithBool:NO], @"connectAtStartup",
             nil];
+    }
+    return defaults;
+};
+
+
+
+static NSDictionary *defaultKeys()
+{
+    static NSDictionary *defaults = nil;
+    
+    if(!defaults){
+        defaults = [[NSDictionary alloc] initWithObjectsAndKeys:
+					[NSArray arrayWithObjects:@"name", @"password", nil], @"autoJoinChannels",
+					nil];
     }
     return defaults;
 };
@@ -114,6 +129,8 @@ static NSDictionary *preferenceConverter()
 {
 	NSDictionary* defaluts = defaultValues();
 	NSDictionary* converter = preferenceConverter();
+	NSDictionary* keys = defaultKeys();
+	
 	NSEnumerator* e = [defaluts keyEnumerator];
 	id key;
 	while(key = [e nextObject]){
@@ -127,7 +144,7 @@ static NSDictionary *preferenceConverter()
 		}
 		
 		if([value isKindOfClass:[NSArray class]]){
-			[_parameters setObject:[self mutableArrayFromArray:value] forKey:key];
+			[_parameters setObject:[self mutableArrayFromArray:value keys:[keys objectForKey:key]] forKey:key];
 		}else{
 			[_parameters setObject:value forKey:key];
 		}
@@ -138,18 +155,28 @@ static NSDictionary *preferenceConverter()
 
 //-- mutableArrayFromArray
 //
--(NSMutableArray*) mutableArrayFromArray:(NSArray*) array
+-(NSMutableArray*) mutableArrayFromArray:(NSArray*) array keys:(id)key
 {
 	NSEnumerator* e = [array objectEnumerator];
 	NSMutableArray* copy = [NSMutableArray arrayWithCapacity:[array count]];
 	id it;
 	while(it = [e nextObject]){
+		id item;
 		if([it isKindOfClass:[NSDictionary class]]){
-			[copy addObject:[it mutableCopy]];
+			item = [it mutableCopy];
 		}else{
-			[copy addObject:[NSMutableDictionary dictionaryWithObject:[it copyWithZone:[self zone]] 
-															   forKey:@"name"]];
+			item = [NSMutableDictionary dictionaryWithObject:[it copyWithZone:[self zone]] forKey:@"name"];
 		}
+		if(key && [key isKindOfClass:[NSArray class]]){
+			NSEnumerator* e = [key objectEnumerator];
+			id paramator;
+			while(paramator = [e nextObject]){
+				if([item objectForKey:paramator] == nil){
+					[item setObject:@"" forKey:paramator];
+				}
+			}
+		}
+		[copy addObject:item];
 	}
 	return copy;
 }
@@ -194,12 +221,13 @@ static NSDictionary *preferenceConverter()
 -(void) setValue:(id) value
 		  forKey:(NSString*) key
 {
+	BOOL valid = [self isValidParameter];
 	id newValue = value ? value : [NSString stringWithString:@""];
 	[self willChangeValueForKey:key];
 	[_parameters setObject:newValue forKey:key];
     [self didChangeValueForKey:key];
 	
-	if([key isEqualToString:@"serverLabel"]){
+	if(valid != [self isValidParameter]){
 		[self willChangeValueForKey:@"serverIconLabel"];
 		[self didChangeValueForKey:@"serverIconLabel"];
 	}

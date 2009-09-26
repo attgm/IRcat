@@ -1,14 +1,14 @@
 //
 //  $RCSfile: ServersModal.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
 #import "ServersModal.h"
 #import "ServerModal.h"
 
-#import "PreferenceHeader.h"
+#import "PreferenceConstants.h"
 
 
 
@@ -134,10 +134,7 @@ static ServersModal *sSharedInstance	= nil;
     
     // サーバ設定を保存する
 	NSMutableArray* array = [NSMutableArray arrayWithCapacity:[_serverList count]];
-	
-	NSEnumerator* e = [_serverList objectEnumerator];
-	ServerModal* server;
-	while(server = [e nextObject]){
+	for(ServerModal* server in _serverList){
 		[array addObject:[server parameters]];
 	}
 	[defaults setObject:array forKey:kServerDefaults];

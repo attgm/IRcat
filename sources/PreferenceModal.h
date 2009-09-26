@@ -1,12 +1,12 @@
 //
 //  $RCSfile: PreferenceModal.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
 #import <Cocoa/Cocoa.h>
-#import "PreferenceHeader.h"
+#import "PreferenceConstants.h"
 
 @interface PreferenceModal : NSObject {
  	NSMutableDictionary* _preferences;
@@ -16,8 +16,8 @@
 +(id) prefForKey:(NSString*) key;
 +(NSColor*) colorForKey:(NSString*) key;
 +(NSColor*) transforColorNameToColor:(NSString*) value;
-+(NSArray*) soundArray;
 +(NSDictionary*) searchFriend:(NSString*) nick;
++(NSArray*) soundArray;
 
 -(void) setValue:(id) value forKey:(NSString*) key;
 -(id) valueForKey:(NSString*) key;
@@ -26,6 +26,6 @@
 - (void) preferencesFromDefaults;
 - (void) savePreferencesToDefaults;
 
--(NSMutableArray*) mutableArrayFromArray:(NSArray*) array;
+-(NSMutableArray*) mutableArrayFromArray:(NSArray*)array keys:(id)key;
 
 @end

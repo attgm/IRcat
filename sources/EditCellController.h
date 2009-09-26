@@ -1,7 +1,7 @@
 //
 //  $RCSfile: EditCellController.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -19,5 +19,7 @@
 
 -(void) setDefaultValues:(NSDictionary*) values;
 -(void) setPrimeColumn:(NSString*) string;
+
+-(IBAction) changeSelectedCell:(id) sender;
 
 @end

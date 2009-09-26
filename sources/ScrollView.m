@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ScrollView.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -74,13 +74,13 @@
         [accessory setNeedsDisplay:YES];
         
         //原点と水平スクローラのサイズを調節
-        accessoryHeight = accessorySize.height - 1;
+        accessoryHeight = accessorySize.height; // - 1;
         origin.y += accessoryHeight;
         vSize.height -= accessoryHeight;
     }
     // スクローラのサイズ変更
-	vSize.height -= 2;
-	origin.y += 1;	
+	//vSize.height -= 1;
+	//origin.y += 1;	
     [vScroller setFrameOrigin:origin];
     [vScroller setFrameSize:vSize];
     [vScroller setNeedsDisplay:YES];

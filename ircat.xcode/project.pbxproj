@@ -97,8 +97,6 @@
 		0D98ECF00DAEE13E0089DD12 /* BufferedFieldEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D98ECEE0DAEE13E0089DD12 /* BufferedFieldEditor.h */; };
 		0D98ECF10DAEE13E0089DD12 /* BufferedFieldEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D98ECEF0DAEE13E0089DD12 /* BufferedFieldEditor.m */; };
 		0D9949D4069E13B4004385E9 /* friend_cat.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0D9949D3069E13B4004385E9 /* friend_cat.tiff */; };
-		0D9C91E90DBC0EB100627DD6 /* SelectedValueToIndexTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D9C91E70DBC0EB100627DD6 /* SelectedValueToIndexTransformer.h */; };
-		0D9C91EA0DBC0EB100627DD6 /* SelectedValueToIndexTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9C91E80DBC0EB100627DD6 /* SelectedValueToIndexTransformer.m */; };
 		0D9FC4FEC5B0652200CB563B /* ServersWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9FC314C5B0652200CB563B /* ServersWindowController.m */; };
 		0D9FC571C5B0652200CB563B /* ColorNameToColorTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D9FC56FC5B0652200CB563B /* ColorNameToColorTransformer.h */; };
 		0D9FC572C5B0652200CB563B /* ColorNameToColorTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9FC570C5B0652200CB563B /* ColorNameToColorTransformer.m */; };
@@ -167,12 +165,12 @@
 		0D1B0AD80551E1EF00626EFE /* MainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = MainWindowController.h; path = sources/MainWindowController.h; sourceTree = "<group>"; };
 		0D1B0AD90551E1EF00626EFE /* MainWindowController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = MainWindowController.m; path = sources/MainWindowController.m; sourceTree = "<group>"; };
 		0D1B0ADA0551E1EF00626EFE /* NickListItem.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = NickListItem.h; path = sources/NickListItem.h; sourceTree = "<group>"; };
-		0D1B0ADB0551E1EF00626EFE /* NickListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NickListItem.m; path = sources/NickListItem.m; sourceTree = "<group>"; };
+		0D1B0ADB0551E1EF00626EFE /* NickListItem.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = NickListItem.m; path = sources/NickListItem.m; sourceTree = "<group>"; };
 		0D1B0ADC0551E1EF00626EFE /* PreferenceWindowController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = PreferenceWindowController.h; path = sources/PreferenceWindowController.h; sourceTree = "<group>"; };
-		0D1B0ADD0551E1EF00626EFE /* PreferenceWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferenceWindowController.m; path = sources/PreferenceWindowController.m; sourceTree = "<group>"; };
+		0D1B0ADD0551E1EF00626EFE /* PreferenceWindowController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = PreferenceWindowController.m; path = sources/PreferenceWindowController.m; sourceTree = "<group>"; };
 		0D1B0ADE0551E1EF00626EFE /* PreferenceHeader.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = PreferenceHeader.h; path = sources/PreferenceHeader.h; sourceTree = "<group>"; };
 		0D1B0ADF0551E1EF00626EFE /* PreferenceModal.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = PreferenceModal.h; path = sources/PreferenceModal.h; sourceTree = "<group>"; };
-		0D1B0AE00551E1EF00626EFE /* PreferenceModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferenceModal.m; path = sources/PreferenceModal.m; sourceTree = "<group>"; };
+		0D1B0AE00551E1EF00626EFE /* PreferenceModal.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = PreferenceModal.m; path = sources/PreferenceModal.m; sourceTree = "<group>"; };
 		0D1B0AE10551E1EF00626EFE /* ScrollView.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = ScrollView.h; path = sources/ScrollView.h; sourceTree = "<group>"; };
 		0D1B0AE20551E1EF00626EFE /* ScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollView.m; path = sources/ScrollView.m; sourceTree = "<group>"; };
 		0D1B0AE50551E1EF00626EFE /* ServersModal.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = ServersModal.h; path = sources/ServersModal.h; sourceTree = "<group>"; };
@@ -238,8 +236,6 @@
 		0D98ECEE0DAEE13E0089DD12 /* BufferedFieldEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BufferedFieldEditor.h; path = sources/BufferedFieldEditor.h; sourceTree = "<group>"; };
 		0D98ECEF0DAEE13E0089DD12 /* BufferedFieldEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BufferedFieldEditor.m; path = sources/BufferedFieldEditor.m; sourceTree = "<group>"; };
 		0D9949D3069E13B4004385E9 /* friend_cat.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = friend_cat.tiff; path = resources/friend_cat.tiff; sourceTree = "<group>"; };
-		0D9C91E70DBC0EB100627DD6 /* SelectedValueToIndexTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectedValueToIndexTransformer.h; path = sources/SelectedValueToIndexTransformer.h; sourceTree = "<group>"; };
-		0D9C91E80DBC0EB100627DD6 /* SelectedValueToIndexTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedValueToIndexTransformer.m; path = sources/SelectedValueToIndexTransformer.m; sourceTree = "<group>"; };
 		0D9FC314C5B0652200CB563B /* ServersWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServersWindowController.m; path = sources/ServersWindowController.m; sourceTree = "<group>"; };
 		0D9FC315C5B0652200CB563B /* ServersWindowController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = ServersWindowController.h; path = sources/ServersWindowController.h; sourceTree = "<group>"; };
 		0D9FC56FC5B0652200CB563B /* ColorNameToColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorNameToColorTransformer.h; path = sources/ColorNameToColorTransformer.h; sourceTree = "<group>"; };
@@ -478,14 +474,12 @@
 			children = (
 				0D6E748C0B662829000A1FB8 /* IsEmptyStringTransformer.h */,
 				0D6E748D0B662829000A1FB8 /* IsEmptyStringTransformer.m */,
-				0D9FC56FC5B0652200CB563B /* ColorNameToColorTransformer.h */,
 				0D9FC570C5B0652200CB563B /* ColorNameToColorTransformer.m */,
+				0D9FC56FC5B0652200CB563B /* ColorNameToColorTransformer.h */,
 				0DFEAB370A9DEAC000F4FB38 /* FontNameToFontTransformer.h */,
 				0DFEAB380A9DEAC000F4FB38 /* FontNameToFontTransformer.m */,
 				0D1B78B30A9AC1CB00018976 /* ImageNameToImageTransformer.h */,
 				0D1B78B40A9AC1CB00018976 /* ImageNameToImageTransformer.m */,
-				0D9C91E70DBC0EB100627DD6 /* SelectedValueToIndexTransformer.h */,
-				0D9C91E80DBC0EB100627DD6 /* SelectedValueToIndexTransformer.m */,
 			);
 			name = "Value Transformer";
 			sourceTree = "<group>";
@@ -735,7 +729,6 @@
 				0D6E748E0B662829000A1FB8 /* IsEmptyStringTransformer.h in Headers */,
 				0D98ECF00DAEE13E0089DD12 /* BufferedFieldEditor.h in Headers */,
 				0D5126A10DB3484300FFC84A /* IRcat_Prefix.pch in Headers */,
-				0D9C91E90DBC0EB100627DD6 /* SelectedValueToIndexTransformer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -887,7 +880,6 @@
 				0D6E748F0B662829000A1FB8 /* IsEmptyStringTransformer.m in Sources */,
 				0D98ECF10DAEE13E0089DD12 /* BufferedFieldEditor.m in Sources */,
 				0D5126A30DB3484A00FFC84A /* main.m in Sources */,
-				0D9C91EA0DBC0EB100627DD6 /* SelectedValueToIndexTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -914,12 +906,10 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-DIRCAT_DEBUG";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = IRcat;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -948,11 +938,9 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = IRcat;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",

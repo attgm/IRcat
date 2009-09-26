@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ChannelWindowController.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -76,7 +76,6 @@
 		[_inputField bind:@"font" toObject:prefController withKeyPath:@"selection.textFont"
 				  options:[NSDictionary dictionaryWithObject:[NSString stringWithString:@"FontNameToFontTransformer"]
 													  forKey:@"NSValueTransformerName"]];
-		
 		[_inputField setAllowsEditingTextAttributes:NO];
 	}	
 	[_window makeKeyAndOrderFront:nil];
@@ -104,6 +103,13 @@
 	[_inputField setTextColor:[PreferenceModal prefForKey:kTextColor]];	
 }
 
+
+//-- preferenceController
+// 共通の初期設定コントローラを返す
+-(NSObjectController*) preferenceController
+{
+	return [_interface sharedPreferenceController];
+}
 
 
 #pragma mark -

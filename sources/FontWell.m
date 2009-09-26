@@ -1,11 +1,12 @@
 //
 //  $RCSfile: FontWell.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
-#import "FontWell.h"
 
+#import "FontWell.h"
+#import "PreferenceModal.h"
 @implementation FontWell
 
 static void *kFontValueBindingIdentifier = (void *) @"FontValue";
@@ -52,7 +53,8 @@ static void *kFontValueBindingIdentifier = (void *) @"FontValue";
 	if (_fontwellValue) {
 		[_fontwellValue release];
 	}
-	_fontwellValue = (value != nil && [value isKindOfClass:[NSFont class]]) ? [value retain] : [[NSFont userFontOfSize:0.0] retain];
+	_fontwellValue = (value != nil && [value isKindOfClass:[NSFont class]]) ?
+								[value retain] : [[NSFont userFontOfSize:0.0] retain];
 	
 	[self setTitle:[NSString stringWithFormat:@"%@ - %gpt", [_fontwellValue displayName], [_fontwellValue pointSize]]];
 	
@@ -123,6 +125,7 @@ static void *kFontValueBindingIdentifier = (void *) @"FontValue";
 
 #pragma mark bindings
 
+
 //-- bind:toObject:withKeyPath:options:
 //
 - (void)bind:(NSString *)binding
@@ -130,6 +133,7 @@ static void *kFontValueBindingIdentifier = (void *) @"FontValue";
  withKeyPath:(NSString *)keyPath
 	 options:(NSDictionary *)options
 {
+	//PreferenceModal* modal = [PreferenceModal sharedPreference];
 	if([binding isEqualToString:@"value"]) {
 		[self setObservedControllerForValue:observableObject];
 		[self setObservedKeyPathForValue:keyPath];
@@ -217,7 +221,6 @@ static void *kFontValueBindingIdentifier = (void *) @"FontValue";
 -(void) syncValueToController
 {
 	id font = [_observedControllerForValue valueForKeyPath:_observedKeyPathForValue];
-	
 	if (_valueTransformerName != nil) {
 		NSValueTransformer *valueTransformer = [NSValueTransformer valueTransformerForName:_valueTransformerName];
 		font = [valueTransformer transformedValue:font];

@@ -1,13 +1,13 @@
 //
 //  $RCSfile: IRCSession.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
 #import "IRCSession.h"
 #import "IRCMessage.h"
-#import "PreferenceHeader.h"
+#import "PreferenceConstants.h"
 #import "TextEncodings.h"
 #import "IRcatInterface.h"
 
@@ -26,7 +26,7 @@
     _serverid = inID;
     
     _interface = [inInterface retain];
-	_sessionCondition = kSessionConditionDisconnected;
+	_sessionCondition = IRSessionConditionDisconnected;
 	
 	_encodingFilter = [TextEncodings filterFromEncoding:[inConfig objectForKey:kTextEncoding]];
 	
@@ -62,7 +62,6 @@
     }
     [_interface release];
 	[_prevousPing release];
-	[self stopTimer];
 		
 	[super dealloc];
 }
@@ -142,9 +141,9 @@
 // 接続処理をおこなう
 - (void) connect
 {
-	if(_sessionCondition == kSessionConditionDisconnected){
+	if(_sessionCondition == IRSessionConditionDisconnected){
 		[self handleInternalMessage:NSLocalizedString(@"MGMessageConnecting", @"CONNECTING")];
-		[self setSessionCondition:kSessionConditionConnecting];
+		[self setSessionCondition:IRSessionConditionConnecting];
 		_connection = [[TCPConnection alloc] initWithSession:self];
 		[_connection connectTo:[_config objectForKey:kServerAddress]
 						  port:[[_config objectForKey:kPortNumber] intValue]];
@@ -156,7 +155,7 @@
 // 接続しているかどうか
 - (BOOL) isConnected
 {
-	return (_sessionCondition == kSessionConditionEstablished);
+	return (_sessionCondition == IRSessionConditionEstablished);
 }
 
 #pragma mark -
@@ -168,7 +167,7 @@
     NSString * password;
     
     [self handleInternalMessage:NSLocalizedString(@"Registering", @"Registering")];
-	[self setSessionCondition:kSessionConditionRegistering];
+	[self setSessionCondition:IRSessionConditionRegistering];
     // negotiate login
     password = [_config objectForKey:kServerPassword];
     if (password != nil && ![password isEqualToString:@""]) {
@@ -176,9 +175,6 @@
     }
     [self sendNICK:_nickname];
     [self sendUSER:[_config objectForKey:kMailAddress] server:nil realname:[_config objectForKey:kRealName]];
-
-	//-- start session timer
-	[self startTimer];
 }
 
 
@@ -187,12 +183,18 @@
 - (void) handleRegistered
 {
     // 接続完了のnotification
-	[self setSessionCondition:kSessionConditionEstablished];
+	[self setSessionCondition:IRSessionConditionEstablished];
 	// auto join channelの設定
 	NSEnumerator* e = [[_config objectForKey:kAutoJoinChannels] objectEnumerator];
 	id channel;
 	while(channel = [e nextObject]) {
-		[_interface obeyJoin:[channel objectForKey:@"name"] server:[self serverid] channel:nil];
+		NSString* password = [channel objectForKey:@"password"];
+		if(password && [password length] > 0){
+			[_interface obeyJoin:[NSString stringWithFormat:@"%@ %@", [channel objectForKey:@"name"], password]
+						  server:[self serverid] channel:nil];
+		}else{
+			[_interface obeyJoin:[channel objectForKey:@"name"] server:[self serverid] channel:nil];
+		}
 	}
 	// user modeの設定
 	if([[_config objectForKey:kInvisibleMode] boolValue] == YES){
@@ -206,10 +208,9 @@
 - (void) handleDisconnect
 {
     [self handleInternalError:NSLocalizedString(@"MGMessageDisconnect", @"DISCONNECT")];
-	[self setSessionCondition:kSessionConditionDisconnected];
+	[self setSessionCondition:IRSessionConditionDisconnected];
 	[_interface removeAllChannelAt:[self serverid]];
 	[_interface removeSessionByID:[self serverid]];
-	[self stopTimer];
 }
 
 
@@ -235,60 +236,38 @@
 	switch(inErrorCode){
 		case IRErrorIllegalAddress:
 			[self handleInternalError:NSLocalizedString(@"MGErrorIlligualAddress", @"Illigual address")];
-			[self setSessionCondition:kSessionConditionDisconnected];
+			[self setSessionCondition:IRSessionConditionDisconnected];
 			break;
 		case IRErrorCannotConnect:
 			[self handleInternalError:NSLocalizedString(@"MGErrorCannotConnect", @"Cannot connect")];
-			[self setSessionCondition:kSessionConditionDisconnected];
+			[self setSessionCondition:IRSessionConditionDisconnected];
 			break;
 		default:
 			[self handleInternalError:@"unknown error"];
-			[self setSessionCondition:kSessionConditionDisconnected];
+			[self setSessionCondition:IRSessionConditionDisconnected];
 			break;
 	}
+}
+
+//-- sendCommand:immediately::
+// command messageを送信する
+-(void) sendCommand:(NSString*) command
+		immediately:(BOOL) immediate
+{
+#ifdef IRCAT_DEBUG
+    NSLog(@"...%@", command);
+#endif
+    NSData* data = [_encodingFilter outgoingDataFromString:command];
+    
+	[_connection sendData:data immediately:immediate];
 }
 
 
 //-- sendCommand
 // command messageを送信する
-- (void) sendCommand:(NSString*)inCommand
+- (void) sendCommand:(NSString*)command
 {
-#ifdef IRCAT_DEBUG
-    NSLog(@"...%@", inCommand);
-#endif
-    NSData* data = [_encodingFilter outgoingDataFromString:inCommand];
-    
-	if(![_connection sendData:data]){
-        NSLog(@"Connection is closed. can't send message:%@", inCommand);
-    }
-}
-
-#pragma mark Session level keep alive
-//-- recalcPingInterval
-// ping interval の再計算
--(void) recalcPingInterval
-{
-}
-
-
-//-- checkPingInterval
-// ping interval の調査
--(void) checkPingInterval:(id) userInfo
-{
-}
-
-
-//-- startTimer
-// セッションタイマの起動
--(void) startTimer
-{
-}
-
-
-//-- stopTimer
-// セッションタイマの停止
--(void) stopTimer
-{
+	[self sendCommand:command immediately:NO];
 }
 
 

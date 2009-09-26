@@ -1,12 +1,12 @@
 //
 //  $RCSfile: ServersWindowController.m,v $
 //  
-//  $Revision: 50 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
 #import "ServersWindowController.h"
-#import "PreferenceHeader.h"
+#import "PreferenceConstants.h"
 #import "TextEncodings.h"
 
 

@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ConsoleModal.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -48,6 +48,7 @@
     return [_sessionList count];
 }
 
+
 //-- tableView:objectValueForTableColumn:row
 // テーブルの内容を返す
 -(id)				tableView : (NSTableView*) aTableView
@@ -63,16 +64,16 @@
 		return [NSImage imageNamed:[NSString stringWithFormat:@"server_%@", [session label]]];
     }else if([identifier isEqualToString:@"icon"]) {
 		switch([session sessionCondition]){
-			case kSessionConditionConnecting:
+			case IRSessionConditionConnecting:
 				return [NSImage imageNamed:@"condition_connecting"];
 				break;
-			case kSessionConditionRegistering:
+			case IRSessionConditionRegistering:
 				return [NSImage imageNamed:@"condition_registering"];
 				break;
-			case kSessionConditionEstablished:
+			case IRSessionConditionEstablished:
 				return [NSImage imageNamed:@"condition_connected"];
 				break;
-			case kSessionConditionDisconnected:
+			case IRSessionConditionDisconnected:
 				return [NSImage imageNamed:@"condition_disconnected"];
 				break;
 		}
@@ -86,11 +87,11 @@
 // 選択済みのnickを返す
 - (NSArray*) arraySelected:(NSIndexSet*) inSelected
 {
-	unsigned int bufSize = [inSelected count];
-	unsigned int buf[bufSize];
+	NSUInteger bufSize = [inSelected count];
+	NSUInteger buf[bufSize];
 	NSRange range = NSMakeRange([inSelected firstIndex], [inSelected lastIndex] - [inSelected firstIndex] + 1);
 	
-	unsigned int num = [inSelected getIndexes:buf maxCount:bufSize inIndexRange:&range];
+	NSUInteger num = [inSelected getIndexes:buf maxCount:bufSize inIndexRange:&range];
 	NSMutableArray* nicks = [[[NSMutableArray alloc] initWithCapacity:num] autorelease];
 	int i;
 	for(i=0; i<num; i++){

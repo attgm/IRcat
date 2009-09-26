@@ -1,7 +1,7 @@
 //
 //  $RCSfile: ConsoleTextView.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -284,6 +284,7 @@ static void *kFontBindingIdentifier = (void *) @"Font";
         _appendIndex += [inAppend length];
     }
 	// 行数をチェックしてオーバしている場合一行削除
+	NSLog(@"%d  %d", [[PreferenceModal prefForKey:kChannelBufferSize] intValue], _lines);
     if(isNewMessage && ++_lines > [[PreferenceModal prefForKey:kChannelBufferSize] intValue]){
         NSRange range, firstline;
         range = NSMakeRange(0, 0);

@@ -1,7 +1,7 @@
 //
 //  $RCSfile: MainWindowController.h,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
@@ -19,20 +19,21 @@
 
 @interface MainWindowController : ChannelWindowController
 {
-    IBOutlet ConsoleTextView *_commonTextView;
-	IBOutlet PopSplitView *_paneSplitView;
+    IBOutlet ConsoleTextView*	_commonTextView;
+	IBOutlet PopSplitView*		_paneSplitView;
  	
-    IBOutlet NSTextField	*_menuCaption;
-    IBOutlet NSPopUpButton	*_menuPopUp;
-	IBOutlet NSTextField	*_menuTitle;
-	IBOutlet NSWindow		*_menuSheet;
+    IBOutlet NSTextField*		_menuCaption;
+    IBOutlet NSPopUpButton*		_menuPopUp;
+	IBOutlet NSTextField*		_menuTitle;
+	IBOutlet NSWindow*			_menuSheet;
 	
 	NSMenu*		_channelMenu;
 	NSString*	_topicString;
-	
 }
 
+
 - (IBAction)switchChannelbyChannelPopup:(id)sender;
+
 - (id) initWithInterface:(IRcatInterface*) inInterface;
 - (void) createWindow;
 - (void) setTopic:(NSString*)inString;
@@ -44,7 +45,6 @@
 - (void) setMenuImage:(NSImage*)inImage atIndex:(int)inIndex;
 - (void) setEnableMenuItem:(BOOL) inEnable atIndex:(int) inIndex;
 
-- (IBAction) switchChannelbyChannelPopup:(id) inSender;
 - (void) switchChannel:(ChannelModal*) inNewChannel;
 
 - (ChannelModal*) activeChannel;
@@ -67,13 +67,11 @@
 -(ChannelModal*) selectedChannel;
 
 
-#ifdef NOG_PATCH
-- (BOOL) isKeyWindow;
-#endif
-
 - (NSToolbarItem*) toolbarItemByIdentifier:(NSString*) inIdentifier;
 - (IBAction) actionToolbar: (id) sender;
 
 - (NSToolbarItem*) toolbarTopicItem:(BOOL) flag;
 - (NSToolbarItem*) toolbarChannelItem:(BOOL) flag;
+
+
 @end

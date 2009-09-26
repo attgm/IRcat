@@ -1,6 +1,6 @@
 ﻿/* Localized versions of Info.plist keys */
 
 CFBundleName = "IRcat";
-CFBundleShortVersionString = "2.1.5";
-CFBundleGetInfoString = "IRcat version 2.1.5, Copyright 1998-2008 Atsushi Tagami.";
+CFBundleShortVersionString = "2.1.6";
+CFBundleGetInfoString = "IRcat version 2.1.6, Copyright 1998-2009 Atsushi Tagami.";
 NSHumanReadableCopyright = "Copyright 1998-2008 Atsushi Tagami.";

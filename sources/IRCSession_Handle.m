@@ -1,7 +1,7 @@
 //
 //  $RCSfile: IRCSession_Handle.m,v $
 //  
-//  $Revision: 49 $
+//  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 //#import <Carbon/Carbon.h>
@@ -10,31 +10,9 @@
 #import "IRcatInterface.h"
 #import "IRcatConstants.h"
 #import "IRcatUtilities.h"
-#import "PreferenceHeader.h"
+#import "PreferenceConstants.h"
 #import "PreferenceWindowController.h"
 
-int StringToFlag(NSString* inString)
-{
-    int flag = kIRcatFlagNoting;
-    
-    if (inString == nil) return flag;
- /*   if(::strchr(inString, MODE_IRC_ChanOperatorPrivs) != NULL){
-		flag |= flag_Operator;
-	}
-	
-	if(::strchr(inString, MODE_IRC_ChanSpeakAbility) != NULL){
-		flag |= flag_SpeakAbility;
-	}*/ 
-    return flag;
-}
-
-
-NSString*
-StringFromFlag(int inFlag)
-{
-    return ((inFlag & kIRcatFlagOperator) != 0) ? @"@" :
-                (((inFlag & kIRcatFlagSpeakAbility)  != 0) ? @"+" : @"");
-}
 
 @implementation IRCSession(Handle)
 
@@ -243,7 +221,7 @@ StringFromFlag(int inFlag)
 // NOTICEコマンドに対する処理
 // :nick!server NOTICE channel :message
 // :nick!server NOTICE nick :\001ctcp_command params\001 (ctcp reply)
-- (void) handleNotice:(IRCMessage*) inMessage
+-(void) handleNotice:(IRCMessage*) inMessage
 {
     if([inMessage isCtcpCommand] == YES){
         [self handleCtcpReply:inMessage];
@@ -364,29 +342,29 @@ StringFromFlag(int inFlag)
 			case '-':
 				ison = (flag == '+');
 				continue;
-			case IRcat_MODE_ChanOperatorPrivs:
-				[_interface setFlag:kIRcatFlagOperator channel:inChannel server:serverid nick:param ison:ison];
+			case IRModeChanOperatorPrivs:
+				[_interface setFlag:IRFlagOperator channel:inChannel server:serverid nick:param ison:ison];
 				hasParam = TRUE;
 				break;
-			case IRcat_MODE_ChanSpeakAbility:
-				[_interface setFlag:kIRcatFlagSpeakAbility channel:inChannel server:serverid nick:param ison:ison];
+			case IRModeChanSpeakAbility:
+				[_interface setFlag:IRFlagSpeakAbility channel:inChannel server:serverid nick:param ison:ison];
 				hasParam = TRUE;
 				break;
-			case IRcat_MODE_ChanUserLimit:				
-			case IRcat_MODE_ChanChannelKey:
+			case IRModeChanUserLimit:				
+			case IRModeChanChannelKey:
 				[_interface setChannelFlag:flag channel:inChannel server:serverid ison:ison];
 				hasParam = TRUE;
 				break;
-			case IRcat_MODE_ChanPrivateChannel:
-			case IRcat_MODE_ChanSecretChannel:
-			case IRcat_MODE_ChanInviteOnly:
-			case IRcat_MODE_ChanNoMessagesFromOutside:
-			case IRcat_MODE_ChanTopicSettable:
-			case IRcat_MODE_ChanModerated:
+			case IRModeChanPrivateChannel:
+			case IRModeChanSecretChannel:
+			case IRModeChanInviteOnly:
+			case IRModeChanNoMessagesFromOutside:
+			case IRModeChanTopicSettable:
+			case IRModeChanModerated:
 				[_interface setChannelFlag:flag channel:inChannel server:serverid ison:ison];
 				hasParam = FALSE;
 				break;
-			case IRcat_MODE_ChanBanMask:
+			case IRModeChanBanMask:
 				hasParam = TRUE;
 				break;
 			default:
@@ -405,7 +383,6 @@ StringFromFlag(int inFlag)
 // POING :<message>
 - (void) handlePing:(IRCMessage*)inMessage
 {
-	[self recalcPingInterval];
     // PONGを返す
     [self sendPONG:[inMessage paramAtIndex:1]];
 }
