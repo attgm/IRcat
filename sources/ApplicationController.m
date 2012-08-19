@@ -21,7 +21,7 @@
 #import "IRcatConstants.h"
 
 #import "IRCMessage.h"
-
+#import "AcknowledgmentsWindowController.h"
 
 static NSArray *commandMenu()
 {
@@ -29,17 +29,17 @@ static NSArray *commandMenu()
     
     if(!menu){
         menu = [[NSArray alloc] initWithObjects:
-			[NSString stringWithString:@"JOIN"], // 0
-            [NSString stringWithString:@"PART"], // 1
-            [NSString stringWithString:@"JOIN"], // 2 ぷりぶ
-            [NSString stringWithString:@"NICK"], // 3
-            [NSString stringWithString:@"WHOIS"], // 4
-            [NSString stringWithString:@"INVITE"], // 5
-            [NSString stringWithString:@"TOPIC"], // 6
-            [NSString stringWithString:@"MODE"], // 7
-            [NSString stringWithString:@"ACTION"], // 8
-            [NSString stringWithString:@"COMMAND"], // 9
-            [NSString stringWithString:@"CTCP VERSION"], // 10
+			@"JOIN", // 0
+            @"PART", // 1
+            @"JOIN", // 2 priv
+            @"NICK", // 3
+            @"WHOIS", // 4
+            @"INVITE", // 5
+            @"TOPIC", // 6
+            @"MODE", // 7
+            @"ACTION", // 8
+            @"COMMAND", // 9
+            @"CTCP VERSION", // 10
             nil];
     }
     return menu;
@@ -64,6 +64,7 @@ static NSArray *commandMenu()
     [NSValueTransformer setValueTransformer:[[[SelectedValueToIndexTransformer alloc] init] autorelease]
 									forName:[SelectedValueToIndexTransformer className]];
 	_interface = [[IRcatInterface alloc] init];
+    _ackWindowController = nil;
 }
 
 
@@ -74,6 +75,14 @@ static NSArray *commandMenu()
     // 初期設定の保存
     [[PreferenceModal sharedPreference] savePreferencesToDefaults];
     [[ServersWindowController sharedPreference] saveDefaults];
+    
+#if !__has_feature(objc_arc)
+    [_ackWindowController release];
+    [_interface release];
+#endif
+    _ackWindowController = nil;
+    _interface = nil;
+
 }
 
 
@@ -189,6 +198,17 @@ static NSArray *commandMenu()
 {
 	[_interface switchPreviousChannel];
 }
+
+#pragma mark -
+#pragma Acknowledgements
+- (IBAction) showAcknowledgments:(id)sender
+{
+    if(_ackWindowController == nil){
+        _ackWindowController = [[AcknowledgmentsWindowController alloc] init];
+    }
+    [_ackWindowController showWindow];
+}
+
 
 #pragma mark -
 #pragma mark test

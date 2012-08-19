@@ -27,11 +27,11 @@
 #define kCommandPrefix @"/"
 
 const int kChannelMenuTag = 1005;
-const void* kPlainColorBindingIdentifier = (void*) @"plainColor";
-const void* kTimeColorBindingIdentifier = (void*) @"timeColor";
-const void* kErrorColorBindingIdentifier = (void*) @"errorColor";
-const void* kMessageColorBindingIdentifier = (void*) @"messageColor";
-const void* kFontBindingIdentifier = (void*) @"font";
+#define kPlainColorBindingIdentifier    @"plainColor"
+#define kTimeColorBindingIdentifier     @"timeColor"
+#define kErrorColorBindingIdentifier    @"errorColor"
+#define kMessageColorBindingIdentifier  @"messageColor"
+#define kFontBindingIdentifier          @"font"
 
 static NSDictionary *ircatInterfaceBindings()
 {
@@ -84,7 +84,9 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- init
 - (id) init
 {
-    [super init];
+    self = [super init];
+    if (self == nil) return nil;
+    
 	PreferenceModal* preference = [PreferenceModal sharedPreference];
 	_preferenceController = [[NSObjectController alloc] initWithContent:preference];
 
@@ -209,8 +211,8 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 								   withTag:[[[servers selectedServerModal] valueForKey:kIdentifier] intValue]
 								   caption:NSLocalizedString(@"MGSelectConnectServer", @"Select server")
 									format:@"connect %d"];
-		[menu release];
 	}
+    [menu release];
 }
 
 
@@ -1037,14 +1039,16 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
     [inMessage applyFormat:format attributes:_attributeList];
     // 出力先に応じて表示する
     switch([format displayPlace]){
-        case insert_Console:
+        case IRInsertConsole:
             [self appendMessageToConsole:inMessage];
             break;
-        case insert_JoinedChannel:
+        case IRInsertJoinedChannel:
             [self appendMessageToJoinedChannel:inMessage];
             break;
-        case insert_Channel:
+        case IRInsertChannel:
             [self appendMessageToChannel:inMessage];
+            break;
+        case IRInsertNothing:
             break;
     }
 	// キーワードの処理
@@ -1080,13 +1084,12 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 - (void) appendMessageToChannel:(IRCMessage*) inMessage
 {
     ChannelModal* channel;
-    BOOL isAppend = NO;
     
     if((channel = [self findChannelWithName:[inMessage channel]
                                      server:[inMessage serverid]]) != nil) {
-        isAppend = [channel appendString:[inMessage expandedMessage]
-                                  append:[inMessage additionalMessage]
-                                      at:[inMessage additionalPosition]];
+        [channel appendString:[inMessage expandedMessage]
+                       append:[inMessage additionalMessage]
+                           at:[inMessage additionalPosition]];
     }else{
         [[self channelAtIndex:kConsoleIndex] appendString:[inMessage expandedMessage]
                                                    append:[inMessage additionalMessage]

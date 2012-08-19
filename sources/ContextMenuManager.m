@@ -22,9 +22,11 @@ static ContextMenuManager* sSharedContextMenuManager = nil;
 // 初期化
 - (id) init
 {
-	NSString* path = [[NSBundle mainBundle] pathForResource:@"ContextMenu" ofType:@"xml"];
-	_menus = [[NSDictionary alloc] initWithContentsOfFile:path];
-	
+    self = [super init];
+    if(self != nil){
+        NSString* path = [[NSBundle mainBundle] pathForResource:@"ContextMenu" ofType:@"xml"];
+        _menus = [[NSDictionary alloc] initWithContentsOfFile:path];
+	}
 	return self;
 }
 

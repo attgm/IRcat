@@ -7,12 +7,12 @@
 
 #import <AppKit/AppKit.h>
 
-//アクセサリの表示位置
+//繧｢繧ｯ繧ｻ繧ｵ繝ｪ縺ｮ陦ｨ遉ｺ菴咲ｽｮ
 typedef enum _AccessoryPosition{
-    //水平方向のアクセサリ
+    //豌ｴ蟷ｳ譁ｹ蜷代�ｮ繧｢繧ｯ繧ｻ繧ｵ繝ｪ
     LeftAccessoryViewPosition   = 1 << 0,		
     RightAccessoryViewPosition  = 1 << 1,
-    //垂直方向のアクセサリ
+    //蝙ら峩譁ｹ蜷代�ｮ繧｢繧ｯ繧ｻ繧ｵ繝ｪ
     TopAccessoryViewPosition    = 1 << 2,
     BottomAccessoryViewPosition = 1 << 3,
 } AccessoryPosition;

@@ -18,7 +18,7 @@
            identify:(int) inChannelID
              server:(int) inServerID
 {
-	[super initWithName:inChannelName identify:inChannelID server:inServerID];
+	self = [super initWithName:inChannelName identify:inChannelID server:inServerID];
 	return self;
 }
 
@@ -43,7 +43,7 @@
 #pragma mark NSTableView (data source)
 //-- numberOfRowsInTableView
 // テーブルの行数を返す
-- (int) numberOfRowsInTableView : (NSTableView*) aTableView
+- (NSInteger) numberOfRowsInTableView : (NSTableView*) aTableView
 {
     return [_sessionList count];
 }
@@ -53,7 +53,7 @@
 // テーブルの内容を返す
 -(id)				tableView : (NSTableView*) aTableView
     objectValueForTableColumn : (NSTableColumn*) aTableColumn
-						  row : (int) rowIndex
+						  row : (NSInteger) rowIndex
 {
 	id identifier = [aTableColumn identifier];
 	IRCSession* session = [_sessionList objectAtIndex:rowIndex];

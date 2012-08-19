@@ -55,22 +55,23 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 //-- initWithMessage:server
 - (id) initWithMessage:(NSString*) inMessage server:(int)inServerID
 {
-	[super init];
-    _serverid = inServerID;
-    _message = [inMessage copyWithZone:[self zone]];
-    
-    _channelname = nil;
-    _hostname = nil;
-    _nickname = nil;
-    _trailing = nil;
-    _extendString = nil;
-	_hasKeyword = NO;
-	_hasNotification = NO;	
-    _paramList = [[NSMutableArray alloc] init];
-    
-    [self parsePrefix];
-    [self parseParams];
-    
+	self = [super init];
+    if(self != nil){
+        _serverid = inServerID;
+        _message = [inMessage copyWithZone:[self zone]];
+        
+        _channelname = nil;
+        _hostname = nil;
+        _nickname = nil;
+        _trailing = nil;
+        _extendString = nil;
+        _hasKeyword = NO;
+        _hasNotification = NO;	
+        _paramList = [[NSMutableArray alloc] init];
+        
+        [self parsePrefix];
+        [self parseParams];
+    }
     return self;
 }
 
@@ -135,7 +136,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
     
     content = NSMakeRange(0, [_message length]);
     if(_nickname != nil){
-        param = DevideString(_message, @" ", &content);
+        DevideString(_message, @" ", &content);
     }
     
     // get command
@@ -273,7 +274,8 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
     unichar	c;
 
     NSDictionary* currentColor = [inAttributes objectAtIndex:kPlainAttribute];
-    unsigned int keywordPos = -1;
+    NSUInteger keywordPos = 0;
+    BOOL hasBracket = NO;
 	
     if (format.length == 0) return outputString;
         
@@ -362,18 +364,21 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
                     case '[': // %[ : Keyword bracket キーワード開始
 					case '{': // %{ : Keyword/Notification bracket
                         keywordPos = [outputString length];
+                        hasBracket = YES;
 						break;
 					case ']': // %] : keyword bracket キーワード終了
-						if(keywordPos >= 0){
+						if(hasBracket == YES){
 							[self filterMessage:outputString
 										  range:NSMakeRange(keywordPos, [outputString length] - keywordPos)];
 						}
+                        hasBracket = NO;
 						break;
                     case '}': // %} : notification bracket キーワード終了
-						if(keywordPos >= 0){
+						if(hasBracket == YES){
 							[self notifyMessage:outputString
 										  range:NSMakeRange(keywordPos, [outputString length] - keywordPos)];
 						}
+                        hasBracket = NO;
 						break;
 					case 'A': // %A : Additional Message
                         _additionalIndex = [outputString length];
@@ -533,7 +538,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
         return [NSString stringWithFormat:@"@%03d ", internetTime];
     }else{
         // 通常の時刻表示
-        return [NSString stringWithFormat:@"%02d:%02d ", [date hourOfDay], [date minuteOfHour]];
+        return [NSString stringWithFormat:@"%02ld:%02ld ", (long)[date hourOfDay], (long)[date minuteOfHour]];
     }
 }
 

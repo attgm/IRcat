@@ -11,7 +11,7 @@
 #import "ServersWindowController.h"
 
 #import "IRCMessage.h"
-#import "IRcatInterface.h";
+#import "IRcatInterface.h"
 
 #import "ChannelModal.h"
 #import "NickListView.h"
@@ -20,6 +20,8 @@
 #import "TextFieldHistories.h"
 #import "ConsoleTextView.h"
 #import "BufferedFieldEditor.h"
+
+#import "INAppStoreWindow.h"
 
 NSString* const IRMainToolbarLabelTable	 = @"MainToolbar";
 NSString* const IRTopicIdentifier		 = @"Topic";
@@ -34,7 +36,7 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 // 初期化ルーチン. メインウィンドウの生成/表示を行う
 - (id) initWithInterface:(IRcatInterface*) inInterface
 {
-    [super initWithInterface:inInterface];
+    self = [super initWithInterface:inInterface];
     return self;
 }
 
@@ -42,6 +44,11 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 //-- dealloc
 -(void) dealloc
 {
+#if !__has_feature(objc_arc)
+    [_textFieldHistories release];
+    [_channelPopup release];
+    [_topicTextField release];
+#endif
 	[super dealloc];
 }
 
@@ -58,15 +65,22 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 			NSBeep();
             return;
 		}
+        
+        INAppStoreWindow* window = (INAppStoreWindow*) _window;
+        window.trafficLightButtonsLeftMargin = 7.0;
+        window.fullScreenButtonRightMargin = 7.0;
+        window.titleBarHeight = 36.0;
+        window.centerFullScreenButton = YES;
+        
 		_channelMenu = [[NSMenu alloc] initWithTitle:@"Channel"];
 		
-		NSToolbar* toolbar = [[[NSToolbar alloc] initWithIdentifier:@"MainToolbar"] autorelease];
+		/*NSToolbar* toolbar = [[[NSToolbar alloc] initWithIdentifier:@"MainToolbar"] autorelease];
 		[toolbar setDelegate:self];
 		[toolbar setAllowsUserCustomization:NO];
 		[toolbar setAutosavesConfiguration:YES];
 		[toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
 		[toolbar setAllowsUserCustomization:YES];
-		[_window setToolbar:toolbar];
+		[_window setToolbar:toolbar];*/
 		
 		// NickListの設定
         imageCell = [[[NSImageCell alloc] init] autorelease];
@@ -81,25 +95,39 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 		// splitの位置を設定
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		NSNumber* number;
-		if(number = [defaults objectForKey:kWindowCollapseRatio]){
+		if((number = [defaults objectForKey:kWindowCollapseRatio]) != NULL){
 			[_popSplitView setCollapseRatio:[number floatValue]];
 		}
-		if(number = [defaults objectForKey:kWindowSplitRatio]){
-			[_popSplitView setSplitRatio:[number floatValue]];
+		if((number = [defaults objectForKey:kWindowSplitRatio]) != NULL){
+			[_popSplitView setSplitRatio:[number floatValue] animate:NO];
 		}
 		[_popSplitView setCollapse:YES];
-		if(number = [defaults objectForKey:kPaneSplitRatio]){
-			[_paneSplitView setSplitRatio:[number floatValue]];
+		if((number = [defaults objectForKey:kPaneSplitRatio]) != NULL){
+			[_paneSplitView setSplitRatio:[number floatValue] animate:NO];
 		}
 		[_paneSplitView setCollapse:NO];
 		
 		// Historyを生成
-		TextFieldHistories* histories = [[TextFieldHistories alloc] init];
-		[_inputField setDelegate:histories];
+		_textFieldHistories = [[TextFieldHistories alloc] init];
+		[_inputField setDelegate:_textFieldHistories];
+        
+        
+        NSView *titleBarView = window.titleBarView;
+        _channelPopup = [[self createToolbarChannelPopup] retain];
+        [_channelPopup setFrame:NSMakeRect(70.0, 4.0, 160.0, [_channelPopup frame].size.height)];
+        [titleBarView addSubview:_channelPopup];
+        
+        _topicTextField = [[self createToolbarTopicTextField] retain];
+        CGFloat x = 70.0 + 160.0 + 8.0;
+        CGFloat width = [titleBarView frame].size.width - (x + 32.0);
+        [_topicTextField setFrame:NSMakeRect(x, 8.0, width, [_topicTextField frame].size.height)];
+        [titleBarView addSubview:_topicTextField];
+        
+        [[_modeTextView cell] setBackgroundStyle:NSBackgroundStyleRaised];
     }
     
     NSDictionary* transformer = 
-		[NSDictionary dictionaryWithObject:[NSString stringWithString:@"FontNameToFontTransformer"]
+		[NSDictionary dictionaryWithObject:@"FontNameToFontTransformer"
 									forKey:@"NSValueTransformerName"];
 	NSObjectController* prefController = [_interface sharedPreferenceController];
 	[_nickListView bind:@"font" toObject:prefController withKeyPath:@"selection.textFont" options:transformer];
@@ -108,7 +136,7 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 	[_inputField bind:@"font" toObject:prefController withKeyPath:@"selection.textFont" options:transformer];
 	
 	NSDictionary* colorTransformer = 
-		[NSDictionary dictionaryWithObject:[NSString stringWithString:@"ColorNameToColorTransformer"]
+		[NSDictionary dictionaryWithObject:@"ColorNameToColorTransformer"
 									forKey:@"NSValueTransformerName"];
 	[_commonTextView bind:@"textColor" toObject:prefController withKeyPath:@"selection.textColor" options:transformer];
 	[_commonTextView bind:@"backgroundColor" toObject:prefController withKeyPath:@"selection.backgroundColor" options:colorTransformer];
@@ -118,7 +146,6 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 	
 	[_window makeKeyAndOrderFront:nil];
 }
-
 
 #pragma mark User Interface
 
@@ -149,7 +176,7 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 		[newItem bind:@"tag" toObject:inChannelModal withKeyPath:@"channelid" options:nil];
 		[newItem bind:@"title" toObject:inChannelModal withKeyPath:@"aliasName" options:nil];
 		[newItem bind:@"image" toObject:inChannelModal withKeyPath:@"iconName"
-			  options:[NSDictionary dictionaryWithObject:[NSString stringWithString:@"ImageNameToImageTransformer"]
+			  options:[NSDictionary dictionaryWithObject:@"ImageNameToImageTransformer"
 												  forKey:@"NSValueTransformerName"]];
 		[newItem bind:@"enabled" toObject:inChannelModal withKeyPath:@"enableChannel" options:nil];
 	}
@@ -269,28 +296,14 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 	[self refleshLogIcon];
 	[self setModeString:[inNewChannel channelFlagString]];
 	
-	NSToolbarItem* it = [self toolbarItemByIdentifier:@"ChannelPopup"];
-	if(it){
-		NSPopUpButton* popup = (NSPopUpButton*)[it view];
-		[popup selectItemWithTag:[inNewChannel channelid]];
-		NSEnumerator* e = [[[popup menu] itemArray] objectEnumerator];
-		NSMenuItem* mi;
-		while(mi = [e nextObject]){
-			[mi setState:NSOffState];
-		}
-		
-		NSMenuItem* item = [[[NSMenuItem alloc] init] autorelease];
-		[item setSubmenu:_channelMenu];
-		[item setTitle:[NSString stringWithFormat:@"Channel:%@", [inNewChannel aliasName]]];
-		
-		e = [[[item submenu] itemArray] objectEnumerator];
-		while(mi = [e nextObject]){
-			[mi setState:NSOffState];
-		}
-		
-		[it setMenuFormRepresentation:nil];
-		[it setMenuFormRepresentation:item];
-	}
+	
+    [_channelPopup selectItemWithTag:[inNewChannel channelid]];
+    NSEnumerator* e = [[[_channelPopup menu] itemArray] objectEnumerator];
+    NSMenuItem* mi;
+	while(mi = [e nextObject]){
+        [mi setState:NSOffState];
+    }
+
 	[_window makeKeyAndOrderFront:nil];
 }
 
@@ -304,6 +317,16 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 }
 
 #pragma mark -
+#pragma mark SplitView
+//-- collapseChannelSplitView
+// collapse console view
+-(IBAction) collapseChannelSplitView:(id)sender
+{
+    
+}
+
+
+#pragma mark -
 #pragma mark Channel
 
 //-- setTopic (over write)
@@ -313,7 +336,10 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 	if (_topicString) { [_topicString release]; }
 	_topicString = [[NSString stringWithString:(inTopic ? inTopic : @"no topic")] retain];
 	
-	NSToolbarItem* it = [self toolbarItemByIdentifier:@"Topic"];
+    if(_topicTextField != nil){
+        [_topicTextField setStringValue:_topicString];
+    }
+	/*NSToolbarItem* it = [self toolbarItemByIdentifier:@"Topic"];
 	if(it){
 		NSTextField* topicField = (NSTextField*)([it view]);
 		if(topicField){
@@ -325,7 +351,7 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 			[item setTitle:[NSString stringWithFormat:@"Topic:%@", _topicString]];
 			[it setMenuFormRepresentation:item];
 		}
-	}
+	}*/
 }
 
 
@@ -620,21 +646,11 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 	[item setLabel:label];
 	[item setPaletteLabel:label];
 	
-	NSPopUpButton *popup = [[[NSPopUpButton alloc] initWithFrame:NSZeroRect] autorelease];
-	[[popup cell] setBezelStyle:NSTexturedRoundedBezelStyle];
-	[[popup cell] setArrowPosition:NSPopUpArrowAtBottom];
-    [[popup cell] setControlSize:NSRegularControlSize];
-	[popup setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
-	[popup setMenu:_channelMenu];
-	[popup sizeToFit];
-	[popup setAction:@selector(switchChannelbyChannelPopup:)];
-	[popup setTarget:self];
-	[popup selectItemWithTag:[_activeChannel channelid]];
-	
-	[item setView:popup];
+	NSPopUpButton *popup = [self createToolbarChannelPopup];
+
+    [item setView:popup];
 	[item setMinSize:NSMakeSize(160, [popup frame].size.height)];
 	[item setMaxSize:NSMakeSize(160, [popup frame].size.height)];
-
 	if(flag){
 		NSMenuItem* mi = [[[NSMenuItem alloc] init] autorelease];
 		[mi setSubmenu:_channelMenu];
@@ -645,5 +661,44 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 }
 
 
+//-- createToolbarChannelPopup
+// create channel popup on toolbar (title bar)
+-(NSPopUpButton*) createToolbarChannelPopup
+{
+    NSPopUpButton* popup = [[[NSPopUpButton alloc] initWithFrame:NSZeroRect] autorelease];
+    [[popup cell] setBezelStyle:NSTexturedRoundedBezelStyle];
+	[[popup cell] setArrowPosition:NSPopUpArrowAtBottom];
+    [[popup cell] setControlSize:NSRegularControlSize];
+    [popup setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
+	[popup setMenu:_channelMenu];
+	[popup sizeToFit];
+	[popup setAction:@selector(switchChannelbyChannelPopup:)];
+	[popup setTarget:self];
+	[popup selectItemWithTag:[_activeChannel channelid]];
+	[popup setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
+    
+    return popup;
+}
+
+//-- createToolbarTopicTextField
+// create topic text field on toolbar (title bar)
+-(NSTextField*) createToolbarTopicTextField
+{
+	NSTextField *field = [[[NSTextField alloc] initWithFrame:NSZeroRect] autorelease];
+	
+	[[field cell] setControlSize:NSRegularControlSize];
+	[field setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
+	[field setDrawsBackground:NO];
+	[[field cell] setWraps:NO];
+	[[field cell] setScrollable:YES];
+	[field setEditable:NO];
+	[field setBezeled:NO];
+	[field setStringValue:(_topicString ? _topicString : @"")];
+	[field sizeToFit];
+	[field setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
+    
+    return field;
+
+}
 
 @end

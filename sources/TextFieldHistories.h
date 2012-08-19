@@ -8,7 +8,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface TextFieldHistories : NSObject {
+@interface TextFieldHistories : NSObject <NSTextFieldDelegate> {
 	NSMutableArray* _histories;
 	NSUInteger _historyIndex;
 }

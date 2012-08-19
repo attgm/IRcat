@@ -13,7 +13,7 @@
 
 @class ChannelWindowController;
 
-@interface ChannelModal : NSObject {
+@interface ChannelModal : NSObject <NSTableViewDataSource> {
     NSString* _channelName;
     NSString* _aliasName;
 	
@@ -55,7 +55,11 @@
 - (NSString*) channelFlagString;
 
 - (void) setChannelName:(NSString*)inChannelName;
+
+- (NSString*) topic;
 - (void) setTopic:(NSString*) inChannelTopic;
+
+
 - (void) setEmptyChannel:(BOOL) inEmpty;
 - (void) setLoggingChannel:(BOOL) inLogging;
 - (void) clearChannel:(NSString*)inChannelName server:(int)inServerID;
@@ -64,7 +68,7 @@
 - (NSString*) name;
 - (NSString*) aliasName;
 - (void) setAliasName:(NSString*)inChannelName;
-- (NSString*) topic;
+
 - (int) serverid;
 - (int) channelid;
 - (id) channelView;

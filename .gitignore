@@ -29,4 +29,6 @@ CVS
 .svn
 *.mode1v3
 *.pbxuser
+external\ source/*/*
+
 

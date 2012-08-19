@@ -13,7 +13,7 @@
 //-- addItem
 // 初期値に従ってCellを追加する
 -(IBAction) addItem:(id)sender {
-	[self addObject:[_defaultValues mutableCopy]];
+	[self addObject:[[_defaultValues mutableCopy] autorelease]];
 	int index = [[self arrangedObjects] count] - 1;
 	[self setSelectionIndex:index];
 	if(_primeTableView){

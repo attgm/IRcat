@@ -20,17 +20,18 @@
 // 空チャンネルの生成
 - (id) init
 {
-    [super init];
-	_channelID = -1;
-    _channelName = nil;
-    _nickList = nil;
-    _viewController = nil;
-    _isEmptyChannel = NO;
-    _isLogging = NO;
-	_logFile = nil;
-	_topic = nil;
-	_iconName = nil;
-	
+    self = [super init];
+    if(self != nil){
+        _channelID = -1;
+        _channelName = nil;
+        _nickList = nil;
+        _viewController = nil;
+        _isEmptyChannel = NO;
+        _isLogging = NO;
+        _logFile = nil;
+        _topic = nil;
+        _iconName = nil;
+	}
     return self;
 }
 
@@ -41,20 +42,20 @@
            identify:(int) inChannelID
              server:(int) inServerID
 {
-    [super init];
-    
-	[self setChannelName:inChannelName];
-    _serverID = inServerID;
-    _channelID = inChannelID;
-    _nickList = [[NSMutableArray alloc] init];
-    _viewController = nil;
-	_isEmptyChannel = NO;
-    _isLogging = NO;
-	_iconName = nil;
+    self = [super init];
+    if(self != nil){
+        [self setChannelName:inChannelName];
+        _serverID = inServerID;
+        _channelID = inChannelID;
+        _nickList = [[NSMutableArray alloc] init];
+        _viewController = nil;
+        _isEmptyChannel = NO;
+        _isLogging = NO;
+        _iconName = nil;
 	
-	_channelMode = [[NSMutableArray alloc] init];
-	_logFile = nil;
-	
+        _channelMode = [[NSMutableArray alloc] init];
+        _logFile = nil;
+	}
     return self;
 }
 
@@ -243,7 +244,7 @@
 #pragma mark NSTableView (data source) 
 //-- numberOfRowsInTableView
 // テーブルの行数を返す
-- (int) numberOfRowsInTableView : (NSTableView*) aTableView
+- (NSInteger) numberOfRowsInTableView : (NSTableView*) aTableView
 {
     return [_nickList count];
 }
@@ -253,7 +254,7 @@
 // テーブルの内容を返す
 -(id)				tableView : (NSTableView*) aTableView
     objectValueForTableColumn : (NSTableColumn*) aTableColumn
-						  row : (int) rowIndex
+						  row : (NSInteger) rowIndex
 {
 	id identifier = [aTableColumn identifier];
     if([identifier isEqualToString:@"nick"]) {
@@ -604,7 +605,8 @@
 	NSFileManager* fm = [NSFileManager defaultManager];
 	BOOL isExists = [fm fileExistsAtPath:dic isDirectory:&isDirectory];
 	if(!isExists){
-		if(![fm createDirectoryAtPath:dic attributes:nil]){
+        NSError* error;
+        if(![fm createDirectoryAtPath:[NSURL fileURLWithPath:dic] withIntermediateDirectories:YES attributes:nil error:&error]){
 			return NO;
 		}
 	}else if(!isDirectory){

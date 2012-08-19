@@ -16,12 +16,14 @@
 @class ChannelModal;
 @class ConsoleTextView;
 @class BufferedFieldEditor;
+@class TextFieldHistories;
 
-@interface MainWindowController : ChannelWindowController
+@interface MainWindowController : ChannelWindowController <NSToolbarDelegate>
 {
     IBOutlet ConsoleTextView*	_commonTextView;
 	IBOutlet PopSplitView*		_paneSplitView;
- 	
+ 	IBOutlet NSSplitView*       _channelSplitView;
+    
     IBOutlet NSTextField*		_menuCaption;
     IBOutlet NSPopUpButton*		_menuPopUp;
 	IBOutlet NSTextField*		_menuTitle;
@@ -29,49 +31,53 @@
 	
 	NSMenu*		_channelMenu;
 	NSString*	_topicString;
+    
+    TextFieldHistories* _textFieldHistories;
+    NSPopUpButton*      _channelPopup;
+    NSTextField*        _topicTextField;
 }
 
 
-- (IBAction)switchChannelbyChannelPopup:(id)sender;
+-(IBAction) switchChannelbyChannelPopup:(id)sender;
+-(IBAction) collapseChannelSplitView:(id)sender;
 
-- (id) initWithInterface:(IRcatInterface*) inInterface;
-- (void) createWindow;
-- (void) setTopic:(NSString*)inString;
+-(id) initWithInterface:(IRcatInterface*) inInterface;
+-(void) createWindow;
+-(void) setTopic:(NSString*)inString;
 
-- (void) addMenuItem:(NSString*)inChannelName;
-- (void) menuItemToSeparator : (int) inIndex;
-- (void) renameMenuItem:(NSString*)inString atIndex:(int)inIndex;
-- (void) removeLastMenuItem;
-- (void) setMenuImage:(NSImage*)inImage atIndex:(int)inIndex;
-- (void) setEnableMenuItem:(BOOL) inEnable atIndex:(int) inIndex;
+-(void) addMenuItem:(NSString*)inChannelName;
+-(void) menuItemToSeparator : (int) inIndex;
+-(void) renameMenuItem:(NSString*)inString atIndex:(int)inIndex;
+-(void) removeLastMenuItem;
+-(void) setMenuImage:(NSImage*)inImage atIndex:(int)inIndex;
+-(void) setEnableMenuItem:(BOOL) inEnable atIndex:(int) inIndex;
 
-- (void) switchChannel:(ChannelModal*) inNewChannel;
+-(void) switchChannel:(ChannelModal*) inNewChannel;
 
-- (ChannelModal*) activeChannel;
-- (void) setHasSession:(BOOL)inHasSession;
-- (void) setDocumentView:(NSScrollView*) inChannelView;
+-(ChannelModal*) activeChannel;
+-(void) setHasSession:(BOOL)inHasSession;
+-(void) setDocumentView:(NSScrollView*) inChannelView;
 
-- (void) askFromMenu:(NSMenu*) inMenu
+-(void) askFromMenu:(NSMenu*) inMenu
 			 withTag:(int) inDefaultTag
 			 caption:(NSString*) inCaption
 			format:(NSString*) inFormat;
-- (void) sheetMenuDidEnd : (NSSavePanel *) inSheet
+-(void) sheetMenuDidEnd : (NSSavePanel *) inSheet
 			  returnCode : (int) inReturnCode
 			 contextInfo : (id) inContextInfo;
-- (BOOL) appendStringToCommon:(NSAttributedString*)inString
+-(BOOL) appendStringToCommon:(NSAttributedString*)inString
                        append:(NSAttributedString*)inAppend
                            at:(int)inIndex;
-- (void)focusTextField;
+-(void)focusTextField;
 
 -(void) addMenuItemByChannelModal : (ChannelModal*) inChannelName;
 -(ChannelModal*) selectedChannel;
 
 
-- (NSToolbarItem*) toolbarItemByIdentifier:(NSString*) inIdentifier;
-- (IBAction) actionToolbar: (id) sender;
+-(NSToolbarItem*) toolbarItemByIdentifier:(NSString*) inIdentifier;
+-(IBAction) actionToolbar: (id) sender;
 
-- (NSToolbarItem*) toolbarTopicItem:(BOOL) flag;
-- (NSToolbarItem*) toolbarChannelItem:(BOOL) flag;
-
+-(NSToolbarItem*) toolbarTopicItem:(BOOL) flag;
+-(NSToolbarItem*) toolbarChannelItem:(BOOL) flag;
 
 @end

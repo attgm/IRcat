@@ -19,9 +19,11 @@ static ServersWindowController *sSharedInstance = nil;
 // 初期化
 - (id) init
 {
-    [super init];
-    _serversModal = [ServersModal sharedServersModal];
-	[_serversModal selectedServerModal];
+    self = [super init];
+    if(self != nil){
+        _serversModal = [ServersModal sharedServersModal];
+        [_serversModal selectedServerModal];
+    }
     return self;
 }
 

@@ -5,11 +5,11 @@
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
-#import "IRcatInterface.h";
-#import "NickListView.h";
-#import "InputSheet.h";
-#import "PopSplitView.h";
-#import "PreferenceWindowController.h";
+#import "IRcatInterface.h"
+#import "NickListView.h"
+#import "InputSheet.h"
+#import "PopSplitView.h"
+#import "PreferenceWindowController.h"
 #import "ChannelModal.h"
 #import "ChannelWindowController.h"
 #import "BufferedFieldEditor.h"
@@ -21,9 +21,9 @@
 // 初期化ルーチン. メインウィンドウの生成/表示を行う
 -(id) initWithInterface:(IRcatInterface*) inInterface
 {
-	[super init];
+	self = [super init];
 	
-	if(self){
+	if(self != nil){
 		_interface = [inInterface retain];
 		[self createWindow];
 	}
@@ -59,11 +59,11 @@
         // splitの位置を設定
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		NSNumber* number;
-		if(number = [defaults objectForKey:kWindowCollapseRatio]){
+		if((number = [defaults objectForKey:kWindowCollapseRatio]) != NULL){
 			[_popSplitView setCollapseRatio:[number floatValue]];
 		}
-		if(number = [defaults objectForKey:kWindowSplitRatio]){
-			[_popSplitView setSplitRatio:[number floatValue]];
+		if((number = [defaults objectForKey:kWindowSplitRatio]) != NULL){
+			[_popSplitView setSplitRatio:[number floatValue] animate:NO];
 		}
 		[_popSplitView setCollapse:YES];
 		
@@ -71,12 +71,14 @@
 		NSObjectController* prefController = [_interface sharedPreferenceController];
 		
 		[_nickListView bind:@"font" toObject:prefController withKeyPath:@"selection.textFont"
-					options:[NSDictionary dictionaryWithObject:[NSString stringWithString:@"FontNameToFontTransformer"]
+					options:[NSDictionary dictionaryWithObject:@"FontNameToFontTransformer"
 														forKey:@"NSValueTransformerName"]];
 		[_inputField bind:@"font" toObject:prefController withKeyPath:@"selection.textFont"
-				  options:[NSDictionary dictionaryWithObject:[NSString stringWithString:@"FontNameToFontTransformer"]
+				  options:[NSDictionary dictionaryWithObject:@"FontNameToFontTransformer"
 													  forKey:@"NSValueTransformerName"]];
 		[_inputField setAllowsEditingTextAttributes:NO];
+        
+        [[_modeTextView cell] setBackgroundStyle:NSBackgroundStyleRaised];
 	}	
 	[_window makeKeyAndOrderFront:nil];
 }

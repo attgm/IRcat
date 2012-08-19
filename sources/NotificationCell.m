@@ -50,8 +50,8 @@ NSDictionary* iconList()
 		}
 	}
 	
-	NSPoint iconPoint = NSMakePoint(frame.origin.x + frame.size.width - IRNotificationIconSize,
-									frame.origin.y + frame.size.height);
+	NSPoint iconPoint = NSMakePoint(frame.origin.x + frame.size.width - IRNotificationIconSize ,
+									frame.origin.y + frame.size.height -IRNotificationIconSize);
 	NSDictionary* icons = iconList();
 	NSEnumerator* e = [icons keyEnumerator];
 	NSString* key;
@@ -59,10 +59,17 @@ NSDictionary* iconList()
 		if([[values objectForKey:key] boolValue]){
 			NSImage* iconImage = [NSImage imageNamed:[icons objectForKey:key]];
 			[iconImage setSize:NSMakeSize(IRNotificationIconSize,IRNotificationIconSize)];
-			[iconImage compositeToPoint:iconPoint operation:NSCompositeSourceOver];
+			//[iconImage compositeToPoint:iconPoint operation:NSCompositeSourceOver];
+            [iconImage drawInRect:NSMakeRect(iconPoint.x, iconPoint.y, IRNotificationIconSize, IRNotificationIconSize)
+                         fromRect:NSZeroRect
+                        operation:NSCompositeSourceOver
+                         fraction:1.0f
+                   respectFlipped:YES
+                            hints:nil];
 			iconPoint.x -= IRNotificationIconSize;
 		}
 	}
+
 }
 
 @end

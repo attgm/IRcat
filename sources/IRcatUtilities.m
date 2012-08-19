@@ -1,6 +1,6 @@
 //
 //  $RCSfile: IRcatUtilities.m,v $
-//  
+//
 //  $Revision: 49 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
@@ -9,9 +9,9 @@
 #import "IRcatUtilities.h"
 
 //-- PrefixString
-// inDevide‚ª‚Å‚Ä‚­‚é‚Ü‚Å‚Ì•¶š—ñ‚ğ•Ô‚·.
-// inDevide‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚Í inContent‚Ì•¶š—ñ‚ğ•Ô‚· ioContent‚Í(NotFound, 0)
-// ioContent‚Ìlength‚ª0‚Å‚ ‚Á‚½ê‡, nil‚ğ•Ô‚·
+// inDevideãŒã§ã¦ãã‚‹ã¾ã§ã®æ–‡å­—åˆ—ã‚’è¿”ã™.
+// inDevideãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸå ´åˆã¯ inContentã®æ–‡å­—åˆ—ã‚’è¿”ã™ ioContentã¯(NotFound, 0)
+// ioContentã®lengthãŒ0ã§ã‚ã£ãŸå ´åˆ, nilã‚’è¿”ã™
 NSString* PrefixString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 {
     NSRange devider, prefix;
@@ -24,23 +24,23 @@ NSString* PrefixString(NSString* inString, NSString* inDevide, NSRange* ioConten
         if(devider.location != NSNotFound){
             prefix = NSMakeRange(ioContent->location, (devider.location - (ioContent->location)));
             *ioContent = NSMakeRange(devider.location + devider.length,
-                                        ioContent->length - (prefix.length + devider.length));
-    
+                                     ioContent->length - (prefix.length + devider.length));
+            
             return [inString substringWithRange:prefix];
         }else{
 			prefix = *ioContent;
             *ioContent = devider;
 			return (prefix.location == 0 && prefix.length == [inString length]) ? inString
-				: [inString substringWithRange:prefix];
+            : [inString substringWithRange:prefix];
         }
     }
     
     return inString;
-} 
+}
 
 
 //-- PrefixCharacterSet
-// •¶šW‡‚ª‚Å‚Ä‚­‚é‚Ü‚Å‚·‚Á‚Æ‚Î‚·
+// æ–‡å­—é›†åˆãŒã§ã¦ãã‚‹ã¾ã§ã™ã£ã¨ã°ã™
 NSString* PrefixCharacterSet(NSString* inString, NSCharacterSet* inDevide, NSRange* ioContent)
 {
     NSRange devider, prefix;
@@ -62,12 +62,12 @@ NSString* PrefixCharacterSet(NSString* inString, NSCharacterSet* inDevide, NSRan
     }
     
     return inString;
-} 
+}
 
 
 
 //-- IsChannel
-// channel–¼‚©‚Ç‚¤‚©‚ÌŠm”F
+// channelåã‹ã©ã†ã‹ã®ç¢ºèª
 BOOL IsChannel(NSString* inString)
 {
     unichar c = [inString characterAtIndex:0];
@@ -76,7 +76,7 @@ BOOL IsChannel(NSString* inString)
 
 
 //-- IsNick
-// nick name‚©‚Ç‚¤‚©‚ÌŠm”F
+// nick nameã‹ã©ã†ã‹ã®ç¢ºèª
 BOOL IsNick(NSString* inString)
 {
     return !IsChannel(inString);
@@ -84,7 +84,7 @@ BOOL IsNick(NSString* inString)
 
 
 //-- IsMode
-// ƒ‚[ƒh•¶š—ñ‚©‚Ç‚¤‚©‚Ì”»’è
+// ãƒ¢ãƒ¼ãƒ‰æ–‡å­—åˆ—ã‹ã©ã†ã‹ã®åˆ¤å®š
 BOOL IsMode(NSString* inString)
 {
 	NSRange range = NSMakeRange(0, [inString length]);
@@ -95,7 +95,7 @@ BOOL IsMode(NSString* inString)
 	[scanner setCaseSensitive:NO];
 	[scanner scanCharactersFromSet:charSet intoString:nil];
     
-	return [scanner isAtEnd]; //ÅŒã‚Ü‚Å‚¢‚Á‚½‚©‚Ç‚¤‚©
+	return [scanner isAtEnd]; //æœ€å¾Œã¾ã§ã„ã£ãŸã‹ã©ã†ã‹
 }
 
 

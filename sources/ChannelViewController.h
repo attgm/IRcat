@@ -15,9 +15,9 @@
 @interface ChannelViewController : NSObject
 {
     IBOutlet ConsoleTextView*	_channelView;
-    IBOutlet NSButton*			_latchButton;
-    IBOutlet ScrollView*		_scrollView;
-    IBOutlet NSButton*			_tearButton;
+//    IBOutlet NSButton*			_latchButton;
+    IBOutlet NSScrollView*		_scrollView;
+//    IBOutlet NSButton*			_tearButton;
     
     NSCellStateValue			_lockedScroll;
 	

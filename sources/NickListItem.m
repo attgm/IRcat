@@ -1,6 +1,6 @@
 //
 //  $RCSfile: NickListItem.m,v $
-//  
+//
 //  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
@@ -16,10 +16,12 @@
 			  label:(NSString*) inLabel
                flag:(int) inFlag;
 {
-    [super init];
-    [self setNick:inNickname];
-	[self setLabel:inLabel];
-    _flag = inFlag;
+    self = [super init];
+    if(self){
+        [self setNick:inNickname];
+        [self setLabel:inLabel];
+        _flag = inFlag;
+    }
     return self;
 }
 
@@ -41,7 +43,7 @@
 {
     [_nickname release];
     _nickname = (inString ? [inString copyWithZone:[self zone]] : nil);
-
+    
 	_isFriend = ([PreferenceModal searchFriend:_nickname] != nil);
 }
 
@@ -74,7 +76,7 @@
 // labelの設定
 - (void) setLabel:(NSString*)inString
 {
-	[_label release];	
+	[_label release];
     _label = (inString ? [inString copyWithZone:[self zone]] : nil);
 }
 
@@ -97,14 +99,14 @@
 
 #pragma mark -
 //-- compareWithNickListItem
-// 
+//
 - (NSComparisonResult) compareWithNickListItem:(NickListItem *) inItem
 {
     // friendかどうかが同じであった場合は, アルファベット順
     if([self isFriend] == [inItem isFriend]){
         return [[self nick] caseInsensitiveCompare:[inItem nick]];
     }else{
-    // 異なる場合はFriend優先
+        // 異なる場合はFriend優先
         return ([self isFriend] ? NSOrderedAscending : NSOrderedDescending);
     }
 }

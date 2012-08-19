@@ -11,7 +11,7 @@
 #import "EditCellController.h"
 
 
-@interface PreferenceWindowController : NSObject
+@interface PreferenceWindowController : NSObject <NSToolbarDelegate>
 {
     IBOutlet NSPopUpButton *_beepMenu;
     IBOutlet EditCellController *_friendsController;
@@ -56,9 +56,5 @@
 - (void) createToolbar;
 - (void) switchPrefPanelById:(NSString*) identifier
 					 animate:(BOOL) animate;
-
-- (void) didSelectLogFolder : (NSOpenPanel *) inSheet
-				 returnCode : (int) inReturnCode
-				contextInfo : (void *) inContextInfo;
 
 @end

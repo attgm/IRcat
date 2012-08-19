@@ -15,16 +15,16 @@ static NSDictionary *defaultValues()
     if(!defaults){
         defaults = [[NSDictionary alloc] initWithObjectsAndKeys:
 			[NSNumber numberWithBool:NO], @"invisibleMode",
-			[NSString stringWithString:@"blue"], @"serverLabel",
-            [NSString stringWithString:@""], @"password",
+			@"blue", @"serverLabel",
+            @"", @"password",
             [NSNumber numberWithInt:6667], @"port",
-            [NSString stringWithString:@""], @"address",
-            [NSString stringWithString:@""], @"mailAddress",
-            [NSString stringWithString:@""], @"realName",
-            [NSString stringWithString:@""], @"nick",
+            @"", @"address",
+            @"", @"mailAddress",
+            @"", @"realName",
+            @"", @"nick",
             [NSMutableArray arrayWithCapacity:8], @"autoJoinChannels",
-            [NSString stringWithString:@"default"], @"name",
-			[NSString stringWithString:@"ISO-2022-JP"], @"encoding",
+            @"default", @"name",
+			@"ISO-2022-JP", @"encoding",
 			[NSNumber numberWithBool:NO], @"connectAtStartup",
             nil];
     }
@@ -52,17 +52,17 @@ static NSDictionary *preferenceConverter()
     
     if(!preferenceConverter){
         preferenceConverter = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[NSString stringWithString:@"InvisibleMode"], @"invisibleMode",
-			[NSString stringWithString:@"Label"], @"serverLabel",
-            [NSString stringWithString:@"Password"], @"password",
-			[NSString stringWithString:@"Port"], @"port",
-            [NSString stringWithString:@"Address"], @"address",
-            [NSString stringWithString:@"MailAddress"], @"mailAddress",
-            [NSString stringWithString:@"RealName"], @"realName",
-			[NSString stringWithString:@"Nick"], @"nick",
-            [NSString stringWithString:@"AutoJoinChannels"], @"autoJoinChannels",
-			[NSString stringWithString:@"Name"], @"name",
-			[NSString stringWithString:@"Encoding"], @"encoding",
+			@"InvisibleMode", @"invisibleMode",
+			@"Label", @"serverLabel",
+            @"Password", @"password",
+			@"Port", @"port",
+            @"Address", @"address",
+            @"MailAddress", @"mailAddress",
+            @"RealName", @"realName",
+			@"Nick", @"nick",
+            @"AutoJoinChannels", @"autoJoinChannels",
+			@"Name", @"name",
+			@"Encoding", @"encoding",
             nil];
     }
     return preferenceConverter;
@@ -78,8 +78,8 @@ static NSDictionary *preferenceConverter()
 //
 -(id) init
 {
-	[super init];
-	if(self){
+	self = [super init];
+	if(self != nil){
 		_parameters = [[NSMutableDictionary alloc] init];
 		[self initializeDictionary:nil];
 	}
@@ -91,8 +91,8 @@ static NSDictionary *preferenceConverter()
 //
 -(id) initWithDictionary:(NSDictionary*) dic
 {
-	[super init];
-	if(self){
+	self = [super init];
+	if(self != nil){
 		_parameters = [[NSMutableDictionary alloc] init];
 		[self initializeDictionary:dic];
 	}
@@ -163,9 +163,9 @@ static NSDictionary *preferenceConverter()
 	while(it = [e nextObject]){
 		id item;
 		if([it isKindOfClass:[NSDictionary class]]){
-			item = [it mutableCopy];
+			item = [[it mutableCopy] autorelease];
 		}else{
-			item = [NSMutableDictionary dictionaryWithObject:[it copyWithZone:[self zone]] forKey:@"name"];
+			item = [NSMutableDictionary dictionaryWithObject:[[it copyWithZone:[self zone]] autorelease] forKey:@"name"];
 		}
 		if(key && [key isKindOfClass:[NSArray class]]){
 			NSEnumerator* e = [key objectEnumerator];
@@ -222,7 +222,7 @@ static NSDictionary *preferenceConverter()
 		  forKey:(NSString*) key
 {
 	BOOL valid = [self isValidParameter];
-	id newValue = value ? value : [NSString stringWithString:@""];
+	id newValue = value ? value : @"";
 	[self willChangeValueForKey:key];
 	[_parameters setObject:newValue forKey:key];
     [self didChangeValueForKey:key];

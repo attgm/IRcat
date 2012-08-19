@@ -9,18 +9,20 @@
 
 @interface PopSplitView : NSSplitView
 {
-	float _splitRatio;
+	CGFloat _splitRatio;
 	BOOL _isCollapse;
 }
 
+@property (nonatomic) CGFloat collapseRatio;
+
+-(IBAction) collapse:(id)sender;
+
 - (id) init;
 - (void) collapseSubView;
-- (float) splitRatio;
-- (void) setSplitRatio:(float)inRatio;
+- (CGFloat) splitRatio;
+-(void) setSplitRatio:(CGFloat)inRatio animate:(BOOL)animate;
 - (void) setCollapse:(BOOL) inCollapse;
 
-- (float) collapseRatio;
-- (void) setCollapseRatio:(float)inRatio;
 
 - (void) mouseDown:(NSEvent*) inEvent;
 

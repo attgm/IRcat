@@ -55,11 +55,13 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 // 初期化
 - (id) initWithSession:(id) inSession
 {
-    [super init];
-    _localDataBuffer = [[NSMutableData alloc] init];
-    _state = IRStateDisconnect;
-    _session = [inSession retain];
-    _dataQueue = [[NSMutableArray alloc] initWithCapacity:5];
+    self = [super init];
+    if(self != nil){
+        _localDataBuffer = [[NSMutableData alloc] init];
+        _state = IRStateDisconnect;
+        _session = [inSession retain];
+        _dataQueue = [[NSMutableArray alloc] initWithCapacity:5];
+    }
     return self;
 }
 
@@ -134,7 +136,7 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 			[self handleDisconnect];
 			break;
         default:
-			NSLog(@"%d", eventCode);
+			//NSLog(@"%ld", eventCode);
             break;
     }
 }
@@ -155,7 +157,7 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 			[self handleDisconnect];
 			break;
 		default:
-			NSLog(@"%d", eventCode);
+			NSLog(@"%ld", (unsigned long)eventCode);
 			break;
 	}
 }

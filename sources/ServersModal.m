@@ -21,8 +21,8 @@ static ServersModal *sSharedInstance	= nil;
 // 初期化ルーチン
 - (id) init
 {
-    [super init];
-	if(self){
+    self = [super init];
+	if(self != nil){
         [self preferencesFromDefaults];
 	}
     return self;

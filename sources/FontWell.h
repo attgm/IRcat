@@ -6,7 +6,7 @@
 //
 #import <Cocoa/Cocoa.h>
 
-@interface FontWell : NSButton
+@interface FontWell : NSButton <NSWindowDelegate>
 {
 	NSFont* _fontwellValue;
 	

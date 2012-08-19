@@ -25,13 +25,13 @@ typedef enum {
 -(void) handleConnectionError:(int) inErrorCode;
 @end
 
-@protocol TCPEndPointHandlerProtocl
+@protocol TCPEndPointHandlerProtocol
 -(void) handleConnected;
 -(void) handleConnectionFailed:(int) inError;
 @end;
 
 
-@interface TCPConnection : NSObject <TCPEndPointHandlerProtocl> {
+@interface TCPConnection : NSObject <TCPEndPointHandlerProtocol, NSStreamDelegate> {
 	NSMutableData*	_localDataBuffer;
 	NSMutableArray* _dataQueue;
 	
@@ -66,8 +66,8 @@ typedef enum {
 -(void) handleConnected;
 -(void) handleConnectionFailed:(int)inError;
 
--(void)handleInputStreamEvent:(NSStreamEvent)eventCode;
--(void)handleOutputStreamEvent:(NSStreamEvent)eventCode;
+-(void) handleInputStreamEvent:(NSStreamEvent)eventCode;
+-(void) handleOutputStreamEvent:(NSStreamEvent)eventCode;
 
 
 @end

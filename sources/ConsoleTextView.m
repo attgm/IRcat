@@ -352,4 +352,5 @@ static void *kFontBindingIdentifier = (void *) @"Font";
 	return [super validateMenuItem:menuItem];
 }
 
+
 @end

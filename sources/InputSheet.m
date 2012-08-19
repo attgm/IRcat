@@ -53,15 +53,17 @@ JoinInputsSheet* sJoinInputsSheet = nil;
 // 初期化
 - (id) init
 {
-	[super init];
-	if (![NSBundle loadNibNamed:@"OneInputSheet" owner:self]) {
-		NSLog(@"Failed to load OneInputSheet.nib");
-		NSBeep();
-		[self release];
-		return nil;
-	}
-	
-	[_serverTitleField setStringValue:NSLocalizedString(@"Server :", @"Server :")];
+	self = [super init];
+    if(self != nil){
+        if (![NSBundle loadNibNamed:@"OneInputSheet" owner:self]) {
+            NSLog(@"Failed to load OneInputSheet.nib");
+            NSBeep();
+            [self release];
+            return nil;
+        }
+        
+        [_serverTitleField setStringValue:NSLocalizedString(@"Server :", @"Server :")];
+    }
 	return self;
 }
 
@@ -161,7 +163,9 @@ JoinInputsSheet* sJoinInputsSheet = nil;
 // 初期化
 - (id) init
 {
-	[super init];
+	self = [super init];
+    if(self == nil) return nil;
+    
 	if (![NSBundle loadNibNamed:@"TwoInputsSheet" owner:self]) {
 		NSLog(@"Failed to load TwoInputsSheet.nib");
 		NSBeep();
@@ -277,7 +281,9 @@ JoinInputsSheet* sJoinInputsSheet = nil;
 // 初期化
 - (id) init
 {
-	[super init];
+	self = [super init];
+    if(self == nil) return nil;
+    
 	if (![NSBundle loadNibNamed:@"JoinInputsSheet" owner:self]) {
 		NSLog(@"Failed to load JoinInputsSheet.nib");
 		NSBeep();

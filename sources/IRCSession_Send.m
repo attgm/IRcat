@@ -1,6 +1,6 @@
 //
 //  $RCSfile: IRCSession_Send.m,v $
-//  
+//
 //  $Revision: 53 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
@@ -108,7 +108,7 @@
 - (void) sendCtcpCommand:(NSString*) inCommand
 					  to:(NSString*) inNickOrChannel
 {
-	[self sendCommand:[NSString stringWithFormat:@"%@ %@ :\1%@\1", kCommandPrivmsg, inNickOrChannel, inCommand]]; 
+	[self sendCommand:[NSString stringWithFormat:@"%@ %@ :\1%@\1", kCommandPrivmsg, inNickOrChannel, inCommand]];
 }
 
 
@@ -171,7 +171,7 @@
     [self sendCommand:[NSString stringWithFormat:@"%@ %@", kCommandWhowas, inNick]];
 }
 
- 
+
 #pragma mark Sending messages
 //-- sendPRIVMSG
 // PRIVMSGの送信
@@ -183,7 +183,7 @@
         [self sendCommand:[NSString stringWithFormat:@"%@ %@ :%@", kCommandPrivmsg, inChannelName, inMessage]];
         // local loopback
         message = [[IRCMessage alloc] initWithMessage:[NSString stringWithFormat:@":%@ %@ %@ :%@",
-                        _nickname, kCommandPrivmsg, inChannelName, inMessage] server:[self serverid]];
+                                                       _nickname, kCommandPrivmsg, inChannelName, inMessage] server:[self serverid]];
         [self handleIRCMessage:message];
         [message release];
     }
@@ -202,11 +202,11 @@
 // action messageを送信する
 - (void) sendAction:(NSString*)inMessage to:(NSString*)inChannelName
 {
-	[self sendCtcpCommand:[NSString stringWithFormat:@"ACTION %@", inMessage] to:inChannelName]; 
+	[self sendCtcpCommand:[NSString stringWithFormat:@"ACTION %@", inMessage] to:inChannelName];
 	// local loopback
 	IRCMessage* message = [[[IRCMessage alloc] initWithMessage:
-		[NSString stringWithFormat:@":%@ %@ %@ :\1ACTION %@\1",
-		_nickname, kCommandPrivmsg, inChannelName, inMessage] server:[self serverid]] autorelease];
+                            [NSString stringWithFormat:@":%@ %@ %@ :\1ACTION %@\1",
+                             _nickname, kCommandPrivmsg, inChannelName, inMessage] server:[self serverid]] autorelease];
 	[self handleIRCMessage:message];
 }
 
