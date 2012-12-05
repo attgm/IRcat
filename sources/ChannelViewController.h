@@ -6,7 +6,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "ScrollView.h"
 
 @class IRcatInterface;
 @class ChannelModal;
@@ -41,7 +40,7 @@
 
 -(BOOL) appendString:(NSAttributedString*)inString
 			  append:(NSAttributedString*)inAppend
-				  at:(int)inAppendIndex;
+				  at:(NSInteger)inAppendIndex;
 -(void) removeAllString;
 
 -(void) setLockedScroll:(NSCellStateValue) value;

@@ -6,7 +6,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <IRCMessage.h>
+#import "IRCMessage.h"
 #import "ChannelWindowController.h"
 
 @class IRcatInterface;
@@ -29,6 +29,8 @@
 	IBOutlet NSTextField*		_menuTitle;
 	IBOutlet NSWindow*			_menuSheet;
 	
+    IBOutlet NSView*            _contentsView;
+    
 	NSMenu*		_channelMenu;
 	NSString*	_topicString;
     
@@ -46,11 +48,11 @@
 -(void) setTopic:(NSString*)inString;
 
 -(void) addMenuItem:(NSString*)inChannelName;
--(void) menuItemToSeparator : (int) inIndex;
--(void) renameMenuItem:(NSString*)inString atIndex:(int)inIndex;
+-(void) menuItemToSeparator : (NSInteger) inIndex;
+-(void) renameMenuItem:(NSString*)inString atIndex:(NSInteger)inIndex;
 -(void) removeLastMenuItem;
--(void) setMenuImage:(NSImage*)inImage atIndex:(int)inIndex;
--(void) setEnableMenuItem:(BOOL) inEnable atIndex:(int) inIndex;
+-(void) setMenuImage:(NSImage*)inImage atIndex:(NSInteger)inIndex;
+-(void) setEnableMenuItem:(BOOL) inEnable atIndex:(NSInteger) inIndex;
 
 -(void) switchChannel:(ChannelModal*) inNewChannel;
 
@@ -59,7 +61,7 @@
 -(void) setDocumentView:(NSScrollView*) inChannelView;
 
 -(void) askFromMenu:(NSMenu*) inMenu
-			 withTag:(int) inDefaultTag
+			 withTag:(NSInteger) inDefaultTag
 			 caption:(NSString*) inCaption
 			format:(NSString*) inFormat;
 -(void) sheetMenuDidEnd : (NSSavePanel *) inSheet
@@ -67,7 +69,7 @@
 			 contextInfo : (id) inContextInfo;
 -(BOOL) appendStringToCommon:(NSAttributedString*)inString
                        append:(NSAttributedString*)inAppend
-                           at:(int)inIndex;
+                           at:(NSInteger)inIndex;
 -(void)focusTextField;
 
 -(void) addMenuItemByChannelModal : (ChannelModal*) inChannelName;

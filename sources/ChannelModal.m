@@ -39,8 +39,8 @@
 //-- initWithName:identify:server
 // 初期化
 - (id) initWithName:(NSString*) inChannelName
-           identify:(int) inChannelID
-             server:(int) inServerID
+           identify:(NSInteger) inChannelID
+             server:(NSInteger) inServerID
 {
     self = [super init];
     if(self != nil){
@@ -64,7 +64,7 @@
 //-- replaceChannel:server:
 // チャンネルの初期化
 - (void) clearChannel:(NSString*)inChannelName
-				 server:(int)inServerID
+				 server:(NSInteger)inServerID
 {
 	_isEmptyChannel = NO;
 	_isLogging = NO;
@@ -123,7 +123,7 @@
 //-- compareForName:server:
 // チャンネルの比較 チャンネル名とサーバIDでチャンネルを比較する
 - (BOOL) compareForName:(NSString*)inChannelName
-                 server:(int)inServerID
+                 server:(NSInteger)inServerID
 {
 	if ([self isEmptyChannel]) return NO;
 	
@@ -304,7 +304,7 @@
 
 //-- stringSelected
 // 選択されたnickを返す
-- (NSString*) stringSelected:(int) inIndex
+- (NSString*) stringSelected:(NSInteger) inIndex
 {
 	return [[_nickList objectAtIndex:inIndex] nick];
 }
@@ -436,7 +436,7 @@
 
 //-- serverid
 // server id を返す
-- (int) serverid
+- (NSInteger) serverid
 {
     return _serverID;
 }
@@ -444,7 +444,7 @@
 
 //-- channelid
 // channel idを返す
-- (int) channelid
+- (NSInteger) channelid
 {
     return _channelID;
 }
@@ -539,7 +539,7 @@
 // 文字列の追加を行う
 - (BOOL) appendString:(NSAttributedString*)inString
                append:(NSAttributedString*)inAppend
-                   at:(int)inAppendIndex;
+                   at:(NSInteger)inAppendIndex;
 {
 	if(_isLogging){
 		NSString* message;

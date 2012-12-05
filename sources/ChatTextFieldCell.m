@@ -89,7 +89,7 @@ static NSImage* sMiddleImage = nil;
     NSRect bounds = frame;
     NSRect  destRect;
     
-    [[NSColor whiteColor] set];
+    [[self backgroundColor] set];
     NSRectFill(bounds);
     
     // draw left cap
@@ -103,8 +103,21 @@ static NSImage* sMiddleImage = nil;
 	// draw middle
     destRect.origin = NSMakePoint(bounds.origin.x + IRHorizonalMargin + [sLeftImage size].width, IRVerticalMargin);
     destRect.size = [sMiddleImage size];
-    destRect.size.width =  bounds.size.width - (IRHorizonalMargin * 2 + [sRightImage size].width + [sLeftImage size].width);
-    [sMiddleImage drawInRect:destRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f  respectFlipped:YES hints:nil];
+    [sMiddleImage drawInRect:destRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f respectFlipped:YES hints:nil];
+    
+    CGFloat width = bounds.size.width - (IRHorizonalMargin * 2 + [sRightImage size].width + [sLeftImage size].width);
+    
+    while (width > 0) {
+        if(width >= destRect.size.width){
+            [sMiddleImage drawInRect:destRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f respectFlipped:YES hints:nil];
+        }else{
+            NSRect srcRect = NSMakeRect(0.0f, 0.0f, width, sMiddleImage.size.height);
+            destRect.size.width = width;
+            [sMiddleImage drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1.0f respectFlipped:YES hints:nil];
+        }
+        destRect.origin.x += destRect.size.width;
+        width -= destRect.size.width;
+    }
 }
 
 

@@ -135,7 +135,7 @@
 
 //-- selectedIndexOnNickList
 // nicklist上で選択されている要素を返す
-- (int) selectedIndexOnNickList 
+- (NSInteger) selectedIndexOnNickList
 {
 	return [_nickListView selectedRow];
 }

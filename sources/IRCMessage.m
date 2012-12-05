@@ -53,7 +53,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 @implementation IRCMessage
 
 //-- initWithMessage:server
-- (id) initWithMessage:(NSString*) inMessage server:(int)inServerID
+- (id) initWithMessage:(NSString*) inMessage server:(NSInteger)inServerID
 {
 	self = [super init];
     if(self != nil){
@@ -454,7 +454,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 
 //-- additionalPosition
 // 挿入ポイントの取得
-- (int) additionalPosition
+- (NSUInteger) additionalPosition
 {
     return _additionalPosition;
 }
@@ -462,7 +462,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 
 //-- commonAdditionalPosition
 // 挿入ポイントの取得
-- (int) commonAdditionalPosition
+- (NSUInteger) commonAdditionalPosition
 {
     return _commonAdditionalPosition;
 }
@@ -490,7 +490,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 
 //-- serverid
 // server idを返す
-- (int) serverid
+- (NSInteger) serverid
 {
     return _serverid;
 }
@@ -681,9 +681,9 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 	[scanner setCaseSensitive:YES];
 	[scanner setCharactersToBeSkipped:nil];
 	
-	unsigned int location;
-	unsigned int origin = [scanner scanLocation];
-	unsigned int offset = inRange.location;
+	NSUInteger location;
+	NSUInteger origin = [scanner scanLocation];
+	NSUInteger offset = inRange.location;
 	
 	int i;
 	for(i=0; i<kProtocolNum; i++){

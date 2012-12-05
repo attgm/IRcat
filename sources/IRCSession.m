@@ -17,7 +17,7 @@
 // 初期化
 - (id) initWithConfig : (NSDictionary*) inConfig
             interface : (id) inInterface
-            identify : (int) inID
+            identify : (NSInteger) inID
 {
     self = [super init];
     
@@ -130,7 +130,7 @@
 
 //-- serverid
 // サーバID
-- (int) serverid
+- (NSInteger) serverid
 {
     return _serverid;
 }

@@ -9,7 +9,10 @@
 #import "SplitHandler.h"
 
 @implementation SplitHandler
+@synthesize splitView = _splitView;
 
+//-- initWithFrame
+// init
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
@@ -18,6 +21,16 @@
     }
     
     return self;
+}
+
+
+//-- dealloc
+// dealloc
+-(void) dealloc
+{
+    self.splitView = nil;
+    
+    [super dealloc];
 }
 
 
@@ -72,29 +85,5 @@
     [self addCursorRect:[self bounds] cursor:[NSCursor resizeUpDownCursor]];
 }
 
-
-//-- drawRect
-// draw rect
--(void) drawRect:(NSRect)dirtyRect
-{
-    //BOOL highlighted = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
-	[NSGraphicsContext saveGraphicsState];
-	
-	NSRect bounds = [self bounds];
-
-	NSColor* startColor = [NSColor colorWithDeviceWhite:.90 alpha:1.0];
-	NSColor* endColor = [NSColor colorWithDeviceWhite:.80 alpha:1.0];
-	NSGradient *backgroundGradient = [[[NSGradient alloc] initWithStartingColor:startColor endingColor:endColor] autorelease];
-	[backgroundGradient drawInRect:bounds angle:270];
-    
-	[[NSColor colorWithDeviceWhite:.50 alpha:1.0] set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(bounds), NSMaxY(bounds))
-							  toPoint:NSMakePoint(NSMaxX(bounds), NSMaxY(bounds))];
-	[[NSColor colorWithDeviceWhite:1.0 alpha:1.0] set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(bounds), NSMaxY(bounds) - 1)
-							  toPoint:NSMakePoint(NSMaxX(bounds), NSMaxY(bounds) - 1)];
-	
-	[NSGraphicsContext restoreGraphicsState];
-}
 
 @end

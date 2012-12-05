@@ -5,7 +5,6 @@
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 #import "MainWindowController.h"
-#import "ScrollView.h"
 
 #import "PreferenceWindowController.h"
 #import "ServersWindowController.h"
@@ -66,21 +65,15 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
             return;
 		}
         
-        INAppStoreWindow* window = (INAppStoreWindow*) _window;
-        window.trafficLightButtonsLeftMargin = 7.0;
-        window.fullScreenButtonRightMargin = 7.0;
-        window.titleBarHeight = 36.0;
-        window.centerFullScreenButton = YES;
-        
+        if([[_window class] isSubclassOfClass:[INAppStoreWindow class]]){
+            INAppStoreWindow* window = (INAppStoreWindow*) _window;
+            window.trafficLightButtonsLeftMargin = 7.0;
+            window.fullScreenButtonRightMargin = 7.0;
+            window.titleBarHeight = 36.0;
+            window.centerFullScreenButton = YES;
+        }
+                
 		_channelMenu = [[NSMenu alloc] initWithTitle:@"Channel"];
-		
-		/*NSToolbar* toolbar = [[[NSToolbar alloc] initWithIdentifier:@"MainToolbar"] autorelease];
-		[toolbar setDelegate:self];
-		[toolbar setAllowsUserCustomization:NO];
-		[toolbar setAutosavesConfiguration:YES];
-		[toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
-		[toolbar setAllowsUserCustomization:YES];
-		[_window setToolbar:toolbar];*/
 		
 		// NickListの設定
         imageCell = [[[NSImageCell alloc] init] autorelease];
@@ -112,17 +105,22 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 		[_inputField setDelegate:_textFieldHistories];
         
         
-        NSView *titleBarView = window.titleBarView;
-        _channelPopup = [[self createToolbarChannelPopup] retain];
-        [_channelPopup setFrame:NSMakeRect(70.0, 4.0, 160.0, [_channelPopup frame].size.height)];
-        [titleBarView addSubview:_channelPopup];
+        if([[_window class] isSubclassOfClass:[INAppStoreWindow class]]){
+            INAppStoreWindow* window = (INAppStoreWindow*) _window;
+            
+            NSView *titleBarView = window.titleBarView;
+            _channelPopup = [[self createToolbarChannelPopup] retain];
+            [_channelPopup setFrame:NSMakeRect(70.0, 4.0, 160.0, [_channelPopup frame].size.height)];
+            [titleBarView addSubview:_channelPopup];
         
-        _topicTextField = [[self createToolbarTopicTextField] retain];
-        CGFloat x = 70.0 + 160.0 + 8.0;
-        CGFloat width = [titleBarView frame].size.width - (x + 32.0);
-        [_topicTextField setFrame:NSMakeRect(x, 8.0, width, [_topicTextField frame].size.height)];
-        [titleBarView addSubview:_topicTextField];
-        
+            _topicTextField = [[self createToolbarTopicTextField] retain];
+            CGFloat x = 70.0 + 160.0 + 8.0;
+            CGFloat width = [titleBarView frame].size.width - (x + 32.0);
+            [_topicTextField setFrame:NSMakeRect(x, 8.0, width, [_topicTextField frame].size.height)];
+            [titleBarView addSubview:_topicTextField];
+        }
+        //[_window setContentView:_contentsView];
+
         [[_modeTextView cell] setBackgroundStyle:NSBackgroundStyleRaised];
     }
     
@@ -204,7 +202,7 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 
 //-- menuItemToSeparator
 // menu itemをセパレタに変更する
-- (void) menuItemToSeparator : (int) inIndex
+- (void) menuItemToSeparator : (NSInteger) inIndex
 {
 	NSMenuItem* item = [_channelMenu itemAtIndex:inIndex];
 	[item setImage:[NSImage imageNamed:@"channel_none"]];
@@ -216,7 +214,7 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 //-- setEnableMenuItem:atIndex:
 // popupへの選択可能の設定
 -(void) setEnableMenuItem:(BOOL) inEnable
-				  atIndex:(int) inIndex
+				  atIndex:(NSInteger) inIndex
 {
 	NSMenuItem* item = [_channelMenu itemAtIndex:inIndex];
 	[item setEnabled:inEnable];
@@ -226,7 +224,7 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 //-- renameMenuItem:atIndex
 // menuitemをrenameする
 - (void) renameMenuItem:(NSString*)inString
-                atIndex:(int) inIndex
+                atIndex:(NSInteger) inIndex
 {
 	return;
 	
@@ -253,7 +251,7 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 //-- setMenuImage:atIndex
 // menuitemをrenameする
 - (void) setMenuImage:(NSImage*)inImage
-			  atIndex:(int) inIndex
+			  atIndex:(NSInteger) inIndex
 {
 	NSMenuItem* item = [_channelMenu itemAtIndex:inIndex];
     // セパレタだった場合削除して新しいitemを挿入する
@@ -395,7 +393,7 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 //-- askFromMenu
 // Menuから選択させる
 - (void) askFromMenu:(NSMenu*) inMenu
-			 withTag:(int) inDefaultTag
+			 withTag:(NSInteger) inDefaultTag
 			 caption:(NSString*) inCaption
 			  format:(NSString*) inFormat
 {
@@ -455,7 +453,7 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 // 共有Viewにメッセージを追加する
 - (BOOL) appendStringToCommon:(NSAttributedString*)inString
                        append:(NSAttributedString*)inAppend
-                           at:(int)inIndex
+                           at:(NSInteger)inIndex
 {
 	return [_commonTextView appendString:inString append:inAppend at:inIndex scrollLock:NO];
 }
@@ -699,6 +697,22 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
     
     return field;
 
+}
+
+
+#pragma mark Delegate : NSPopupView
+//-- splitViewDidResizeSubviews
+// change popup button icon in accordance with the devider position
+- (void)    splitViewDidResizeSubviews:(NSNotification *) notification
+{
+    if(notification.object && [[notification.object class] isSubclassOfClass:[PopSplitView class]]){
+        PopSplitView* view = (PopSplitView*) notification.object;
+        if(view.splitRatio > 0.0f){
+            [view.popButton setImage:[NSImage imageNamed:(view.isVertical ? @"icon_right" : @"icon_down")]];
+        }else{
+            [view.popButton setImage:[NSImage imageNamed:(view.isVertical ? @"icon_left" : @"icon_up")]];
+        }
+    }
 }
 
 @end

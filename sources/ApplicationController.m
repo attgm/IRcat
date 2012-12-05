@@ -133,7 +133,7 @@ static NSArray *commandMenu()
 - (IBAction)obeyCommand:(id)sender
 {
     NSArray* menuitems = commandMenu();
-    int tag = [sender tag];
+    NSInteger tag = [sender tag];
     
     if(0 <= tag && tag < [menuitems count]){
 		[_interface obeyIRCCommand:[menuitems objectAtIndex:tag] to:[_interface activeChannel]];
@@ -154,7 +154,7 @@ static NSArray *commandMenu()
 // menu item のenable/disenable
 - (BOOL) validateMenuItem:(NSMenuItem*) inItem
 {
-	int tag = [inItem tag];
+	NSInteger tag = [inItem tag];
 	if(tag == IRMenuTagLogging){
 		[inItem setState:(([[_interface activeChannel] loggingChannel]) ? NSOnState : NSOffState)];
 	}
@@ -166,7 +166,7 @@ static NSArray *commandMenu()
 			return YES;
 		}
 	}else if(tag == IRMenuTagDisconnect){
-		int servers = [[_interface connectedServerMenu] numberOfItems];
+		NSInteger servers = [[_interface connectedServerMenu] numberOfItems];
 		if(servers == 1){
 			[inItem setTitle:NSLocalizedString(@"MTDisconnect", @"Disconnect")];
 			return YES;

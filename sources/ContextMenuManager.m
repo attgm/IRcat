@@ -109,7 +109,7 @@ static ContextMenuManager* sSharedContextMenuManager = nil;
 					[outputString appendString:[inChannel name]];
 					break;				
 				case 's': // $s : server id
-					[outputString appendString:[NSString stringWithFormat:@"@%d", [inChannel serverid]]];
+					[outputString appendString:[NSString stringWithFormat:@"@%ld", (long)[inChannel serverid]]];
 					break;				
 				case '_': // $_ : context(only one)
 					[outputString appendString:[inParam objectAtIndex:0]];

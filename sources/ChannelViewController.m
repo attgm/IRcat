@@ -6,7 +6,6 @@
 //
 #import "ChannelViewController.h"
 #import "ChannelModal.h"
-#import "ScrollView.h"
 #import "IRcatInterface.h"
 #import "ConsoleTextView.h"
 
@@ -173,7 +172,7 @@
 
 //-- appendString:append:
 // 文字列の追加を行う
-- (BOOL) appendString:(NSAttributedString*)inString append:(NSAttributedString*)inAppend at:(int)inAppendIndex
+- (BOOL) appendString:(NSAttributedString*)inString append:(NSAttributedString*)inAppend at:(NSInteger)inAppendIndex
 {
 	return [_channelView appendString:inString append:inAppend at:inAppendIndex scrollLock:_lockedScroll];
 }

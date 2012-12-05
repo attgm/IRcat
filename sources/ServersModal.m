@@ -52,7 +52,7 @@ static ServersModal *sSharedInstance	= nil;
 // サーバIDを返す
 - (ServerModal*) selectedServerModal
 {
-	unsigned int index = [_selectedIndexes firstIndex];
+	NSUInteger index = [_selectedIndexes firstIndex];
 	return [_serverList objectAtIndex:index];
 }
 
@@ -70,7 +70,7 @@ static ServersModal *sSharedInstance	= nil;
 
 //-- serverForID
 // indexを元にサーバ設定を返す
-- (ServerModal*) serverForID:(int) inIdentifier
+- (ServerModal*) serverForID:(NSInteger) inIdentifier
 {
 	NSEnumerator* e = [[self serverList] objectEnumerator];
 	
@@ -88,7 +88,7 @@ static ServersModal *sSharedInstance	= nil;
 // 現在選択中のサーバ設定を削除する
 - (void) removeServer
 {
-	unsigned int index = [_selectedIndexes firstIndex];
+	NSUInteger index = [_selectedIndexes firstIndex];
     [_serverList removeObjectsAtIndexes:_selectedIndexes];
 	[_selectedIndexes release];
 	_selectedIndexes = [[NSIndexSet alloc] initWithIndex:index];
@@ -139,7 +139,7 @@ static ServersModal *sSharedInstance	= nil;
 	}
 	[defaults setObject:array forKey:kServerDefaults];
 	// 選択中のエントリを書き込む
-    [defaults setObject:[NSNumber numberWithInt:[_selectedIndexes firstIndex]] forKey:kSelectedServerNumber];
+    [defaults setObject:[NSNumber numberWithInteger:[_selectedIndexes firstIndex]] forKey:kSelectedServerNumber];
     // ファイルに書き込む
     [defaults synchronize];
 }

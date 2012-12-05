@@ -333,7 +333,7 @@
 	int paramIndex = inStartParam + 1;
 	NSString* modes = [inMessage paramAtIndex:inStartParam];
 	NSString* param = [inMessage paramAtIndex:paramIndex++];
-	int serverid = [inMessage serverid];
+	NSInteger serverid = [inMessage serverid];
 
 	for(i=0; i<[modes length]; i++){
 		flag = [modes characterAtIndex:i];

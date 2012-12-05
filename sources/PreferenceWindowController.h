@@ -37,7 +37,6 @@
 
 - (IBAction) playSelectedSound:(id)sender;
 - (IBAction) selectLogFolder:(id)sender;
-- (IBAction) playSelectedSound:(id) sender;
 - (IBAction) switchPrefPanel:(id) sender;
 
 - (id) init;

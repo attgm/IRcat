@@ -11,18 +11,22 @@
 {
 	CGFloat _splitRatio;
 	BOOL _isCollapse;
+    
+    NSButton* _popupButton;
 }
 
-@property (nonatomic) CGFloat collapseRatio;
+@property (assign, nonatomic) CGFloat collapseRatio;
+@property (retain, nonatomic) IBOutlet NSButton* popButton;
+
 
 -(IBAction) collapse:(id)sender;
 
 - (id) init;
 - (void) collapseSubView;
-- (CGFloat) splitRatio;
--(void) setSplitRatio:(CGFloat)inRatio animate:(BOOL)animate;
-- (void) setCollapse:(BOOL) inCollapse;
 
+- (CGFloat) splitRatio;
+- (void) setSplitRatio:(CGFloat)inRatio animate:(BOOL)animate;
+- (void) setCollapse:(BOOL) inCollapse;
 
 - (void) mouseDown:(NSEvent*) inEvent;
 

@@ -15,8 +15,8 @@
 //-- initWithName:identify:server
 // いろいろ設定
 - (id) initWithName:(NSString*) inChannelName
-           identify:(int) inChannelID
-             server:(int) inServerID
+           identify:(NSInteger) inChannelID
+             server:(NSInteger) inServerID
 {
 	self = [super initWithName:inChannelName identify:inChannelID server:inServerID];
 	return self;
@@ -59,7 +59,7 @@
 	IRCSession* session = [_sessionList objectAtIndex:rowIndex];
 	
     if([identifier isEqualToString:@"nick"]) {
-		return [NSString stringWithFormat:@"%d:%@", [session serverid], [session name]];
+		return [NSString stringWithFormat:@"%ld:%@", (long)[session serverid], [session name]];
     }else if([identifier isEqualToString:@"op"]) {
 		return [NSImage imageNamed:[NSString stringWithFormat:@"server_%@", [session label]]];
     }else if([identifier isEqualToString:@"icon"]) {
@@ -95,7 +95,7 @@
 	NSMutableArray* nicks = [[[NSMutableArray alloc] initWithCapacity:num] autorelease];
 	int i;
 	for(i=0; i<num; i++){
-		[nicks addObject:[NSString stringWithFormat:@"%d", [[_sessionList objectAtIndex:buf[i]] serverid]]];
+		[nicks addObject:[NSString stringWithFormat:@"%ld", (long)[[_sessionList objectAtIndex:buf[i]] serverid]]];
 	}
 	return nicks;
 }
@@ -103,9 +103,9 @@
 
 //-- stringSelected
 // 選択されたnickを返す
-- (NSString*) stringSelected:(int) inIndex
+- (NSString*) stringSelected:(NSInteger) inIndex
 {
-	return [NSString stringWithFormat:@"%d", [[_sessionList objectAtIndex:inIndex] serverid]];
+	return [NSString stringWithFormat:@"%ld", (long)[[_sessionList objectAtIndex:inIndex] serverid]];
 }
 
 @end

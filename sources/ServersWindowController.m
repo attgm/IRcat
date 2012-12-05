@@ -121,7 +121,6 @@ static ServersWindowController *sSharedInstance = nil;
 // OKが押された時の処理
 - (IBAction)pressOkey:(id)sender
 {
-    [_serverListDrawer close:self];
     [_serverSetupWindow close];
 }
 

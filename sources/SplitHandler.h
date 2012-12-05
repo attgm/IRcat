@@ -7,9 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "WindowFooter.h"
 
-@interface SplitHandler : NSView {
+@interface SplitHandler : WindowFooter {
     IBOutlet NSSplitView* _splitView;
 }
+
+@property (retain, nonatomic) IBOutlet NSSplitView* splitView;
 
 @end

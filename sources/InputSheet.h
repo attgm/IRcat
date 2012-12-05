@@ -36,7 +36,7 @@
 
 - (void) setCaption:(NSString*) inCaption;
 - (void) setTitle:(NSString*) inTitle value:(NSString*) inValue;
-- (void) setServerMenu:(NSMenu*) inMenu value:(int) inServerID;
+- (void) setServerMenu:(NSMenu*) inMenu value:(NSInteger) inServerID;
 - (void) setFormat:(NSString*) inString;
 - (void) resetFirstResponder;
 
@@ -67,7 +67,7 @@
 - (void) setCaption:(NSString*) inCaption;
 - (void) setFirstTitle:(NSString*) inTitle value:(NSString*) inValue;
 - (void) setSecondTitle:(NSString*) inTitle value:(NSString*) inValue;
-- (void) setServerMenu:(NSMenu*) inMenu value:(int) inServerID;
+- (void) setServerMenu:(NSMenu*) inMenu value:(NSInteger) inServerID;
 - (void) setFormat:(NSString*)inString reverse:(BOOL)inReverse;
 - (void) resetFirstResponder;
 
@@ -100,7 +100,7 @@
 - (void) setFirstTitle:(NSString*) inTitle value:(NSString*) inValue;
 - (void) setCandidateChannels:(NSArray*) inChannels;
 - (void) setSecondTitle:(NSString*) inTitle value:(NSString*) inValue;
-- (void) setServerMenu:(NSMenu*) inMenu value:(int) inServerID;
+- (void) setServerMenu:(NSMenu*) inMenu value:(NSInteger) inServerID;
 - (void) setFormat:(NSString*)inString reverse:(BOOL)inReverse;
 - (void) resetFirstResponder;
 

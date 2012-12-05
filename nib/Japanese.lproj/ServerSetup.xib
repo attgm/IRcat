@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">12A269</string>
+		<string key="IBDocument.SystemVersion">12B19</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
 		<string key="IBDocument.AppKitVersion">1187</string>
 		<string key="IBDocument.HIToolboxVersion">624.00</string>
@@ -78,6 +78,7 @@
 							<string key="NSFrame">{{165, 11}, {374, 330}}</string>
 							<reference key="NSSuperview" ref="801136531"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="856469018"/>
 							<object class="NSMutableArray" key="NSTabViewItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSTabViewItem" id="708327397">
@@ -326,6 +327,7 @@
 												<string key="NSFrame">{{321, 124}, {16, 16}}</string>
 												<reference key="NSSuperview" ref="856469018"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSImageCell" key="NSCell" id="570956525">
 													<int key="NSCellFlags">134217728</int>
@@ -1144,7 +1146,7 @@
 											<string key="NSFrameSize">{163, 332}</string>
 											<reference key="NSSuperview" ref="804083311"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="219470588"/>
+											<reference key="NSNextKeyView" ref="1031110189"/>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 											<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1160,7 +1162,7 @@
 											<object class="_NSCornerView" key="NSCornerView">
 												<nil key="NSNextResponder"/>
 												<int key="NSvFlags">256</int>
-												<string key="NSFrame">{{128, 0}, {16, 17}}</string>
+												<string key="NSFrame">{{149, 0}, {16, 17}}</string>
 											</object>
 											<object class="NSMutableArray" key="NSTableColumns">
 												<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1214,7 +1216,7 @@ EDhciEgY/YakHICAAA8BAAADAAAAAQARAAABAQADAAAAAQARAAABAgADAAAABAAABMIBAwADAAAAAQAF
 AAABBgADAAAAAQACAAABEQAEAAAAAQAAAAgBEgADAAAAAQABAAABFQADAAAAAQAEAAABFgADAAAAAQAR
 AAABFwAEAAAAAQAABAABHAADAAAAAQABAAABPQADAAAAAQACAAABUgADAAAAAQABAAABUwADAAAABAAA
 BMqHcwAHAAAMoAAABNIAAAAAAAgACAAIAAgAAQABAAEAAQAADKBhcHBsAhAAAG1udHJSR0IgWFlaIAfc
-AAcAGwAIADQADWFjc3BBUFBMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD21gABAAAAANMtYXBwbAAA
+AAgAGwAKAB0ADGFjc3BBUFBMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD21gABAAAAANMtYXBwbAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEWRlc2MAAAFQAAAAYmRz
 Y20AAAG0AAABhmNwcnQAAAM8AAAAJHd0cHQAAANgAAAAFHJYWVoAAAN0AAAAFGdYWVoAAAOIAAAAFGJY
 WVoAAAOcAAAAFHJUUkMAAAOwAAAIDGFhcmcAAAu8AAAAIHZjZ3QAAAvcAAAAMG5kaW4AAAwMAAAAPmNo
@@ -1398,7 +1400,7 @@ GUYAAAAAw4IyAAAAAAAAAAAAAAAAAAAAAAA</bytes>
 							<string key="NSFrame">{{-1, 23}, {165, 350}}</string>
 							<reference key="NSSuperview" ref="801136531"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="804083311"/>
+							<reference key="NSNextKeyView" ref="219470588"/>
 							<int key="NSsFlags">133138</int>
 							<reference key="NSVScroller" ref="1031110189"/>
 							<reference key="NSHScroller" ref="219470588"/>

@@ -14,11 +14,12 @@
 }
 
 - (id) initWithName:(NSString*) inChannelName
-           identify:(int) inChannelID
-             server:(int) inServerID;
+           identify:(NSInteger) inChannelID
+             server:(NSInteger) inServerID;
 - (void) dealloc;
 
 
 -(void) setSessionList:(NSMutableArray*) inArray;
+- (NSString*) stringSelected:(NSInteger) inIndex;
 
 @end

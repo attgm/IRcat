@@ -8,6 +8,7 @@
 
 @implementation PopSplitView
 
+@synthesize popButton = _popupButton;
 
 //-- init
 // 初期化
@@ -17,15 +18,18 @@
     if(self !=  nil){
         _splitRatio = 0.0;
         _isCollapse = NO;
+        _popupButton = nil;
 	}
     return self;
 }
+
 
 //-- dealloc
 //
 -(void) dealloc
 {
     [super dealloc];
+    self.popButton = nil;
 }
 
 //-- collapse
@@ -78,9 +82,9 @@
 // 分割比の設定
 -(void) setSplitRatio:(CGFloat)inRatio animate:(BOOL)animate
 {
-	if (inRatio < 0.0 || inRatio > 1.0) return;
+    if (inRatio < 0.0 || inRatio > 1.0) return;
     
-	CGFloat thickness = [self dividerThickness]; // 幅
+    CGFloat thickness = [self dividerThickness]; // 幅
 	// sub viewのサイズを変更する
 	NSRect pFrame = [self frame];
 	NSView* oView = [[self subviews] objectAtIndex:0];
@@ -118,19 +122,14 @@
     
     if(animate == YES){
         [NSAnimationContext beginGrouping];
-        [[NSAnimationContext currentContext] setDuration:0.2f];
+        [[NSAnimationContext currentContext] setDuration:.2f];
         [[oView animator] setFrame:oFrame];
         [[tView animator] setFrame:tFrame];
         [NSAnimationContext endGrouping];
     }else{
-        [[oView animator] setFrame:oFrame];
-        [[tView animator] setFrame:tFrame];
+        [oView setFrame:oFrame];
+        [tView setFrame:tFrame];
     }
-//    [self adjustSubviews];
-//    [self setNeedsDisplay:YES];
-//	[oView setFrame:oFrame];
-//	[tView setFrame:tFrame];
-//	[self setNeedsDisplay:YES];
 }
 
 
@@ -161,6 +160,14 @@
 	}else{
 		[super mouseDown:inEvent];
 	}
+}
+
+
+//--dividerColor
+//
+-(NSColor*) dividerColor
+{
+    return [self isVertical] ? [NSColor colorWithDeviceWhite:.56 alpha:1.0] : [NSColor colorWithDeviceWhite:.50 alpha:1.0];
 }
 
 

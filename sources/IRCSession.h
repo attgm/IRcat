@@ -18,7 +18,7 @@
     NSString* _nickname;
 
     NSDictionary* _config;
-    int _serverid;
+    NSInteger _serverid;
     id	_interface;
 	
 	SessionCondition _sessionCondition;
@@ -32,10 +32,10 @@
 }
 
 
--(id) initWithConfig:(NSDictionary*)inConfig interface:(id)inInterface identify:(int)inID;
+-(id) initWithConfig:(NSDictionary*)inConfig interface:(id)inInterface identify:(NSInteger)inID;
        
 -(void) connect;
--(int) serverid;
+-(NSInteger) serverid;
 -(NSString*)nickname;
 -(NSString*)name;
 -(NSString*)label;
@@ -99,7 +99,6 @@
 -(void) handlePart:(IRCMessage*)inMessage;
 -(void) handleTopic:(IRCMessage*)inMessage;
 -(void) handleQuit:(IRCMessage*)inMessage;
--(void) handleNotice:(IRCMessage*)inMessage;
 -(void) handleInvite:(IRCMessage*)inMessage;
 -(void) handleKick:(IRCMessage*)inMessage;
 -(void) handleNick:(IRCMessage*)inMessage;

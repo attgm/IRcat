@@ -44,7 +44,7 @@
 
 -(void) createWindow;
 
-- (int) selectedIndexOnNickList;
+- (NSInteger) selectedIndexOnNickList;
 - (void) showSheet:(InputSheet*) inSheetl;
 
 

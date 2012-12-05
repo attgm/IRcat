@@ -17,7 +17,7 @@ typedef enum {
 } IRCMessageType;
 
 @interface IRCMessage : NSObject {
-    int _serverid;
+    NSInteger _serverid;
     
     NSString*	_commandNumber;
     IRCMessageType _messageType;
@@ -34,15 +34,16 @@ typedef enum {
     NSAttributedString* _commonMessage;
     NSAttributedString* _additionalMessage;
 	NSString* _extendString;
-	int _additionalIndex;
-    int _commonAdditionalPosition;
-    int _additionalPosition;
+	NSUInteger _additionalIndex;
+    NSUInteger _commonAdditionalPosition;
+    NSUInteger _additionalPosition;
     
     BOOL _hasKeyword;
 	BOOL _hasNotification;
 }
 
-- (id) initWithMessage:(NSString*)inMessage server:(int)inServerID;
+
+- (id) initWithMessage:(NSString*)inMessage server:(NSInteger)inServerID;
 
 - (void) parsePrefix;
 - (void) parseParams;
@@ -50,21 +51,20 @@ typedef enum {
 
 - (BOOL) isCtcpCommand;
 
-//- (void) setAddtionalMessage:(NSString*) inString;
 - (NSString*) applyFormat : (FormatItem*) inFormat
 			   attributes : (NSArray*) inAttributes;
 - (NSAttributedString*) expandedMessage;
 - (NSAttributedString*) additionalMessage;
 - (NSAttributedString*) commonMessage;
-- (int) commonAdditionalPosition;
-- (int) additionalPosition;
+- (NSUInteger) commonAdditionalPosition;
+- (NSUInteger) additionalPosition;
 - (NSString*) channel;
 
 - (NSAttributedString*) expandFormat:(NSString*)inFormat
 						attributes : (NSArray*) inAttributes
 						 appendEnter:(BOOL)inNeedEnter;
 
-- (int) serverid;
+- (NSInteger) serverid;
 - (NSString*) paramAtIndex:(int) inIndex;
 - (NSString*) nickname;
 - (NSString*) timeString;

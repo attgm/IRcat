@@ -178,7 +178,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 
 //-- createSessionByID
 // server idを指定してsessionを開始する
-- (void) createSessionByID:(int) inServerID
+- (void) createSessionByID:(NSInteger) inServerID
 {
 	if(inServerID > 0){
 		[self createSession:[[ServersModal sharedServersModal] serverForID:inServerID]];
@@ -242,7 +242,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 
 //-- findSessionWithID
 // sessionIDからセッションを検索する
-- (IRCSession*) findSessionWithID:(int) inSessionID
+- (IRCSession*) findSessionWithID:(NSInteger) inSessionID
 {
     NSEnumerator* e = [_sessionList objectEnumerator];
     id it;
@@ -278,7 +278,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 
 //-- removeSessionByID
 // サーバの削除
-- (void) removeSessionByID : (int) inServerID
+- (void) removeSessionByID : (NSInteger) inServerID
 {
 	IRCSession* session = [self findSessionWithID:inServerID];
 	if(session){
@@ -295,7 +295,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 
 //-- disconnectSessionByID
 // サーバの切断
-- (void) disconnectSessionByID : (int) inServerID
+- (void) disconnectSessionByID : (NSInteger) inServerID
 {
 	//IRCSession* session = [self findSessionWithID:inServerID];
 	[self obeyQuit:nil server:inServerID channel:nil];
@@ -331,7 +331,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- createNewChannel:server:
 // 新規チャンネルの生成
 - (void) createNewChannel : (NSString*) inChannelName
-                   server : (int) inServerID
+                   server : (NSInteger) inServerID
 {
     [self createNewChannel:inChannelName server:inServerID isActive:YES];
 }
@@ -340,7 +340,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- createNewChannel:server:isActive
 // 新規チャンネルの生成
 - (void) createNewChannel : (NSString*) inChannelName
-                   server : (int) inServerID
+                   server : (NSInteger) inServerID
                  isActive : (BOOL) inActive
 {
 	if([_channelList count] == 1){ // consoleとチャンネルの間にセパレタを入れる
@@ -393,7 +393,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- reserveChannelModal
 // 空いているチャンネルを検索する
 - (ChannelModal*) reserveChannelModal:(NSString*) inChannelName
-							   server:(int) inServerID;
+							   server:(NSInteger) inServerID;
 {
 	// 空きチャンネルを探す
     NSEnumerator* e = [_channelList objectEnumerator];
@@ -410,7 +410,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
         }
     }
 	// なかった場合新規チャンネルの作成
-	int channelid = [_channelList count];
+	NSUInteger channelid = [_channelList count];
 	// 表示viewの作成
 	ChannelViewController* channelView = [[ChannelViewController alloc] initWithInterface:self];
 	[channelView createChannelView];
@@ -440,7 +440,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 
 //-- removeAllChannelAt:
 // サーバ上のすべてのチャンネルをpartする
-- (void) removeAllChannelAt:(int) inServerID
+- (void) removeAllChannelAt:(NSInteger) inServerID
 {
 	for(id it in _channelList){
 	    if([it serverid] == inServerID){
@@ -453,7 +453,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- removeChannel:server:
 // チャンネルの削除
 - (void) removeChannel : (NSString*) inChannelName
-                server : (int) inServerID
+                server : (NSInteger) inServerID
 {
     ChannelModal* channel = [self findChannelWithName:inChannelName server:inServerID];
     if(channel != nil){
@@ -466,7 +466,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 // チャンネルの削除
 - (void) removeChannel:(ChannelModal*) inChannel
 {
-	int index = [_channelList indexOfObject:inChannel];
+	NSUInteger index = [_channelList indexOfObject:inChannel];
 	// tear off したwindowなら元にもどす
 	[inChannel setChannelWindowController:nil];
 	// ActiveChannelを削除する場合は consoleをactiveにする
@@ -498,7 +498,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- findChannelWithName:server:
 // チャンネル構造体を検索する. 見つからなかったらnil
 - (ChannelModal*) findChannelWithName:(NSString*) inChannel
-							   server:(int) inServerID
+							   server:(NSInteger) inServerID
 {
     NSEnumerator* e = [_channelList objectEnumerator];	
     id it;
@@ -521,7 +521,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 
 //-- channelAtIndex
 // チャンネル構造体を返す
-- (ChannelModal*) channelAtIndex:(int)inIndex
+- (ChannelModal*) channelAtIndex:(NSInteger)inIndex
 {
     return [_channelList objectAtIndex:inIndex];
 }
@@ -529,7 +529,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 
 //-- switchChannelAtIndex
 // 表示チャンネルの切り替え
-- (BOOL) switchChannelAtIndex:(int) inIndex
+- (BOOL) switchChannelAtIndex:(NSInteger) inIndex
 {
 	ChannelModal* channel = [self channelAtIndex:inIndex];
 	if([channel isEmptyChannel] == YES || [channel channelid] < 0){
@@ -545,7 +545,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 // 表示チャンネルを1つ後のチャンネルにする
 - (void) switchNextChannel
 {
-	int index = [_channelList indexOfObject:[self activeChannel]];
+	NSUInteger index = [_channelList indexOfObject:[self activeChannel]];
 	do {
 		index = (index < [_channelList count] - 1) ? (index + 1) : 0;
 	} while(![self switchChannelAtIndex:index]);
@@ -556,7 +556,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 // 表示チャンネルを1つ前のチャンネルにする
 - (void) switchPreviousChannel
 {
-	int index = [_channelList indexOfObject:[self activeChannel]];
+	NSUInteger index = [_channelList indexOfObject:[self activeChannel]];
 	do {
 		index = (index > 0) ? (index - 1) : ([_channelList count] - 1);
 	} while (![self switchChannelAtIndex:index]);
@@ -567,7 +567,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 // topicの変更を行う
 - (void) setTopic:(NSString*)inTopic
 		  channel:(NSString*)inChannelName
-		   server:(int)inServerID
+		   server:(NSInteger)inServerID
 {
     ChannelModal* channel = [self findChannelWithName:inChannelName server:inServerID];
     if(channel){
@@ -585,7 +585,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 // flagの変更を行う
 - (void) setFlag:(int)inFlag
 		 channel:(NSString*)inChannelName
-		  server:(int)inServerID
+		  server:(NSInteger)inServerID
 			nick:(NSString*)inNickname
 			ison:(BOOL)inIsOn
 {
@@ -603,7 +603,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 // flagの変更を行う
 - (void) setChannelFlag:(unichar)inFlag
 				channel:(NSString*)inChannelName
-				 server:(int)inServerID
+				 server:(NSInteger)inServerID
 				   ison:(BOOL)inIsOn
 {
     ChannelModal* channel = [self findChannelWithName:inChannelName server:inServerID];	
@@ -677,10 +677,10 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 
 //-- activeServer
 // 現在アクティブなサーバを返す
-- (int) activeServer
+- (NSInteger) activeServer
 {
 	if([[self activeChannel] serverid] < 0){ // consoleの場合
-		int index = [[[self activeChannel] channelWindowController] selectedIndexOnNickList];
+		NSInteger index = [[[self activeChannel] channelWindowController] selectedIndexOnNickList];
 		if(index >= 0){
 			NSString* channel = [[self consoleChannelModal] stringSelected:index];
 			NSRange range = NSMakeRange(0, [channel length]);
@@ -726,8 +726,8 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 {
     NSMenuItem *newItem;
     NSMenu* menu = [[[NSApp mainMenu] itemWithTag:kChannelMenuTag] submenu];
-    int tag = [menu numberOfItems] - _channelMenuOffset;
-    int equivalent = (tag > 0) ? (tag - 1) : 0; // consoleとチャンネルの間にセパレタが入る
+    NSInteger tag = [menu numberOfItems] - _channelMenuOffset;
+    NSInteger equivalent = (tag > 0) ? (tag - 1) : 0; // consoleとチャンネルの間にセパレタが入る
     
 	// nilの場合はセパレタを追加する
     if(inChannelName == nil){
@@ -735,7 +735,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
     }else{
         newItem = [menu addItemWithTitle:inChannelName
                                   action:@selector(switchChannelbyChannelMenu:)
-                           keyEquivalent:[[NSNumber numberWithInt:equivalent] stringValue]];
+                           keyEquivalent:[[NSNumber numberWithInteger:equivalent] stringValue]];
         [newItem setTarget:self];
         [newItem setTag:tag];
     }
@@ -745,9 +745,9 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 
 //-- channelMenuItemToSeparator
 // menu itemをセパレタに変更する
-- (void) channelMenuItemToSeparator : (int) inIndex
+- (void) channelMenuItemToSeparator : (NSInteger) inIndex
 {
-	int index = inIndex + _channelMenuOffset;
+	NSInteger index = inIndex + _channelMenuOffset;
     NSMenu* menu = [[[NSApp mainMenu] itemWithTag:kChannelMenuTag] submenu];
     
     NSMenuItem* item = [menu itemAtIndex:index];
@@ -758,11 +758,11 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- renameChannelMenuItem:atIndex
 // menuitemをrenameする
 - (void) renameMenuItem:(NSString*)inString
-                atIndex:(int) inIndex
-				 withID:(int) inChannelID
+                atIndex:(NSInteger) inIndex
+				 withID:(NSInteger) inChannelID
 {
     NSMenuItem *item;
-    int index = inIndex + _channelMenuOffset;
+    NSInteger index = inIndex + _channelMenuOffset;
     NSMenu* menu = [[[NSApp mainMenu] itemWithTag:kChannelMenuTag] submenu];
     
     item = [menu itemAtIndex:index];
@@ -771,7 +771,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
         [menu removeItemAtIndex:index];
         item = [menu insertItemWithTitle:inString
                                   action:@selector(switchChannelbyChannelMenu:)
-                           keyEquivalent:[[NSNumber numberWithInt:inChannelID] stringValue]
+                           keyEquivalent:[[NSNumber numberWithInteger:inChannelID] stringValue]
                                  atIndex:(index - 1)];
         [item setTag:([menu numberOfItems] - _channelMenuOffset - 1)];
         [item setTarget:self];
@@ -785,11 +785,11 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- setChannelMenuName:atIndex
 // channel名を設定する
 - (void) setChannelMenuName:(NSString*)inString
-					atIndex:(int) inIndex
+					atIndex:(NSInteger) inIndex
 {
     NSMenu* menu = [[[NSApp mainMenu] itemWithTag:kChannelMenuTag] submenu];
     NSMenuItem *item;
-    int index = inIndex + _channelMenuOffset;
+    NSInteger index = inIndex + _channelMenuOffset;
     
     if(index < [menu numberOfItems]){
 		item = [menu itemAtIndex:index];
@@ -896,7 +896,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 // nickを追加する
 - (void) appendNick:(NSString*) inNick
           toChannel:(NSString*) inChannel
-             server:(int) inServerID
+             server:(NSInteger)  inServerID
 {
     ChannelModal* channel;
 	
@@ -910,7 +910,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 // nickを複数同時に挿入する
 - (void) appendNicks:(NSArray*) inNicks
            toChannel:(NSString*) inChannel
-              server:(int) inServerID
+              server:(NSInteger)  inServerID
 {
     NSEnumerator* e;
     NSString* nick;
@@ -929,7 +929,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 // nicknameを削除する
 - (void) removeNick:(NSString*) inNick
         fromChannel:(NSString*) inChannel
-             server:(int) inServerID
+             server:(NSInteger)  inServerID
 {
     ChannelModal* channel;
 	
@@ -947,7 +947,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- removeNick:server
 // server上のnicknameをすべて削除する
 - (void) removeNick:(NSString*) inNick
-             server:(int) inServerID
+             server:(NSInteger)  inServerID
 {
     NSEnumerator* e;
     ChannelModal* channel;
@@ -970,7 +970,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 // server上のnicknameをrenameする
 - (void) renameNick:(NSString*) inNick
                  to:(NSString*) inNewNick
-             server:(int) inServerID
+             server:(NSInteger)  inServerID
 {
     NSEnumerator* e;
     ChannelModal* channel;
@@ -1000,7 +1000,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- refleshNickList:server:
 // NickListを更新する
 - (void) refleshNickList:(NSString*)inChannel
-                  server:(int)inServerID
+                  server:(NSInteger) inServerID
 {
     ChannelModal* channel;
 	
@@ -1151,16 +1151,15 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- ObeyJoin
 // チャンネルに入る
 - (void) obeyJoin:(NSString*)inParams
-		   server:(int)inServerID
+		   server:(NSInteger) inServerID
 		  channel:(ChannelModal*)inChannelModal	
 {
-    int server;
     NSString *channel, *password;
     NSRange content;
     ChannelModal* channelModal;
     NSString* channelName;
     
-    server = (inServerID > 0) ? inServerID : [self activeServer];
+    NSInteger server = (inServerID > 0) ? inServerID : [self activeServer];
     if(inParams){
         content = NSMakeRange(0, [inParams length]);
         channel = PrefixString(inParams, @" ", &content);
@@ -1202,13 +1201,12 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- ObeyPart
 // チャンネルから抜ける
 - (void) obeyPart:(NSString*)inParams
-		   server:(int)inServerID
+		   server:(NSInteger) inServerID
 		  channel:(ChannelModal*)inChannelModal	
 {
-    int server;
     ChannelModal* channelModal;
     
-    server = (inServerID > 0) ? inServerID : [self activeServer];
+    NSInteger server = (inServerID > 0) ? inServerID : [self activeServer];
     
     if(inParams){
         NSRange content = NSMakeRange(0, [inParams length]);
@@ -1245,10 +1243,10 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- ObeyNick
 // nicknameの変更
 - (void) obeyNick:(NSString*)inParams
-		   server:(int)inServerID
+		   server:(NSInteger) inServerID
 		  channel:(ChannelModal*)inChannelModal
 {
-    int server;
+    NSInteger server;
     NSString *nick;
 	
     server = (inServerID > 0) ? inServerID : [self activeServer];
@@ -1278,7 +1276,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- ObeyQuit
 // 終了処理
 - (void) obeyQuit:(NSString*)inParams
-		   server:(int)inServerID
+		   server:(NSInteger) inServerID
 		  channel:(ChannelModal*)inChannelModal
 {
     NSString* message;
@@ -1305,10 +1303,10 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- ObeyWhois
 // whoisの処理
 - (void) obeyWhois:(NSString*)inParams
-			server:(int)inServerID
+			server:(NSInteger) inServerID
 		   channel:(ChannelModal*)inChannelModal
 {
-    int server = (inServerID > 0) ? inServerID : [self activeServer];
+    NSInteger server = (inServerID > 0) ? inServerID : [self activeServer];
     
     if(inParams){
         IRCSession* session = [self findSessionWithID:server];
@@ -1333,11 +1331,11 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- ObeyTopic
 // topicの処理
 - (void) obeyTopic:(NSString*)inParams
-			server:(int)inServerID
+			server:(NSInteger) inServerID
 		   channel:(ChannelModal*)inChannelModal
 {
 	ChannelModal* channelModal = inChannelModal ? inChannelModal : [self activeChannel];   
-    int server = (inServerID > 0) ? inServerID : [self activeServer];
+    NSInteger server = (inServerID > 0) ? inServerID : [self activeServer];
     
     if(inParams){
         NSRange content = NSMakeRange(0, [inParams length]);
@@ -1375,11 +1373,11 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- obeyMode
 // modeの処理
 - (void) obeyMode:(NSString*)inParams
-		   server:(int)inServerID
+		   server:(NSInteger) inServerID
 		  channel:(ChannelModal*)inChannelModal
 {
     ChannelModal* channelModal = inChannelModal ? inChannelModal : [self activeChannel];   
-    int server = (inServerID > 0) ? inServerID : [self activeServer];
+    NSInteger server = (inServerID > 0) ? inServerID : [self activeServer];
     NSString* command;
 	
 	// mode #channel_name commands
@@ -1435,10 +1433,10 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- obeyCtcp
 // ctcpコマンドの処理
 - (void) obeyCtcp:(NSString*)inParams
-		   server:(int)inServerID
+		   server:(NSInteger) inServerID
 		  channel:(ChannelModal*)inChannelModal
 {
-	int server = (inServerID > 0) ? inServerID : [self activeServer];
+	NSInteger server = (inServerID > 0) ? inServerID : [self activeServer];
     
 	// mode #channel_name commands
     if(inParams){
@@ -1463,8 +1461,8 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 		
 		//-- 各コマンドの処理
 		if([command caseInsensitiveCompare:kCommandCtcpPing] == NSOrderedSame){ // pingの時は今のtickを返す	
-			int tick =  (int)([[NSDate date] timeIntervalSince1970]);
-			command = [NSString stringWithFormat:@"PING %d", tick];
+			long tick =  (long) ([[NSDate date] timeIntervalSince1970]);
+			command = [NSString stringWithFormat:@"PING %ld", tick];
 		}
 		
 		//--
@@ -1489,11 +1487,11 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- ObeyAction
 // actionの処理
 - (void) obeyAction:(NSString*)inParams
-			 server:(int)inServerID
+			 server:(NSInteger)inServerID
 			channel:(ChannelModal*) inChannelModal
 {	
 	ChannelModal* channelModal = inChannelModal ? inChannelModal : [self activeChannel];   
-    int server = (inServerID > 0) ? inServerID : [self activeServer];
+    NSInteger server = (inServerID > 0) ? inServerID : [self activeServer];
     
     if(inParams){
         NSRange content = NSMakeRange(0, [inParams length]);
@@ -1530,11 +1528,11 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- ObeyNotice
 // notifyの処理
 - (void) obeyNotice:(NSString*)inParams
-			 server:(int)inServerID
+			 server:(NSInteger)inServerID
 			channel:(ChannelModal*) inChannelModal
 {	
 	ChannelModal* channelModal = inChannelModal ? inChannelModal : [self activeChannel];   
-    int server = (inServerID > 0) ? inServerID : [self activeServer];
+    NSInteger server = (inServerID > 0) ? inServerID : [self activeServer];
     
     if(inParams){
         NSRange content = NSMakeRange(0, [inParams length]);
@@ -1571,13 +1569,12 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- ObeyInvite
 // inviteの処理
 - (void) obeyInvite:(NSString*)inParams
-			 server:(int)inServerID
+			 server:(NSInteger)inServerID
 			channel:(ChannelModal*)inChannelModal
 {
     IRCSession* session;
-    int server;
 	ChannelModal* channelModal = inChannelModal ? inChannelModal : [self activeChannel];
-    server = (inServerID > 0) ? inServerID : [self activeServer];
+    NSInteger server = (inServerID > 0) ? inServerID : [self activeServer];
     if(inParams){
 		NSRange content = NSMakeRange(0, [inParams length]);
         NSString* channel = [[PreferenceWindowController sharedPreference]
@@ -1616,11 +1613,11 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- obeyCommand
 // command menuの処理
 - (void) obeyCommand:(NSString*)inParams
-			  server:(int)inServerID
+			  server:(NSInteger)inServerID
 			 channel:(ChannelModal*) inChannelModal
 {
     //ChannelModal* channelModal = [self activeChannel];
-    int server = (inServerID > 0) ? inServerID : [self activeServer];
+    NSInteger server = (inServerID > 0) ? inServerID : [self activeServer];
 	
     if(inParams){
         IRCSession* session = [self findSessionWithID:server];
@@ -1644,7 +1641,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 //-- obeyDisconnect:server:
 // 切断処理
 - (void) obeyDisconnect:(NSString*)inParams
-				 server:(int)inServerID
+				 server:(NSInteger)inServerID
 				channel:(ChannelModal*) inChannelModal
 {
 	if(inParams){
@@ -1667,7 +1664,6 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 - (void) obeyIRCCommand:(NSString*)inMessage
 					 to:(ChannelModal*)inChannelModal
 {
-    int serverid;
     NSString *command, *param, *prefix;
     NSRange range;
     
@@ -1685,7 +1681,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
     // command@serverの切り出し
     range = NSMakeRange(0, [prefix length]);
     command = PrefixString(prefix, @"@", &range);
-    serverid = (range.location == NSNotFound) ? [inChannelModal serverid]
+    NSInteger serverid = (range.location == NSNotFound) ? [inChannelModal serverid]
                                               : [[prefix substringWithRange:range] intValue];
     if ([command length] < 1) return;
 	

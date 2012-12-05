@@ -89,7 +89,7 @@ JoinInputsSheet* sJoinInputsSheet = nil;
 //-- setServerMenu
 // サーバメニューの設定
 - (void) setServerMenu:(NSMenu*) inMenu
-				 value:(int) inServerID
+				 value:(NSInteger) inServerID
 {
 	[_serverPopUp setMenu:inMenu];
 	NSMenuItem* item = [inMenu itemWithTag:inServerID];
@@ -209,7 +209,7 @@ JoinInputsSheet* sJoinInputsSheet = nil;
 //-- setServerMenu
 // サーバメニューの設定
 - (void) setServerMenu:(NSMenu*) inMenu
-				 value:(int) inServerID
+				 value:(NSInteger) inServerID
 {
 	[_serverPopUp setMenu:inMenu];
 	NSMenuItem* item = [inMenu itemWithTag:inServerID];
@@ -338,7 +338,7 @@ JoinInputsSheet* sJoinInputsSheet = nil;
 //-- setServerMenu
 // サーバメニューの設定
 - (void) setServerMenu:(NSMenu*) inMenu
-				 value:(int) inServerID
+				 value:(NSInteger) inServerID
 {
 	[_serverPopUp setMenu:inMenu];
 	NSMenuItem* item = [inMenu itemWithTag:inServerID];

@@ -17,7 +17,7 @@
 + (ServersModal*) sharedServersModal;
 
 + (int) bookIdentifier;
-- (ServerModal*) serverForID:(int) inIdentifier;
+- (ServerModal*) serverForID:(NSInteger) inIdentifier;
 - (ServerModal*) selectedServerModal;
 
 - (NSArray*) serverList;
