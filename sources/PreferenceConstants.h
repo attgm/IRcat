@@ -53,12 +53,19 @@
 
 #define kColoredKeyword @"coloredKeyword"
 
-//-- notifications
-extern NSString* const IRNotificationTitle;
-extern NSString* const IRNotificationUseAlert;
-extern NSString* const IRNotificationAlertName;
-extern NSString* const IRNotificationUseColor;
-extern NSString* const IRNotificationColor;
+//-- Notifications
+FOUNDATION_EXPORT NSString* const IRNotificationTitle;
+FOUNDATION_EXPORT NSString* const IRNotificationUseAlert;
+FOUNDATION_EXPORT NSString* const IRNotificationAlertName;
+FOUNDATION_EXPORT NSString* const IRNotificationUseColor;
+FOUNDATION_EXPORT NSString* const IRNotificationColor;
+FOUNDATION_EXPORT NSString* const IRNotificationType;
+FOUNDATION_EXPORT NSString* const IRNotificationTypePriv;
+FOUNDATION_EXPORT NSString* const IRNotificationTypeNewPriv;
+FOUNDATION_EXPORT NSString* const IRNotificationTypeInvite;
+FOUNDATION_EXPORT NSString* const IRNotificationTypeKeyword;
+FOUNDATION_EXPORT NSString* const IRNotificationEnable;
+FOUNDATION_EXPORT NSString* const IRSendUserNotificationCenter;
 
 //-- ServerSetup
 #define kServerDefaults @"Servers"
@@ -78,7 +85,7 @@ extern NSString* const IRNotificationColor;
 #define kServerCondition @"condition"
 #define kTextEncoding @"encoding"
 
-//-- toolbar items
+//-- Toolbar Items
 #define kAddServer @"AddServer"
 #define kRemoveServer @"RemoveServer"
 #define kServerList @"ServerList"

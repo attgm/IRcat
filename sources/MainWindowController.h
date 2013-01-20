@@ -18,7 +18,7 @@
 @class BufferedFieldEditor;
 @class TextFieldHistories;
 
-@interface MainWindowController : ChannelWindowController <NSToolbarDelegate>
+@interface MainWindowController : ChannelWindowController <NSTableViewDataSource, NSTableViewDelegate>
 {
     IBOutlet ConsoleTextView*	_commonTextView;
 	IBOutlet PopSplitView*		_paneSplitView;
@@ -37,6 +37,8 @@
     TextFieldHistories* _textFieldHistories;
     NSPopUpButton*      _channelPopup;
     NSTextField*        _topicTextField;
+    
+    NSButton*           _tearOffButton;
 }
 
 

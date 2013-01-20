@@ -74,6 +74,39 @@ static NSDictionary *defaultValues()
 
 
 
+static NSArray *defaultNotifications()
+{
+    static NSArray *notifications = nil;
+    
+    if(!notifications){
+        notifications = [[NSArray alloc] initWithObjects:
+                         [[NSDictionary alloc] initWithObjectsAndKeys:
+                          IRNotificationTypeInvite, IRNotificationType,
+                          @"0.0 0.0 0.0 1.0", IRNotificationColor,
+                          [NSNumber numberWithBool:YES], IRNotificationUseColor,
+                          [NSNumber numberWithBool:NO], IRNotificationEnable,
+                          [NSNumber numberWithBool:YES], IRSendUserNotificationCenter,
+                          nil],
+                         [[NSDictionary alloc] initWithObjectsAndKeys:
+                          IRNotificationTypePriv, IRNotificationType,
+                          @"0.0 0.0 0.0 1.0", IRNotificationColor,
+                          [NSNumber numberWithBool:YES], IRNotificationUseColor,
+                          [NSNumber numberWithBool:NO], IRNotificationEnable,
+                          [NSNumber numberWithBool:NO], IRSendUserNotificationCenter,
+                          nil],
+                         [[NSDictionary alloc] initWithObjectsAndKeys:
+                          IRNotificationTypeNewPriv, IRNotificationType,
+                          @"0.0 0.0 0.0 1.0", IRNotificationColor,
+                          [NSNumber numberWithBool:YES], IRNotificationUseColor,
+                          [NSNumber numberWithBool:NO], IRNotificationEnable,
+                          [NSNumber numberWithBool:YES], IRSendUserNotificationCenter,
+                          nil],
+                         nil
+        ];
+    }
+    return notifications;
+}
+
 
 @implementation PreferenceModal
 
@@ -245,6 +278,9 @@ static NSDictionary *defaultValues()
 	}
 }
 
+
+//-- appendDefaultNotifications
+// 削除不可能なNotificationをCurrentValuesに設定する.
 
 //-- savePreferencesToDefaults
 // 初期設定ファイルに設定を書き込む

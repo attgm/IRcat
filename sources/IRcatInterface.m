@@ -75,6 +75,7 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 	}else if(identifier == kMessageColorBindingIdentifier){
 		return kServerMessageAttribute;
 	}
+    NSLog(@"unknown identifier %@",(NSString*)identifier);
 	return kPlainAttribute;
 }
 
@@ -139,10 +140,21 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
 		  withKeyPath : @"selection.textFont"
 			  options : [NSDictionary dictionaryWithObject:@"FontNameToFontTransformer"
 													forKey:@"NSValueTransformerName"]];
-	
-	return self;
+    
+    
+    //[self showNotification:self];
+    return self;
 }
 
+//--
+- (IBAction)showNotification:(id)sender{
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    notification.title = @"Hello, World!";
+    notification.informativeText = @"A notification";
+    notification.soundName = NSUserNotificationDefaultSoundName;
+    
+    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+}
 
 //-- dealloc
 - (void) dealloc

@@ -48,7 +48,7 @@
 - (void) showSheet:(InputSheet*) inSheetl;
 
 
-- (void) updatePreferences:(NSNotification*) notification;
+//- (void) updatePreferences:(NSNotification*) notification;
 
 - (void) refleshNickList;
 - (void) refleshLogIcon;

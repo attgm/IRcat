@@ -27,6 +27,9 @@ NSString* const IRTopicIdentifier		 = @"Topic";
 NSString* const IRChannelPopupIdentifier = @"ChannelPopup";
 NSString* const IRTopicPrefix			 = @"TopicPrefix";
 
+NS_INLINE CGFloat MidHeight(NSRect rect){
+    return (rect.size.height * 0.5f);
+}
 
 @implementation MainWindowController
 
@@ -47,6 +50,7 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
     [_textFieldHistories release];
     [_channelPopup release];
     [_topicTextField release];
+    [_tearOffButton release];
 #endif
 	[super dealloc];
 }
@@ -70,9 +74,10 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
             window.trafficLightButtonsLeftMargin = 7.0;
             window.fullScreenButtonRightMargin = 7.0;
             window.titleBarHeight = 36.0;
+            window.hideTitleBarInFullScreen = NO;
             window.centerFullScreenButton = YES;
         }
-                
+       
 		_channelMenu = [[NSMenu alloc] initWithTitle:@"Channel"];
 		
 		// NickListの設定
@@ -80,7 +85,8 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
         [_nickListView setIntercellSpacing:NSMakeSize(0.0, 0.0)]; // cell間隔を0にする
         [[_nickListView tableColumnWithIdentifier:@"icon"] setDataCell:imageCell];
         [[_nickListView tableColumnWithIdentifier:@"op"] setDataCell:imageCell];
-		[_channelMenu setAutoenablesItems:NO];
+		
+        [_channelMenu setAutoenablesItems:NO];
 		
 		// clipのbackground colorを設定
 		[_channelClipView setBackgroundColor:[NSColor windowBackgroundColor]];
@@ -107,20 +113,35 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
         
         if([[_window class] isSubclassOfClass:[INAppStoreWindow class]]){
             INAppStoreWindow* window = (INAppStoreWindow*) _window;
+            NSButton *fullScreen = [_window standardWindowButton:NSWindowFullScreenButton];
+            NSButton *zoomButton = [window standardWindowButton:NSWindowZoomButton];
+            
+            CGFloat leftOffset = zoomButton.frame.origin.x + zoomButton.frame.size.width + window.trafficLightButtonsLeftMargin;
+            CGFloat rightOffset = fullScreen.frame.size.width + window.trafficLightButtonsLeftMargin;
             
             NSView *titleBarView = window.titleBarView;
             _channelPopup = [[self createToolbarChannelPopup] retain];
-            [_channelPopup setFrame:NSMakeRect(70.0, 4.0, 160.0, [_channelPopup frame].size.height)];
+            [_channelPopup setFrame:NSMakeRect(leftOffset, 4.0, 160.0, [_channelPopup frame].size.height)];
             [titleBarView addSubview:_channelPopup];
         
+            _tearOffButton = [[self createToolbarTearOffButton] retain];
+            CGFloat button_x = [titleBarView frame].size.width - rightOffset - [_tearOffButton frame].size.width;
+            CGFloat button_y = round(MidHeight([titleBarView frame]) - MidHeight([_tearOffButton frame]));
+            [_tearOffButton setFrameOrigin:NSMakePoint(button_x, button_y)];
+            [titleBarView addSubview:_tearOffButton];
+            
+            
             _topicTextField = [[self createToolbarTopicTextField] retain];
-            CGFloat x = 70.0 + 160.0 + 8.0;
-            CGFloat width = [titleBarView frame].size.width - (x + 32.0);
+            CGFloat x = NSMaxX([_channelPopup frame]) + 8.0;
+            CGFloat width = button_x - x - 8.0;
             [_topicTextField setFrame:NSMakeRect(x, 8.0, width, [_topicTextField frame].size.height)];
             [titleBarView addSubview:_topicTextField];
+            
+           
+            
         }
         //[_window setContentView:_contentsView];
-
+        
         [[_modeTextView cell] setBackgroundStyle:NSBackgroundStyleRaised];
     }
     
@@ -294,7 +315,6 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 	[self refleshLogIcon];
 	[self setModeString:[inNewChannel channelFlagString]];
 	
-	
     [_channelPopup selectItemWithTag:[inNewChannel channelid]];
     NSEnumerator* e = [[[_channelPopup menu] itemArray] objectEnumerator];
     NSMenuItem* mi;
@@ -460,6 +480,14 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 
 #pragma mark -
 #pragma mark Delegate:NSWindow
+//-- window:willPositionSheet:usingRect
+// シートの位置変更
+- (NSRect)window:(INAppStoreWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
+{
+    rect.origin.y = NSHeight(window.frame)-window.titleBarHeight;
+    return rect;
+}
+
 
 //-- windowShouldClose (over write)
 // ウィンドウを閉じていいかの呼び出し
@@ -699,6 +727,27 @@ NSString* const IRTopicPrefix			 = @"TopicPrefix";
 
 }
 
+
+//-- createToolbarTearOffButton
+// create tearoff button on toolbar (title bar)
+-(NSButton*) createToolbarTearOffButton
+{
+    NSButton* button = [[[NSButton alloc] initWithFrame:NSZeroRect] autorelease];
+    [button setBezelStyle:NSRegularSquareBezelStyle];
+    [button setButtonType: NSMomentaryChangeButton];
+    [button setBordered:NO];
+    //[button setTransparent:YES];
+    
+    NSImage* image = [NSImage imageNamed:@"icon_tearoff"];
+    [button setImage:image];
+    [button setFrameSize:[image size]];
+    [button setImagePosition:NSImageOnly];
+    [button sizeToFit];
+    [button setAutoresizingMask:(NSViewMinXMargin | NSViewMinYMargin)];
+    
+    
+    return button;
+}
 
 #pragma mark Delegate : NSPopupView
 //-- splitViewDidResizeSubviews

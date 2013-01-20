@@ -13,6 +13,7 @@
 #import "ChannelModal.h"
 #import "ChannelWindowController.h"
 #import "BufferedFieldEditor.h"
+#import "NickListItem.h"
 
 @implementation ChannelWindowController
 
@@ -41,6 +42,7 @@
 	[super dealloc];
 }
 
+
 //-- createWindow
 // メインウィンドウをnibから生成する
 -(void) createWindow
@@ -56,6 +58,7 @@
 		[_nickListView setIntercellSpacing:NSMakeSize(0.0, 0.0)];
 		[[_nickListView tableColumnWithIdentifier:@"icon"] setDataCell:cell];
         [[_nickListView tableColumnWithIdentifier:@"op"] setDataCell:cell];
+        
         // splitの位置を設定
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		NSNumber* number;
@@ -98,12 +101,13 @@
 #pragma mark User Interface
 //-- updatePreferences
 // fontのreload
-- (void) updatePreferences:(NSNotification*) notification
+/* - (void) updatePreferences:(NSNotification*) notification
 {
+    NSLog(@"updatePreferences");
 	[self changeFont:nil];
 	[_inputField setBackgroundColor:[PreferenceModal prefForKey:kBackgroundColor]];
 	[_inputField setTextColor:[PreferenceModal prefForKey:kTextColor]];	
-}
+}*/
 
 
 //-- preferenceController
@@ -184,7 +188,7 @@
     if(_activeSheet != nil){
         [[NSApplication sharedApplication] endSheet:_activeSheet returnCode:NSCancelButton];
     }
-	// シートの表示
+    // シートの表示
     [[NSApplication sharedApplication] beginSheet:[inSheet sheet]
 								   modalForWindow:_window
 									modalDelegate:self
@@ -245,6 +249,7 @@
 	}
 	[_window makeKeyAndOrderFront:nil];
 }
+
 
 //-- setActiveChannel
 // controlしているチャンネルの設定
@@ -310,6 +315,33 @@
 -(id) windowWillReturnFieldEditor:(NSWindow *)sender toObject:(id) obj
 {
 	return [self fieldEditor];
+}
+
+
+#pragma mark NickList(Data Source/Delegate)
+//--- numberOfRowsInTableView
+// return number of nicks
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    NSLog(@"numberOfRowsInTableView:%lu", [_activeChannel nickNum]);
+    return [_activeChannel nickNum];
+}
+
+
+//-- tableView:viewForTableColumn:row
+//
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    NickListItem* item = [_activeChannel nickListItemAt:row];
+   
+    NSTableCellView *cellView = [tableView makeViewWithIdentifier:@"NickCell" owner:self];
+   
+    cellView.textField.stringValue = [item nick];
+    NSUInteger flag = [item flag];
+    if((flag & IRFlagOperator) != 0){
+        cellView.imageView.objectValue = [NSImage imageNamed:@"op"];
+    }
+    
+    return cellView;
 }
 
 @end

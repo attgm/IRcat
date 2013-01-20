@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D1D478616A5A44F00F0F161 /* icon_tearoff.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0D1D478516A5A44F00F0F161 /* icon_tearoff.tiff */; };
 		0D30EE2D166DBCA500BF0639 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D30EE2C166DBCA500BF0639 /* Cocoa.framework */; };
 		0D30EE52166DBD8300BF0639 /* ServersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EE51166DBD8300BF0639 /* ServersController.m */; };
 		0D30EE59166DBD9E00BF0639 /* ServerModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EE54166DBD9E00BF0639 /* ServerModal.m */; };
@@ -25,7 +26,6 @@
 		0D30EE87166DBE4A00BF0639 /* NickListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EE7C166DBE4A00BF0639 /* NickListView.m */; };
 		0D30EE88166DBE4A00BF0639 /* PopSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EE7E166DBE4A00BF0639 /* PopSplitView.m */; };
 		0D30EE89166DBE4A00BF0639 /* TextFieldHistories.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EE80166DBE4A00BF0639 /* TextFieldHistories.m */; };
-		0D30EE93166DBE7D00BF0639 /* ChannelModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EE8C166DBE7D00BF0639 /* ChannelModal.m */; };
 		0D30EE94166DBE7D00BF0639 /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EE8E166DBE7D00BF0639 /* ChannelViewController.m */; };
 		0D30EE95166DBE7D00BF0639 /* ConsoleModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EE90166DBE7D00BF0639 /* ConsoleModal.m */; };
 		0D30EE96166DBE7D00BF0639 /* NickListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EE92166DBE7D00BF0639 /* NickListItem.m */; };
@@ -53,7 +53,6 @@
 		0D30EEE8166DC01A00BF0639 /* TextEncodings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EEE6166DC00C00BF0639 /* TextEncodings.m */; };
 		0D30EEED166DC04A00BF0639 /* AcknowledgmentsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EEEB166DC04A00BF0639 /* AcknowledgmentsWindowController.m */; };
 		0D30EEEE166DC04A00BF0639 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EEEC166DC04A00BF0639 /* main.m */; };
-		0D30EEF2166DC07500BF0639 /* INAppStoreWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EEF1166DC07500BF0639 /* INAppStoreWindow.m */; };
 		0D30EEFD166DC0BF00BF0639 /* AcknowledgmentsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D30EEF5166DC0BF00BF0639 /* AcknowledgmentsWindow.xib */; };
 		0D30EEFE166DC0BF00BF0639 /* ChannelView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D30EEF6166DC0BF00BF0639 /* ChannelView.xib */; };
 		0D30EEFF166DC0BF00BF0639 /* JoinInputsSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D30EEF7166DC0BF00BF0639 /* JoinInputsSheet.xib */; };
@@ -122,10 +121,13 @@
 		0D30EF89166DC13200BF0639 /* voice.tif in Resources */ = {isa = PBXBuildFile; fileRef = 0D30EF56166DC13200BF0639 /* voice.tif */; };
 		0D30EF8A166DC13200BF0639 /* voice.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0D30EF57166DC13200BF0639 /* voice.tiff */; };
 		0D30EF8C166DC20200BF0639 /* PreferenceConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EF8B166DC20200BF0639 /* PreferenceConstants.m */; };
+		0D847DB31671B5E600DBE21A /* ChannelModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D847DB21671B5E600DBE21A /* ChannelModal.m */; };
+		0D847DBB1671B79200DBE21A /* INAppStoreWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D847DBA1671B79200DBE21A /* INAppStoreWindow.m */; };
 		0DA087D4166EDFBD0043119C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0DA087D3166EDFBD0043119C /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D1D478516A5A44F00F0F161 /* icon_tearoff.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = icon_tearoff.tiff; path = resources/icon_tearoff.tiff; sourceTree = "<group>"; };
 		0D30EE28166DBCA500BF0639 /* IRcat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IRcat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D30EE2C166DBCA500BF0639 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0D30EE2F166DBCA500BF0639 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -164,14 +166,12 @@
 		0D30EE7E166DBE4A00BF0639 /* PopSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PopSplitView.m; path = sources/PopSplitView.m; sourceTree = SOURCE_ROOT; };
 		0D30EE7F166DBE4A00BF0639 /* TextFieldHistories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextFieldHistories.h; path = sources/TextFieldHistories.h; sourceTree = SOURCE_ROOT; };
 		0D30EE80166DBE4A00BF0639 /* TextFieldHistories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextFieldHistories.m; path = sources/TextFieldHistories.m; sourceTree = SOURCE_ROOT; };
-		0D30EE8B166DBE7D00BF0639 /* ChannelModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChannelModal.h; path = sources/ChannelModal.h; sourceTree = "<group>"; };
-		0D30EE8C166DBE7D00BF0639 /* ChannelModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChannelModal.m; path = sources/ChannelModal.m; sourceTree = "<group>"; };
-		0D30EE8D166DBE7D00BF0639 /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChannelViewController.h; path = sources/ChannelViewController.h; sourceTree = "<group>"; };
-		0D30EE8E166DBE7D00BF0639 /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChannelViewController.m; path = sources/ChannelViewController.m; sourceTree = "<group>"; };
-		0D30EE8F166DBE7D00BF0639 /* ConsoleModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConsoleModal.h; path = sources/ConsoleModal.h; sourceTree = "<group>"; };
-		0D30EE90166DBE7D00BF0639 /* ConsoleModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConsoleModal.m; path = sources/ConsoleModal.m; sourceTree = "<group>"; };
-		0D30EE91166DBE7D00BF0639 /* NickListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NickListItem.h; path = sources/NickListItem.h; sourceTree = "<group>"; };
-		0D30EE92166DBE7D00BF0639 /* NickListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NickListItem.m; path = sources/NickListItem.m; sourceTree = "<group>"; };
+		0D30EE8D166DBE7D00BF0639 /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChannelViewController.h; path = sources/ChannelViewController.h; sourceTree = SOURCE_ROOT; };
+		0D30EE8E166DBE7D00BF0639 /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChannelViewController.m; path = sources/ChannelViewController.m; sourceTree = SOURCE_ROOT; };
+		0D30EE8F166DBE7D00BF0639 /* ConsoleModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConsoleModal.h; path = sources/ConsoleModal.h; sourceTree = SOURCE_ROOT; };
+		0D30EE90166DBE7D00BF0639 /* ConsoleModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConsoleModal.m; path = sources/ConsoleModal.m; sourceTree = SOURCE_ROOT; };
+		0D30EE91166DBE7D00BF0639 /* NickListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NickListItem.h; path = sources/NickListItem.h; sourceTree = SOURCE_ROOT; };
+		0D30EE92166DBE7D00BF0639 /* NickListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NickListItem.m; path = sources/NickListItem.m; sourceTree = SOURCE_ROOT; };
 		0D30EE98166DBEC700BF0639 /* FormatItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FormatItem.h; path = sources/FormatItem.h; sourceTree = SOURCE_ROOT; };
 		0D30EE99166DBEC700BF0639 /* FormatItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FormatItem.m; path = sources/FormatItem.m; sourceTree = SOURCE_ROOT; };
 		0D30EE9A166DBEC700BF0639 /* FormatTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FormatTable.h; path = sources/FormatTable.h; sourceTree = SOURCE_ROOT; };
@@ -229,8 +229,6 @@
 		0D30EEEA166DC04A00BF0639 /* AcknowledgmentsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AcknowledgmentsWindowController.h; path = sources/AcknowledgmentsWindowController.h; sourceTree = SOURCE_ROOT; };
 		0D30EEEB166DC04A00BF0639 /* AcknowledgmentsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AcknowledgmentsWindowController.m; path = sources/AcknowledgmentsWindowController.m; sourceTree = SOURCE_ROOT; };
 		0D30EEEC166DC04A00BF0639 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = sources/main.m; sourceTree = SOURCE_ROOT; };
-		0D30EEF0166DC07500BF0639 /* INAppStoreWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = INAppStoreWindow.h; path = "external source/INAppStoreWindow/INAppStoreWindow.h"; sourceTree = "<group>"; };
-		0D30EEF1166DC07500BF0639 /* INAppStoreWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = INAppStoreWindow.m; path = "external source/INAppStoreWindow/INAppStoreWindow.m"; sourceTree = "<group>"; };
 		0D30EEF5166DC0BF00BF0639 /* AcknowledgmentsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AcknowledgmentsWindow.xib; path = nib/AcknowledgmentsWindow.xib; sourceTree = "<group>"; };
 		0D30EEF6166DC0BF00BF0639 /* ChannelView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChannelView.xib; path = nib/ChannelView.xib; sourceTree = "<group>"; };
 		0D30EEF7166DC0BF00BF0639 /* JoinInputsSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = JoinInputsSheet.xib; path = nib/JoinInputsSheet.xib; sourceTree = "<group>"; };
@@ -304,9 +302,14 @@
 		0D30EF56166DC13200BF0639 /* voice.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = voice.tif; path = resources/voice.tif; sourceTree = "<group>"; };
 		0D30EF57166DC13200BF0639 /* voice.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = voice.tiff; path = resources/voice.tiff; sourceTree = "<group>"; };
 		0D30EF8B166DC20200BF0639 /* PreferenceConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferenceConstants.m; path = sources/PreferenceConstants.m; sourceTree = SOURCE_ROOT; };
+		0D847DB11671B5E600DBE21A /* ChannelModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChannelModal.h; path = sources/ChannelModal.h; sourceTree = SOURCE_ROOT; };
+		0D847DB21671B5E600DBE21A /* ChannelModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChannelModal.m; path = sources/ChannelModal.m; sourceTree = SOURCE_ROOT; };
+		0D847DB91671B79200DBE21A /* INAppStoreWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = INAppStoreWindow.h; path = "external source/INAppStoreWindow/INAppStoreWindow.h"; sourceTree = SOURCE_ROOT; };
+		0D847DBA1671B79200DBE21A /* INAppStoreWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = INAppStoreWindow.m; path = "external source/INAppStoreWindow/INAppStoreWindow.m"; sourceTree = SOURCE_ROOT; };
 		0DA087D0166EDEDF0043119C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		0DA087D2166EDFA60043119C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = SOURCE_ROOT; };
 		0DA087D3166EDFBD0043119C /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = text/InfoPlist.strings; sourceTree = "<group>"; };
+		0DFC873516A8E78200D53959 /* IRcat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = IRcat.entitlements; path = ../IRcat.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -384,6 +387,7 @@
 		0D30EE33166DBCA500BF0639 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0DFC873516A8E78200D53959 /* IRcat.entitlements */,
 				0DA087D2166EDFA60043119C /* Prefix.pch */,
 				0DA087D0166EDEDF0043119C /* Info.plist */,
 			);
@@ -461,8 +465,8 @@
 		0D30EE8A166DBE5700BF0639 /* Channel */ = {
 			isa = PBXGroup;
 			children = (
-				0D30EE8B166DBE7D00BF0639 /* ChannelModal.h */,
-				0D30EE8C166DBE7D00BF0639 /* ChannelModal.m */,
+				0D847DB11671B5E600DBE21A /* ChannelModal.h */,
+				0D847DB21671B5E600DBE21A /* ChannelModal.m */,
 				0D30EE8D166DBE7D00BF0639 /* ChannelViewController.h */,
 				0D30EE8E166DBE7D00BF0639 /* ChannelViewController.m */,
 				0D30EE8F166DBE7D00BF0639 /* ConsoleModal.h */,
@@ -584,8 +588,8 @@
 		0D30EEEF166DC05000BF0639 /* External Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0D30EEF0166DC07500BF0639 /* INAppStoreWindow.h */,
-				0D30EEF1166DC07500BF0639 /* INAppStoreWindow.m */,
+				0D847DB91671B79200DBE21A /* INAppStoreWindow.h */,
+				0D847DBA1671B79200DBE21A /* INAppStoreWindow.m */,
 			);
 			name = "External Sources";
 			path = ..;
@@ -635,6 +639,7 @@
 		0D30EF24166DC12200BF0639 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				0D1D478516A5A44F00F0F161 /* icon_tearoff.tiff */,
 				0D30EF25166DC13200BF0639 /* add.tiff */,
 				0D30EF26166DC13200BF0639 /* channel_blue.tiff */,
 				0D30EF27166DC13200BF0639 /* channel_console.tiff */,
@@ -693,9 +698,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0D30EE27166DBCA500BF0639 /* IRcat */ = {
+		0D30EE27166DBCA500BF0639 /* ircat */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0D30EE46166DBCA500BF0639 /* Build configuration list for PBXNativeTarget "IRcat" */;
+			buildConfigurationList = 0D30EE46166DBCA500BF0639 /* Build configuration list for PBXNativeTarget "ircat" */;
 			buildPhases = (
 				0D30EE24166DBCA500BF0639 /* Sources */,
 				0D30EE25166DBCA500BF0639 /* Frameworks */,
@@ -705,7 +710,7 @@
 			);
 			dependencies = (
 			);
-			name = IRcat;
+			name = ircat;
 			productName = ircat;
 			productReference = 0D30EE28166DBCA500BF0639 /* IRcat.app */;
 			productType = "com.apple.product-type.application";
@@ -733,7 +738,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0D30EE27166DBCA500BF0639 /* IRcat */,
+				0D30EE27166DBCA500BF0639 /* ircat */,
 			);
 		};
 /* End PBXProject section */
@@ -811,6 +816,7 @@
 				0D30EF89166DC13200BF0639 /* voice.tif in Resources */,
 				0D30EF8A166DC13200BF0639 /* voice.tiff in Resources */,
 				0DA087D4166EDFBD0043119C /* InfoPlist.strings in Resources */,
+				0D1D478616A5A44F00F0F161 /* icon_tearoff.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -849,7 +855,6 @@
 				0D30EE87166DBE4A00BF0639 /* NickListView.m in Sources */,
 				0D30EE88166DBE4A00BF0639 /* PopSplitView.m in Sources */,
 				0D30EE89166DBE4A00BF0639 /* TextFieldHistories.m in Sources */,
-				0D30EE93166DBE7D00BF0639 /* ChannelModal.m in Sources */,
 				0D30EE94166DBE7D00BF0639 /* ChannelViewController.m in Sources */,
 				0D30EE95166DBE7D00BF0639 /* ConsoleModal.m in Sources */,
 				0D30EE96166DBE7D00BF0639 /* NickListItem.m in Sources */,
@@ -866,8 +871,9 @@
 				0D30EEDF166DBFEA00BF0639 /* GradientButton.m in Sources */,
 				0D30EEE0166DBFEA00BF0639 /* SplitHandler.m in Sources */,
 				0D30EEE1166DBFEA00BF0639 /* WindowFooter.m in Sources */,
-				0D30EEF2166DC07500BF0639 /* INAppStoreWindow.m in Sources */,
 				0D30EF8C166DC20200BF0639 /* PreferenceConstants.m in Sources */,
+				0D847DB31671B5E600DBE21A /* ChannelModal.m in Sources */,
+				0D847DBB1671B79200DBE21A /* INAppStoreWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -980,7 +986,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -992,7 +1000,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1009,7 +1019,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0D30EE46166DBCA500BF0639 /* Build configuration list for PBXNativeTarget "IRcat" */ = {
+		0D30EE46166DBCA500BF0639 /* Build configuration list for PBXNativeTarget "ircat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0D30EE47166DBCA500BF0639 /* Debug */,

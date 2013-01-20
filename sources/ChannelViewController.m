@@ -177,6 +177,9 @@
 	return [_channelView appendString:inString append:inAppend at:inAppendIndex scrollLock:_lockedScroll];
 }
 
+
+
+
 @end
 
 

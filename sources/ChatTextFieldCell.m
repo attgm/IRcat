@@ -11,72 +11,48 @@
 @implementation ChatTextFieldCell
 
 const NSInteger IRHorizonalMargin = 8;
-const NSInteger IRVerticalMargin = 2;
+const NSInteger IRVerticalMargin = 3;
 const NSInteger IRTextOffset = 4;
 
-static NSImage* sLeftImage = nil;
-static NSImage* sRightImage = nil;
-static NSImage* sMiddleImage = nil;
 
 //-- inits
 // initilize
 -(id) init
 {
     self = [super init];
-    if(self != nil){
-        [ChatTextFieldCell loadImages];
-    }
     return self;
 }
 
 -(id) initImageCell:(NSImage *)image
 {
     self = [super initImageCell:image];
-    if(self != nil){
-        [ChatTextFieldCell loadImages];
-    }
     return self;
 }
 
 -(id) initTextCell:(NSString *)aString
 {
     self = [super initTextCell:aString];
-    if(self != nil){
-        [ChatTextFieldCell loadImages];
-    }
     return self;
 }
 
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    if(self != nil){
-        [ChatTextFieldCell loadImages];
-    }
     return self;
 }
 
 -(void) awakeFromNib
 {
-    [ChatTextFieldCell loadImages];
-}
-
-//-- loadImages
-// load image files if needs
-+(void) loadImages
-{
-    if (sLeftImage == nil) sLeftImage = [NSImage imageNamed:@"chat_left"];
-    if (sRightImage == nil) sRightImage = [NSImage imageNamed:@"chat_right"];
-    if (sMiddleImage == nil) sMiddleImage = [NSImage imageNamed:@"chat_middle"];
 }
 
 
 //-- textFieldRectForFrame
 // returen text area's rect expect border
 -(NSRect) textFieldRectForFrame:(NSRect)frame {
-    frame.origin.x += IRHorizonalMargin + [sLeftImage size].width;
+    NSInteger radius = frame.size.height / 2;
+    frame.origin.x += IRHorizonalMargin + radius;
     frame.origin.y += IRTextOffset + IRVerticalMargin;
-    frame.size.width -= IRHorizonalMargin * 2 + [sLeftImage size].width + [sRightImage size].width;
+    frame.size.width -= (IRHorizonalMargin + radius) * 2;
     frame.size.height -= IRTextOffset + IRVerticalMargin * 2;
     return frame;
 }
@@ -86,39 +62,51 @@ static NSImage* sMiddleImage = nil;
 // draw border
 - (void)drawInteriorWithFrame:(NSRect)frame inView:(NSView*)view
 {
-    NSRect bounds = frame;
-    NSRect  destRect;
+    [NSGraphicsContext saveGraphicsState];
+    
+    NSRect bounds = NSInsetRect(frame, IRHorizonalMargin - 0.5, IRVerticalMargin - 0.5);
     
     [[self backgroundColor] set];
-    NSRectFill(bounds);
+    NSRectFill(frame);
     
-    // draw left cap
-    destRect.origin = NSMakePoint(bounds.origin.x + IRHorizonalMargin, IRVerticalMargin);
-    destRect.size = [sLeftImage size];
-	[sLeftImage drawInRect:destRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f respectFlipped:YES hints:nil];
-	// draw right Cap
-    destRect.origin = NSMakePoint(bounds.origin.x + bounds.size.width - [sRightImage size].width - IRHorizonalMargin, IRVerticalMargin);
-    destRect.size = [sRightImage size];
-	[sRightImage drawInRect:destRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f respectFlipped:YES hints:nil];
-	// draw middle
-    destRect.origin = NSMakePoint(bounds.origin.x + IRHorizonalMargin + [sLeftImage size].width, IRVerticalMargin);
-    destRect.size = [sMiddleImage size];
-    [sMiddleImage drawInRect:destRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f respectFlipped:YES hints:nil];
+    //[context setCompositingOperation:NSCompositePlusDarker];
     
-    CGFloat width = bounds.size.width - (IRHorizonalMargin * 2 + [sRightImage size].width + [sLeftImage size].width);
+    CGFloat radius = (bounds.size.height / 2);
     
-    while (width > 0) {
-        if(width >= destRect.size.width){
-            [sMiddleImage drawInRect:destRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f respectFlipped:YES hints:nil];
-        }else{
-            NSRect srcRect = NSMakeRect(0.0f, 0.0f, width, sMiddleImage.size.height);
-            destRect.size.width = width;
-            [sMiddleImage drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1.0f respectFlipped:YES hints:nil];
-        }
-        destRect.origin.x += destRect.size.width;
-        width -= destRect.size.width;
-    }
+    NSBezierPath* path = [NSBezierPath bezierPath];    
+    [path moveToPoint:NSMakePoint(NSMinX(bounds) + radius, NSMaxY(bounds))];
+    [path appendBezierPathWithArcWithCenter:NSMakePoint(NSMinX(bounds) + radius, NSMidY(bounds)) radius:radius startAngle:90 endAngle:270];
+    [path lineToPoint:NSMakePoint(NSMaxX(bounds) - (radius * 2), NSMinY(bounds))];
+    [path appendBezierPathWithArcWithCenter:NSMakePoint(NSMaxX(bounds) - (radius * 2), NSMidY(bounds)) radius:radius startAngle:-90 endAngle:30];
+    [path lineToPoint:NSMakePoint(NSMaxX(bounds) - radius / 2, NSMaxY(bounds))];
+    [path curveToPoint:NSMakePoint(NSMaxX(bounds) - (radius * 2) + radius * cosf(M_PI*60/180), NSMidY(bounds) + radius * sinf(M_PI*60/180))
+          controlPoint1:NSMakePoint(NSMaxX(bounds) - radius, NSMaxY(bounds))
+          controlPoint2:NSMakePoint(NSMaxX(bounds) - (radius * 2) + radius * cosf(M_PI*60/180), NSMidY(bounds) + radius * sinf(M_PI*60/180))];
+    
+    //[path lineToPoint:NSMakePoint(NSMaxX(bounds) - (radius * 2) + radius * cosf(M_PI*60/180), NSMidY(bounds) + radius * sinf(M_PI*60/180))];
+    [path appendBezierPathWithArcWithCenter:NSMakePoint(NSMaxX(bounds) - (radius * 2), NSMidY(bounds)) radius:radius startAngle:60 endAngle:90];
+    [path lineToPoint:NSMakePoint(NSMaxX(bounds) - (radius * 2), NSMaxY(bounds))];
+    [path lineToPoint:NSMakePoint(NSMinX(bounds) + radius, NSMaxY(bounds))];
+    [path closePath];
+    
+    
+    [[NSColor colorWithDeviceWhite:0.75f alpha:1.0f] setStroke];
+    
+    NSShadow * shadow = [[[NSShadow alloc] init] autorelease];
+    [shadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0f alpha:0.10f]];
+    [shadow setShadowBlurRadius:4.0f];
+    [shadow setShadowOffset:NSZeroSize];
+    [shadow set];
+    
+    [path setLineWidth:3.0f];
+    [path addClip];
+    [path stroke];
+    
+    [NSGraphicsContext restoreGraphicsState];
+    
+    [super drawInteriorWithFrame:frame inView:view];
 }
+
 
 
 //-- resetCursorRect
@@ -161,6 +149,13 @@ static NSImage* sMiddleImage = nil;
                   delegate:anObject
                      start:selStart
                     length:selLength];
+}
+
+
+//--- drawingRectForBounds
+-(NSRect)drawingRectForBounds:(NSRect)aRect
+{
+    return [self textFieldRectForFrame:aRect];
 }
 
 @end
