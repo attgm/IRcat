@@ -53,6 +53,7 @@ static NSDictionary *defaultValues()
                      [[NSFont userFontOfSize:0.0] fontName],
                      [[NSFont userFontOfSize:0.0] pointSize]], kTextFont,
                     [NSNumber numberWithBool:NO], kDisplayCommandTime,
+                    [NSArray array], kNotifications,
                     [NSArray arrayWithObject:
                      [NSDictionary dictionaryWithObjectsAndKeys:
                       @"nick", @"name",
@@ -107,6 +108,17 @@ static NSArray *defaultNotifications()
     return notifications;
 }
 
+
+//-- FindNotificationsByTypes
+// タイプによってNotificationsを探す
+NSDictionary* FindNotificationsByType(NSArray* array, NSString* type){
+    for (NSDictionary* dictionary in array){
+        if([type isEqualToString:[dictionary objectForKey:IRNotificationType]]){
+            return dictionary;
+        }
+    }
+    return nil;
+}
 
 @implementation PreferenceModal
 
@@ -276,11 +288,26 @@ static NSArray *defaultNotifications()
 			}
 		}
 	}
+    [self appendDefaultNotifications];
 }
 
 
 //-- appendDefaultNotifications
 // 削除不可能なNotificationをCurrentValuesに設定する.
+- (void) appendDefaultNotifications
+{
+    NSMutableArray* notifications = [self valueForKey:kNotifications];
+    NSArray* defaults = defaultNotifications();
+    
+    for(NSDictionary* item in defaults){
+        if(FindNotificationsByType(notifications, [item objectForKey:IRNotificationType]) == nil){
+            [notifications addObject:[item mutableCopy]];
+        }
+    }
+}
+
+
+
 
 //-- savePreferencesToDefaults
 // 初期設定ファイルに設定を書き込む

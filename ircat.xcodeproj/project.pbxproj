@@ -123,12 +123,13 @@
 		0D30EF8C166DC20200BF0639 /* PreferenceConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D30EF8B166DC20200BF0639 /* PreferenceConstants.m */; };
 		0D847DB31671B5E600DBE21A /* ChannelModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D847DB21671B5E600DBE21A /* ChannelModal.m */; };
 		0D847DBB1671B79200DBE21A /* INAppStoreWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D847DBA1671B79200DBE21A /* INAppStoreWindow.m */; };
+		0D9A5FC716ACD98B00466D71 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9A5FC616ACD98A00466D71 /* NotificationController.m */; };
 		0DA087D4166EDFBD0043119C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0DA087D3166EDFBD0043119C /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0D1D478516A5A44F00F0F161 /* icon_tearoff.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = icon_tearoff.tiff; path = resources/icon_tearoff.tiff; sourceTree = "<group>"; };
-		0D30EE28166DBCA500BF0639 /* IRcat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IRcat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D30EE28166DBCA500BF0639 /* IRcat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = IRcat.app; path = ircat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D30EE2C166DBCA500BF0639 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0D30EE2F166DBCA500BF0639 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		0D30EE30166DBCA500BF0639 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -306,6 +307,8 @@
 		0D847DB21671B5E600DBE21A /* ChannelModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChannelModal.m; path = sources/ChannelModal.m; sourceTree = SOURCE_ROOT; };
 		0D847DB91671B79200DBE21A /* INAppStoreWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = INAppStoreWindow.h; path = "external source/INAppStoreWindow/INAppStoreWindow.h"; sourceTree = SOURCE_ROOT; };
 		0D847DBA1671B79200DBE21A /* INAppStoreWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = INAppStoreWindow.m; path = "external source/INAppStoreWindow/INAppStoreWindow.m"; sourceTree = SOURCE_ROOT; };
+		0D9A5FC516ACD98900466D71 /* NotificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationController.h; path = sources/NotificationController.h; sourceTree = SOURCE_ROOT; };
+		0D9A5FC616ACD98A00466D71 /* NotificationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationController.m; path = sources/NotificationController.m; sourceTree = SOURCE_ROOT; };
 		0DA087D0166EDEDF0043119C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		0DA087D2166EDFA60043119C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = SOURCE_ROOT; };
 		0DA087D3166EDFBD0043119C /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = text/InfoPlist.strings; sourceTree = "<group>"; };
@@ -504,6 +507,8 @@
 				0D30EEAA166DBF0200BF0639 /* IRcatUtilities.m */,
 				0D30EEAB166DBF0200BF0639 /* IRCMessage.h */,
 				0D30EEAC166DBF0200BF0639 /* IRCMessage.m */,
+				0D9A5FC516ACD98900466D71 /* NotificationController.h */,
+				0D9A5FC616ACD98A00466D71 /* NotificationController.m */,
 				0D30EEAD166DBF0200BF0639 /* NotificationCell.h */,
 				0D30EEAE166DBF0200BF0639 /* NotificationCell.m */,
 				0D30EEAF166DBF0200BF0639 /* PreferenceConstants.h */,
@@ -874,6 +879,7 @@
 				0D30EF8C166DC20200BF0639 /* PreferenceConstants.m in Sources */,
 				0D847DB31671B5E600DBE21A /* ChannelModal.m in Sources */,
 				0D847DBB1671B79200DBE21A /* INAppStoreWindow.m in Sources */,
+				0D9A5FC716ACD98B00466D71 /* NotificationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface NotificationController : NSArrayController
+@interface NotificationController : NSArrayController <NSTableViewDataSource> {
+    
+}
 
+-(IBAction) addKeywordItem:(id)sender;
+    
 @end

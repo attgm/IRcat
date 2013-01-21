@@ -54,6 +54,7 @@
 #define kColoredKeyword @"coloredKeyword"
 
 //-- Notifications
+#define kNotifications @"notifications"
 FOUNDATION_EXPORT NSString* const IRNotificationTitle;
 FOUNDATION_EXPORT NSString* const IRNotificationUseAlert;
 FOUNDATION_EXPORT NSString* const IRNotificationAlertName;

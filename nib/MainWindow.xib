@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1070</int>
+		<int key="IBDocument.SystemTarget">1080</int>
 		<string key="IBDocument.SystemVersion">12C60</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
@@ -239,7 +239,6 @@
 													<string key="NSFrame">{{0, 50}, {301, 232}}</string>
 													<reference key="NSSuperview" ref="572600751"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="224444941"/>
 													<array class="NSMutableArray" key="NSTabViewItems">
 														<object class="NSTabViewItem" id="18367445">
 															<object class="NSMutableString" key="NSIdentifier">
@@ -300,7 +299,7 @@
 															<string key="NSFrameSize">{301, 237}</string>
 															<reference key="NSSuperview" ref="752459804"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="972253964"/>
+															<reference key="NSNextKeyView" ref="405903265"/>
 															<object class="NSTextContainer" key="NSTextContainer" id="1028180251">
 																<object class="NSLayoutManager" key="NSLayoutManager">
 																	<object class="NSTextStorage" key="NSTextStorage">
@@ -553,7 +552,7 @@ wGw</bytes>
 											<string key="NSFrame">{{0, 284}, {301, 237}}</string>
 											<reference key="NSSuperview" ref="729704234"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="405903265"/>
+											<reference key="NSNextKeyView" ref="752459804"/>
 											<int key="NSsFlags">133136</int>
 											<reference key="NSVScroller" ref="972253964"/>
 											<reference key="NSHScroller" ref="405903265"/>
@@ -587,7 +586,7 @@ wGw</bytes>
 													<string key="NSFrameSize">{158, 521}</string>
 													<reference key="NSSuperview" ref="317658232"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="57337377"/>
+													<reference key="NSNextKeyView" ref="241511071"/>
 													<bool key="NSEnabled">YES</bool>
 													<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 													<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -771,7 +770,7 @@ wGw</bytes>
 									<string key="NSFrame">{{302, 0}, {158, 521}}</string>
 									<reference key="NSSuperview" ref="979028347"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="241511071"/>
+									<reference key="NSNextKeyView" ref="317658232"/>
 									<int key="NSsFlags">133136</int>
 									<reference key="NSVScroller" ref="57337377"/>
 									<reference key="NSHScroller" ref="241511071"/>
@@ -872,6 +871,14 @@ wGw</bytes>
 						<reference key="destination" ref="979028347"/>
 					</object>
 					<int key="connectionID">55</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_nickListView</string>
+						<reference key="source" ref="1036570691"/>
+						<reference key="destination" ref="41103792"/>
+					</object>
+					<int key="connectionID">330</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1283,7 +1290,7 @@ wGw</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">329</int>
+			<int key="maxID">330</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1522,7 +1529,7 @@ wGw</bytes>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1070" key="NS.object.0"/>
+			<real value="1080" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>

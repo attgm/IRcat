@@ -318,30 +318,4 @@
 }
 
 
-#pragma mark NickList(Data Source/Delegate)
-//--- numberOfRowsInTableView
-// return number of nicks
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    NSLog(@"numberOfRowsInTableView:%lu", [_activeChannel nickNum]);
-    return [_activeChannel nickNum];
-}
-
-
-//-- tableView:viewForTableColumn:row
-//
-- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-    NickListItem* item = [_activeChannel nickListItemAt:row];
-   
-    NSTableCellView *cellView = [tableView makeViewWithIdentifier:@"NickCell" owner:self];
-   
-    cellView.textField.stringValue = [item nick];
-    NSUInteger flag = [item flag];
-    if((flag & IRFlagOperator) != 0){
-        cellView.imageView.objectValue = [NSImage imageNamed:@"op"];
-    }
-    
-    return cellView;
-}
-
 @end
