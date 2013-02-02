@@ -56,7 +56,6 @@
 #pragma mark Window Delegate
 - (void)windowWillClose:(NSNotification *)notification
 {
-    NSLog(@"close");
     self.acknowledgmentsWindow = nil;
 }
 

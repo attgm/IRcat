@@ -29,7 +29,6 @@
 -(void) dealloc
 {
     self.splitView = nil;
-    
     [super dealloc];
 }
 
@@ -38,6 +37,7 @@
 // trace mouse move
 -(void) mouseDown:(NSEvent*)event
 {
+    /*
     if ([_splitView subviews] == 0) return;
     
     NSView* view = [[_splitView subviews] objectAtIndex:0];
@@ -69,8 +69,7 @@
                 return;
             }
         }
-    //}
-    
+    //}*/
     [super mouseDown:event];
 }
 
@@ -80,9 +79,10 @@
 // set cursor rect
 -(void) resetCursorRects
 {
+    /*
     [self discardCursorRects];
-    
     [self addCursorRect:[self bounds] cursor:[NSCursor resizeUpDownCursor]];
+     */
 }
 
 

@@ -36,7 +36,6 @@
     
     TextFieldHistories* _textFieldHistories;
     NSPopUpButton*      _channelPopup;
-    NSTextField*        _topicTextField;
     
     NSButton*           _tearOffButton;
 }
@@ -44,6 +43,7 @@
 
 -(IBAction) switchChannelbyChannelPopup:(id)sender;
 -(IBAction) collapseChannelSplitView:(id)sender;
+-(IBAction) tearChannel:(id)sender;
 
 -(id) initWithInterface:(IRcatInterface*) inInterface;
 -(void) createWindow;
@@ -84,4 +84,7 @@
 -(NSToolbarItem*) toolbarTopicItem:(BOOL) flag;
 -(NSToolbarItem*) toolbarChannelItem:(BOOL) flag;
 
+-(CGFloat)          splitView:(NSSplitView *)splitView
+       constrainMinCoordinate:(CGFloat)proposedMin
+                  ofSubviewAt:(NSInteger)dividerIndex;
 @end

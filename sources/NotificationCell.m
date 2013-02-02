@@ -7,6 +7,7 @@
 
 #import "NotificationCell.h"
 #import "PreferenceConstants.h"
+#import "PreferenceModal.h"
 
 const NSInteger IRNotificationIconSize = 16;
 
@@ -34,22 +35,50 @@ NSDictionary* iconList()
 {
 	id values = [self objectValue];
 	NSRect frame = NSInsetRect(cellFrame, 4.0, 1.0);
+    frame.origin.x += 8.0;
 	
-	NSUInteger halfHeight = ceil(frame.size.height / 2);
+    if([[values objectForKey:IRNotificationUseColor] boolValue] == YES){
+        NSRect colorRect = cellFrame;
+        colorRect.size.width = 8.0;
+    
+        NSColor* color = [PreferenceModal transforColorNameToColor:[values objectForKey:IRNotificationColor]];
+        [color set];
+        NSRectFill(colorRect);
+    }
+    
+    NSUInteger halfHeight = ceil(frame.size.height / 2 - 1);
 	if([values isKindOfClass:[NSDictionary class]]){
-		id title = [values objectForKey:IRNotificationTitle];
-		if (title && [title isKindOfClass:[NSString class]]) {
-			NSMutableParagraphStyle* style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-			[style setLineBreakMode:NSLineBreakByTruncatingTail];
-			NSDictionary* attributes = [NSDictionary dictionaryWithObject:style forKey:NSParagraphStyleAttributeName];
-			NSRect titleRect = NSMakeRect(frame.origin.x, frame.origin.y, frame.size.width, halfHeight);
+		NSMutableParagraphStyle* style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [style setLineBreakMode:NSLineBreakByTruncatingTail];
+        
+        
+        NSString* notificationType = [values objectForKey:IRNotificationType];
+        NSString* title;
+        if([notificationType isEqualToString:IRNotificationTypeKeyword]){
+            title = [NSString stringWithFormat:@"\"%@\"", [values objectForKey:IRNotificationKeyword]];
+        }else{
+            title = NSLocalizedString(notificationType, notificationType);
+        }
+        if(title != nil){
+            NSDictionary* attributes = [NSDictionary dictionaryWithObject:style forKey:NSParagraphStyleAttributeName];
+            NSRect titleRect = NSMakeRect(frame.origin.x, frame.origin.y, frame.size.width, halfHeight);
 			[title drawInRect:titleRect withAttributes:attributes];
-			
-			
-			[style release];
 		}
+        
+        if([[values objectForKey:IRSendUserNotificationCenter] boolValue] == YES){
+            NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        style, NSParagraphStyleAttributeName,
+                                        [NSColor grayColor], NSForegroundColorAttributeName,
+                                        nil];
+            NSString* subText = NSLocalizedString(@"Send Notification Center", @"Send Notification Center");
+            NSRect subTextRect = NSMakeRect(frame.origin.x, frame.origin.y + halfHeight + 1, frame.size.width, halfHeight);
+			[subText drawInRect:subTextRect withAttributes:attributes];
+        }
+        
+        [style release];
 	}
 	
+    /*
 	NSPoint iconPoint = NSMakePoint(frame.origin.x + frame.size.width - IRNotificationIconSize ,
 									frame.origin.y + frame.size.height -IRNotificationIconSize);
 	NSDictionary* icons = iconList();
@@ -69,7 +98,7 @@ NSDictionary* iconList()
 			iconPoint.x -= IRNotificationIconSize;
 		}
 	}
-
+*/
 }
 
 @end

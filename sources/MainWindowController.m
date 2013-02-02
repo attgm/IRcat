@@ -49,7 +49,6 @@ NS_INLINE CGFloat MidHeight(NSRect rect){
 #if !__has_feature(objc_arc)
     [_textFieldHistories release];
     [_channelPopup release];
-    [_topicTextField release];
     [_tearOffButton release];
 #endif
 	[super dealloc];
@@ -128,6 +127,8 @@ NS_INLINE CGFloat MidHeight(NSRect rect){
             CGFloat button_x = [titleBarView frame].size.width - rightOffset - [_tearOffButton frame].size.width;
             CGFloat button_y = round(MidHeight([titleBarView frame]) - MidHeight([_tearOffButton frame]));
             [_tearOffButton setFrameOrigin:NSMakePoint(button_x, button_y)];
+            [_tearOffButton setAction:@selector(tearChannel:)];
+            [_tearOffButton setTarget:self];
             [titleBarView addSubview:_tearOffButton];
             
             
@@ -140,7 +141,6 @@ NS_INLINE CGFloat MidHeight(NSRect rect){
            
             
         }
-        //[_window setContentView:_contentsView];
         
         [[_modeTextView cell] setBackgroundStyle:NSBackgroundStyleRaised];
     }
@@ -314,7 +314,8 @@ NS_INLINE CGFloat MidHeight(NSRect rect){
 	//-- statusの更新
 	[self refleshLogIcon];
 	[self setModeString:[inNewChannel channelFlagString]];
-	
+	//-- window titleの更新
+    [_window setTitle:[inNewChannel name]];
     [_channelPopup selectItemWithTag:[inNewChannel channelid]];
     NSEnumerator* e = [[[_channelPopup menu] itemArray] objectEnumerator];
     NSMenuItem* mi;
@@ -343,6 +344,20 @@ NS_INLINE CGFloat MidHeight(NSRect rect){
     
 }
 
+
+//-- splitView:constrainMinCoordinate:ofSubviewAt:
+//
+-(CGFloat)          splitView:(NSSplitView *)splitView
+       constrainMinCoordinate:(CGFloat)proposedMin
+                  ofSubviewAt:(NSInteger)dividerIndex
+{
+    if(splitView == _paneSplitView){
+        if(dividerIndex == 0){
+            return 22.0f;
+        }
+    }
+    return [super splitView:splitView constrainMinCoordinate:proposedMin ofSubviewAt:(NSInteger)dividerIndex];
+}
 
 #pragma mark -
 #pragma mark Channel
@@ -568,6 +583,7 @@ NS_INLINE CGFloat MidHeight(NSRect rect){
     [inChannelView setFrame:[_channelClipView frame]];
     [_channelClipView setDocumentView:inChannelView];
 	[[inChannelView documentView] moveToEndOfDocument:self];
+    [_inputField setHidden:(inChannelView == nil)];
 }
 
 
@@ -706,26 +722,7 @@ NS_INLINE CGFloat MidHeight(NSRect rect){
     return popup;
 }
 
-//-- createToolbarTopicTextField
-// create topic text field on toolbar (title bar)
--(NSTextField*) createToolbarTopicTextField
-{
-	NSTextField *field = [[[NSTextField alloc] initWithFrame:NSZeroRect] autorelease];
-	
-	[[field cell] setControlSize:NSRegularControlSize];
-	[field setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
-	[field setDrawsBackground:NO];
-	[[field cell] setWraps:NO];
-	[[field cell] setScrollable:YES];
-	[field setEditable:NO];
-	[field setBezeled:NO];
-	[field setStringValue:(_topicString ? _topicString : @"")];
-	[field sizeToFit];
-	[field setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
-    
-    return field;
 
-}
 
 
 //-- createToolbarTearOffButton
@@ -745,23 +742,16 @@ NS_INLINE CGFloat MidHeight(NSRect rect){
     [button sizeToFit];
     [button setAutoresizingMask:(NSViewMinXMargin | NSViewMinYMargin)];
     
-    
     return button;
 }
 
-#pragma mark Delegate : NSPopupView
-//-- splitViewDidResizeSubviews
-// change popup button icon in accordance with the devider position
-- (void)    splitViewDidResizeSubviews:(NSNotification *) notification
-{
-    if(notification.object && [[notification.object class] isSubclassOfClass:[PopSplitView class]]){
-        PopSplitView* view = (PopSplitView*) notification.object;
-        if(view.splitRatio > 0.0f){
-            [view.popButton setImage:[NSImage imageNamed:(view.isVertical ? @"icon_right" : @"icon_down")]];
-        }else{
-            [view.popButton setImage:[NSImage imageNamed:(view.isVertical ? @"icon_left" : @"icon_up")]];
-        }
+
+#pragma mark TearOff
+//-- tearChannel
+// tear off window
+-(IBAction) tearChannel:(id) sender {
+    if([self selectedChannel] != nil && [[self selectedChannel] channelWindowController] == self){
+        [_interface tearChannel:[self selectedChannel]];
     }
 }
-
 @end

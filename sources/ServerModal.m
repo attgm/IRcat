@@ -17,7 +17,7 @@ static NSDictionary *defaultValues()
 			[NSNumber numberWithBool:NO], @"invisibleMode",
 			@"blue", @"serverLabel",
             @"", @"password",
-            [NSNumber numberWithInt:6667], @"port",
+            @"6667", @"port",
             @"", @"address",
             @"", @"mailAddress",
             @"", @"realName",

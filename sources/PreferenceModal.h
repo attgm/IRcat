@@ -16,6 +16,7 @@
 +(id) prefForKey:(NSString*) key;
 +(NSColor*) colorForKey:(NSString*) key;
 +(NSColor*) transforColorNameToColor:(NSString*) value;
++(NSDictionary*) notificationForType:(NSString*) type;
 +(NSDictionary*) searchFriend:(NSString*) nick;
 +(NSArray*) soundArray;
 
@@ -27,5 +28,8 @@
 - (void) savePreferencesToDefaults;
 
 -(NSMutableArray*) mutableArrayFromArray:(NSArray*)array keys:(id)key;
+
++(void) setSecurityBookmark:(NSData*)bookmark forPath:(NSString*)path;
++(NSURL*) securityBookmarkForPath:(NSString*)path;
 
 @end

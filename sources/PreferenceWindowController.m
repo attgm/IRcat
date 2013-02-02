@@ -6,6 +6,7 @@
 //
 #import "PreferenceModal.h"
 #import "PreferenceWindowController.h"
+#import "IRcatUtilities.h"
 
 //-- addToolbarItem
 // ツールバーのアイテムを追加するユーテリティ関数
@@ -331,6 +332,13 @@ static PreferenceWindowController *sSharedInstance = nil;
                        NSString* filePath = [[op URL] path];
                        [_preferenceController setValue:filePath
                                             forKeyPath:[NSString stringWithFormat:@"selection.%@", kLogFolder]];
+                       
+                       if(IsAppSandboxed()){
+                           NSError *error = nil;
+                           NSData *bookmarkData = [[NSURL fileURLWithPath:filePath]
+                                                   bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:&error];
+                           [PreferenceModal setSecurityBookmark:bookmarkData forPath:filePath];
+                       }
                    }
                }];
 }

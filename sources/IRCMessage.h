@@ -37,10 +37,11 @@ typedef enum {
 	NSUInteger _additionalIndex;
     NSUInteger _commonAdditionalPosition;
     NSUInteger _additionalPosition;
-    
-    BOOL _hasKeyword;
-	BOOL _hasNotification;
+	
+    NSColor*    _notificationColor;
+    BOOL _useNotification;
 }
+
 
 
 - (id) initWithMessage:(NSString*)inMessage server:(NSInteger)inServerID;
@@ -70,18 +71,14 @@ typedef enum {
 - (NSString*) timeString;
 - (NSString*) commandNumber;
 - (void) setExtendString:(NSString*) inString;
-- (void) setNotification:(BOOL) inNotify;
-- (BOOL) hasNotification;
-- (BOOL) hasKeyword;
+- (void) setNotificationColor:(NSColor*) inNotifyColor;
+- (void) setUseNotification:(BOOL) inUseNotification;
+- (BOOL) useNotification;
 - (IRCMessageType) messageType;
 
 - (void) filterMessage:(NSMutableAttributedString*) inMessage range:(NSRange)inRange;
 - (void) notifyMessage:(NSMutableAttributedString*) inMessage range:(NSRange)inRange;
 - (void) parseKeyword:(NSMutableAttributedString*) inMessage range:(NSRange) inRange;
-- (BOOL) searchKeyword:(NSMutableAttributedString*) inMessage
-				 range:(NSRange) inRange;
-- (BOOL) searchKeywordByMorpheme:(NSMutableAttributedString*) inMessage
-						   range:(NSRange) inRange;
 - (void) parseURL:(NSMutableAttributedString*) inMessage range:(NSRange)inRange;
 -(NSCharacterSet*) urlCharacterSet;
 

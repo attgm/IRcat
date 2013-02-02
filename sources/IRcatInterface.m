@@ -146,11 +146,13 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
     return self;
 }
 
-//--
-- (IBAction)showNotification:(id)sender{
+//-- showNotification
+// 
+-(void) showNotification:(NSString*)title message:(NSString*)message
+{
     NSUserNotification *notification = [[NSUserNotification alloc] init];
-    notification.title = @"Hello, World!";
-    notification.informativeText = @"A notification";
+    notification.title = title;
+    notification.informativeText = message;
     notification.soundName = NSUserNotificationDefaultSoundName;
     
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
@@ -1064,11 +1066,14 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
             break;
     }
 	// キーワードの処理
-	if([inMessage hasKeyword] || [inMessage hasNotification]){
-		if([[PreferenceModal prefForKey:kBeepKeyword] boolValue]){
+    
+	if([inMessage useNotification] == YES){
+        [self showNotification:[inMessage nickname] message:[[inMessage commonMessage] string]];
+		/*if([[PreferenceModal prefForKey:kBeepKeyword] boolValue]){
 			[[NSSound soundNamed:[PreferenceModal prefForKey:kBeepFile]] play];
 		}
-		[NSApp requestUserAttention:NSCriticalRequest];
+		[NSApp requestUserAttention:NSCriticalRequest];*/
+        
 	}
 }
 

@@ -11,6 +11,8 @@
 #import "PreferenceWindowController.h"
 #import "ChannelWindowController.h"
 #import "IRcatUtilities.h"
+#import "IRCMessage.h"
+#import "IRcatInterface.h"
 
 @implementation ChannelModal
 
@@ -598,36 +600,70 @@
 - (BOOL) createLogFile
 {
 	_logFileDate = [[self logDateString] copyWithZone:[self zone]];
-	NSString* dic = [NSString stringWithFormat:@"%@/%@"
-		, [PreferenceModal prefForKey:kLogFolder]
-		, [self aliasName]];
+    NSString* logFloder = [PreferenceModal prefForKey:kLogFolder];
+	NSString* dic = [NSString stringWithFormat:@"%@/%@", logFloder, [self aliasName]];
 	BOOL isDirectory;
 	NSFileManager* fm = [NSFileManager defaultManager];
-	BOOL isExists = [fm fileExistsAtPath:dic isDirectory:&isDirectory];
-	if(!isExists){
-        NSError* error;
-        if(![fm createDirectoryAtPath:[NSURL fileURLWithPath:dic] withIntermediateDirectories:YES attributes:nil error:&error]){
-			return NO;
-		}
-	}else if(!isDirectory){
-		return NO;
-	}
-	NSString* path = [NSString stringWithFormat:@"%@/%@.txt", dic, _logFileDate];
-	isExists = [fm fileExistsAtPath:path isDirectory:&isDirectory];
-	if(!isExists){
-		if(![fm createFileAtPath:path contents:nil attributes:nil]){
-			return NO;
-		}
-	}else if(isDirectory){
-		return NO;
-	}
-	_logFile = [[NSFileHandle fileHandleForWritingAtPath:path] retain];
-	[_logFile seekToEndOfFile];
-	if(!isExists){
-		unichar bom = 0xfeff;
-		[_logFile writeData:[NSData dataWithBytes:(char*)(&bom) length:2]];
-	}
-	return YES;
+    
+    NSURL* bookmark = nil;
+    if([fm fileExistsAtPath:logFloder] == YES && [fm isWritableFileAtPath:logFloder] == NO){
+        bookmark = [PreferenceModal securityBookmarkForPath:logFloder];
+        if (bookmark == nil){
+            NSString* string = [NSString stringWithFormat:@"* %@ :%@", [self aliasName],
+                                NSLocalizedString(@"DontAllowAccess", @"DontAllowAccess")];
+            IRCMessage* message = [[[IRCMessage alloc] initWithMessage:string server:[self serverid]] autorelease];
+            [[_windowController interface] appendMessage:message format:kInternalErrorFormat];
+            return NO;
+        }
+    }
+    
+    BOOL success = YES;
+    if (bookmark) [bookmark startAccessingSecurityScopedResource];
+    @try {
+        BOOL isExists = [fm fileExistsAtPath:dic isDirectory:&isDirectory];
+        if(!isExists){
+            NSError* error;
+            if(![fm createDirectoryAtURL:[NSURL fileURLWithPath:dic] withIntermediateDirectories:YES attributes:nil error:&error]){
+                [[NSException exceptionWithName:@"createDirectoryAtURL:withIntermediateDirectories:attributes:error:"
+                                         reason:[error localizedDescription]
+                                       userInfo:nil] raise];
+
+            }
+        }else if(!isDirectory){
+            [[NSException exceptionWithName:@"fileExistsAtPath:isDirectory:"
+                                     reason:@"It is directory"
+                                   userInfo:nil] raise];
+        }
+        
+        NSString* path = [NSString stringWithFormat:@"%@/%@.txt", dic, _logFileDate];
+        isExists = [fm fileExistsAtPath:path isDirectory:&isDirectory];
+        if(!isExists){
+            if(![fm createFileAtPath:path contents:nil attributes:nil]){
+                [[NSException exceptionWithName:@"createFileAtPath:contents:attributes"
+                                         reason:@""
+                                       userInfo:nil] raise];
+            }
+        }else if(isDirectory){
+            [[NSException exceptionWithName:@"fileExistsAtPath:isDirectory:"
+                                     reason:@"It is directory"
+                                   userInfo:nil] raise];
+        }
+        _logFile = [[NSFileHandle fileHandleForWritingAtPath:path] retain];
+        [_logFile seekToEndOfFile];
+        if(!isExists){
+            unichar bom = 0xfeff;
+            [_logFile writeData:[NSData dataWithBytes:(char*)(&bom) length:2]];
+        }
+    }
+    @catch(NSException *exception) {
+        success = NO;
+        NSLog(@"%@ : %@",[exception name], [exception reason]);
+    }
+    @finally {
+        if (bookmark) [bookmark stopAccessingSecurityScopedResource];
+    }
+
+	return success;
 }
 
 

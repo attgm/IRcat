@@ -12,6 +12,7 @@ extern NSString* PrefixCharacterSet(NSString* inString, NSCharacterSet* inDevide
 extern BOOL IsChannel(NSString* inString);
 extern BOOL IsNick(NSString* inString);
 extern BOOL IsMode(NSString* inString);
+extern BOOL IsAppSandboxed();
 
 
 

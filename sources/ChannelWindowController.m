@@ -14,6 +14,7 @@
 #import "ChannelWindowController.h"
 #import "BufferedFieldEditor.h"
 #import "NickListItem.h"
+#import "INAppStoreWindow.h"
 
 @implementation ChannelWindowController
 
@@ -26,6 +27,7 @@
 	
 	if(self != nil){
 		_interface = [inInterface retain];
+        _channelName = nil;
 		[self createWindow];
 	}
 	return self;
@@ -36,9 +38,15 @@
 // 後片付け
 -(void) dealloc
 {
+    [_nickListView unbind:@"font"];
+    [_inputField unbind:@"font"];
+    
+    [_interface release];
 	[_activeChannel release];
 	[_window release];
 	[_fieldEditor release];
+    [_topicTextField release];
+    [_channelName release];
 	[super dealloc];
 }
 
@@ -54,6 +62,14 @@
 			return;
 		}
 		
+        if([[_window class] isSubclassOfClass:[INAppStoreWindow class]]){
+            INAppStoreWindow* window = (INAppStoreWindow*) _window;
+            window.trafficLightButtonsLeftMargin = 7.0;
+            window.fullScreenButtonRightMargin = 7.0;
+            window.titleBarHeight = 36.0;
+            window.hideTitleBarInFullScreen = NO;
+        }
+        
 		NSImageCell* cell = [[[NSImageCell alloc] init] autorelease];
 		[_nickListView setIntercellSpacing:NSMakeSize(0.0, 0.0)];
 		[[_nickListView tableColumnWithIdentifier:@"icon"] setDataCell:cell];
@@ -82,8 +98,35 @@
 		[_inputField setAllowsEditingTextAttributes:NO];
         
         [[_modeTextView cell] setBackgroundStyle:NSBackgroundStyleRaised];
-	}	
+        
+        
+        if([[_window class] isSubclassOfClass:[INAppStoreWindow class]]){
+            INAppStoreWindow* window = (INAppStoreWindow*) _window;
+            //NSButton *fullScreen = [_window standardWindowButton:NSWindowFullScreenButton];
+            NSButton *zoomButton = [window standardWindowButton:NSWindowZoomButton];
+            
+            CGFloat leftOffset = zoomButton.frame.origin.x + zoomButton.frame.size.width + window.trafficLightButtonsLeftMargin;
+            CGFloat rightOffset = window.trafficLightButtonsLeftMargin;
+            
+            NSView *titleBarView = window.titleBarView;
+            
+            _channelName = [[self createToolbarChannelNameTextField] retain];
+            [_channelName setFrame:NSMakeRect(leftOffset, 8.0, 160.0, [_channelName frame].size.height)];
+            [titleBarView addSubview:_channelName];
+            
+            _topicTextField = [[self createToolbarTopicTextField] retain];
+            CGFloat x = NSMaxX([_channelName frame]) + 8.0;
+            CGFloat width = titleBarView.frame.size.width - rightOffset - x;
+            [_topicTextField setFrame:NSMakeRect(x, 8.0, width, [_topicTextField frame].size.height)];
+            [titleBarView addSubview:_topicTextField];
+            
+            
+            
+        }
+
+	}
 	[_window makeKeyAndOrderFront:nil];
+    
 }
 
 
@@ -149,6 +192,7 @@
 // topicの設定
 - (void) setTopic:(NSString*) inTopic
 {
+    [_topicTextField setStringValue:inTopic];
 }
 
 
@@ -246,6 +290,7 @@
 		[self setModeString:[inChannelModal channelFlagString]];
 		//-- window titleの設定
 		[_window setTitle:[inChannelModal aliasName]];
+        [_channelName setStringValue:[inChannelModal aliasName]];
 	}
 	[_window makeKeyAndOrderFront:nil];
 }
@@ -317,5 +362,87 @@
 	return [self fieldEditor];
 }
 
+
+#pragma mark Delegate : NSPopupView
+//-- splitViewDidResizeSubviews
+// change popup button icon in accordance with the devider position
+- (void)    splitViewDidResizeSubviews:(NSNotification *) notification
+{
+    if(notification.object && [[notification.object class] isSubclassOfClass:[PopSplitView class]]){
+        PopSplitView* view = (PopSplitView*) notification.object;
+        if(view.splitRatio > 0.0f){
+            [view.popButton setImage:[NSImage imageNamed:(view.isVertical ? @"icon_right" : @"icon_down")]];
+        }else{
+            [view.popButton setImage:[NSImage imageNamed:(view.isVertical ? @"icon_left" : @"icon_up")]];
+        }
+    }
+}
+
+#pragma mark Toolbar Control
+//-- createToolbarTopicTextField
+// create topic text field on toolbar (title bar)
+-(NSTextField*) createToolbarTopicTextField
+{
+	NSTextField *field = [[[NSTextField alloc] initWithFrame:NSZeroRect] autorelease];
+	
+	[[field cell] setControlSize:NSRegularControlSize];
+	[field setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
+	[field setDrawsBackground:NO];
+	[[field cell] setWraps:NO];
+	[[field cell] setScrollable:YES];
+	[field setEditable:NO];
+	[field setBezeled:NO];
+	[field setStringValue:@""];
+	[field sizeToFit];
+	[field setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
+    
+    return field;
+}
+
+
+//-- createToolbarChannelNameTextField
+// create topic text field on toolbar (title bar)
+-(NSTextField*) createToolbarChannelNameTextField
+{
+	NSTextField *field = [[[NSTextField alloc] initWithFrame:NSZeroRect] autorelease];
+	
+	[[field cell] setControlSize:NSRegularControlSize];
+	[field setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
+	[field setDrawsBackground:NO];
+	[[field cell] setWraps:NO];
+	[[field cell] setScrollable:YES];
+    [[field cell] setBackgroundStyle:NSBackgroundStyleRaised];
+	[field setEditable:NO];
+	[field setBezeled:NO];
+	[field setStringValue:@""];
+	[field sizeToFit];
+	[field setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
+    
+    return field;
+}
+
+
+#pragma mark Delegate : NSPopupView
+
+//-- splitView:constrainMinCoordinate:ofSubviewAt:
+//
+-(CGFloat)          splitView:(NSSplitView *)splitView
+       constrainMinCoordinate:(CGFloat)proposedMin
+                  ofSubviewAt:(NSInteger)dividerIndex
+{
+    if(splitView == _popSplitView){
+        if(dividerIndex == 0){
+            return 120.0f;
+        }
+    }
+    return proposedMin;
+}
+
+
+//-- interface
+-(IRcatInterface*) interface
+{
+    return _interface;
+}
 
 @end

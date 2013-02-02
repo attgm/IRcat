@@ -8,6 +8,7 @@
 #import "PreferenceModal.h"
 #import "PreferenceConstants.h"
 #import "ColorNameToColorTransformer.h"
+#import "IRcatUtilities.h"
 
 static PreferenceModal* sSharedPreferenceModal = nil;
 
@@ -56,18 +57,8 @@ static NSDictionary *defaultValues()
                     [NSArray array], kNotifications,
                     [NSArray arrayWithObject:
                      [NSDictionary dictionaryWithObjectsAndKeys:
-                      @"nick", @"name",
-                      @"0.5 0.0 0.0 1.0", @"color", nil]], kFriends,
-                    [NSArray arrayWithObject:
-                     [NSDictionary dictionaryWithObjectsAndKeys:
-                      @"keyword", IRNotificationTitle,
-                      @"", IRNotificationAlertName,
-                      @"0.5 0.0 0.0 1.0", IRNotificationColor,
-                      [NSNumber numberWithBool:YES], IRNotificationUseAlert,
-                      [NSNumber numberWithBool:YES], IRNotificationUseColor, nil]], kKeywords,
-                    [NSArray arrayWithObject:
-                     [NSDictionary dictionaryWithObjectsAndKeys:
                       @"#channel", @"name", nil]], kLogChannels,
+                    [NSDictionary dictionary], kSecureBookmarkTable,
                     nil];
     }
     return defaults;
@@ -83,21 +74,21 @@ static NSArray *defaultNotifications()
         notifications = [[NSArray alloc] initWithObjects:
                          [[NSDictionary alloc] initWithObjectsAndKeys:
                           IRNotificationTypeInvite, IRNotificationType,
-                          @"0.0 0.0 0.0 1.0", IRNotificationColor,
+                          @"1.0 0.0 0.0 1.0", IRNotificationColor,
                           [NSNumber numberWithBool:YES], IRNotificationUseColor,
                           [NSNumber numberWithBool:NO], IRNotificationEnable,
                           [NSNumber numberWithBool:YES], IRSendUserNotificationCenter,
                           nil],
                          [[NSDictionary alloc] initWithObjectsAndKeys:
                           IRNotificationTypePriv, IRNotificationType,
-                          @"0.0 0.0 0.0 1.0", IRNotificationColor,
+                          @"1.0 0.0 0.0 1.0", IRNotificationColor,
                           [NSNumber numberWithBool:YES], IRNotificationUseColor,
                           [NSNumber numberWithBool:NO], IRNotificationEnable,
                           [NSNumber numberWithBool:NO], IRSendUserNotificationCenter,
                           nil],
                          [[NSDictionary alloc] initWithObjectsAndKeys:
                           IRNotificationTypeNewPriv, IRNotificationType,
-                          @"0.0 0.0 0.0 1.0", IRNotificationColor,
+                          @"1.0 0.0 0.0 1.0", IRNotificationColor,
                           [NSNumber numberWithBool:YES], IRNotificationUseColor,
                           [NSNumber numberWithBool:NO], IRNotificationEnable,
                           [NSNumber numberWithBool:YES], IRSendUserNotificationCenter,
@@ -148,6 +139,21 @@ NSDictionary* FindNotificationsByType(NSArray* array, NSString* type){
 	return [PreferenceModal transforColorNameToColor:[PreferenceModal prefForKey:key]];
 }
 
+
+//-- notificationForType
+// notification for type
++(NSDictionary*) notificationForType:(NSString*) type
+{
+    NSArray* array = [[PreferenceModal sharedPreference] valueForKey:kNotifications];
+    for(NSDictionary* item in array){
+        if([[item valueForKey:IRNotificationType] isEqualToString:type]){
+            return item;
+        }
+    }
+    return nil;
+}
+
+
 //-- transforColorNameToColor
 //
 + (NSColor*) transforColorNameToColor:(NSString*) value
@@ -163,6 +169,7 @@ NSDictionary* FindNotificationsByType(NSArray* array, NSString* type){
     }
 	return [NSColor whiteColor];
 }
+
 
 //-- soundArray
 // サウンドの一覧を返す
@@ -358,4 +365,34 @@ NSDictionary* FindNotificationsByType(NSArray* array, NSString* type){
 	return copy;
 }
 
+#pragma mark Security Scoped Bookmark
+//-- setSecurityBookmark:
+// Secutiry-scoped bookmarkを保存する
++(void) setSecurityBookmark:(NSData*)bookmark forPath:(NSString*)path
+{
+    [[PreferenceModal sharedPreference] setValue:[NSDictionary dictionaryWithObject:bookmark forKey:path]
+                                          forKey:kSecureBookmarkTable];
+}
+
+
+//-- setSecurityBookmark:
+// Secutiry-scoped bookmarkを取得する
++(NSURL*) securityBookmarkForPath:(NSString*)path
+{
+    if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6) return nil;
+    if (IsAppSandboxed() == NO) return nil;
+    
+    NSData *bookmark = [[PreferenceModal prefForKey:kSecureBookmarkTable] objectForKey:path];
+    if(bookmark){
+        NSError* error = nil;
+        BOOL stale;
+        NSURL* bookmarkUrl = [NSURL URLByResolvingBookmarkData:bookmark
+                                                       options:NSURLBookmarkResolutionWithSecurityScope
+                                                 relativeToURL:nil
+                                           bookmarkDataIsStale:&stale
+                                                         error:&error];
+        if (stale == false && error == nil) return bookmarkUrl;
+    }
+    return nil;
+}
 @end

@@ -29,6 +29,10 @@
 // データの削除
 - (void) dealloc
 {
+    [_channelView unbind:@"font"];
+	[_channelView unbind:@"urlColor"];
+	[_channelView unbind:@"backgroundColor"];
+    
 #if !__has_feature(objc_arc)
     [_scrollView release];
 	[_channelModal release];
@@ -99,6 +103,7 @@
 	[_channelView bind:@"backgroundColor" toObject:prefController withKeyPath:@"selection.backgroundColor"
 			   options:[NSDictionary dictionaryWithObject:@"ColorNameToColorTransformer"
 												   forKey:@"NSValueTransformerName"]];
+
 }
 
 

@@ -24,7 +24,7 @@
 #define kKeywordColor @"keywordColor"
 #define kNotifyOfNewPrivChannel @"notifyOfNewPrivChannel"
 #define kNotifyOfInvitedChannel @"notifyOfInvitedChannel"
-#define kKeywords @"keywordsList"
+//#define kKeywords @"keywordsList"
 #define kUseAnalysis @"useAnalysisLibrary"
 
 #define kAutoJoin @"autoJoinInvitedChannel"
@@ -53,9 +53,11 @@
 
 #define kColoredKeyword @"coloredKeyword"
 
+#define kSecureBookmarkTable @"secureBookmarks"
+
 //-- Notifications
 #define kNotifications @"notifications"
-FOUNDATION_EXPORT NSString* const IRNotificationTitle;
+FOUNDATION_EXPORT NSString* const IRNotificationKeyword;
 FOUNDATION_EXPORT NSString* const IRNotificationUseAlert;
 FOUNDATION_EXPORT NSString* const IRNotificationAlertName;
 FOUNDATION_EXPORT NSString* const IRNotificationUseColor;

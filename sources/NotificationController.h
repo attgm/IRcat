@@ -2,16 +2,16 @@
 //  NotificationController.h
 //  ircat
 //
-//  Created by Atsushi on 2013/01/21.
-//  Copyright (c) 2013年 atsushi. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
 
-@interface NotificationController : NSArrayController <NSTableViewDataSource> {
+@interface NotificationController : NSArrayController {
     
 }
 
--(IBAction) addKeywordItem:(id)sender;
-    
+-(IBAction) addItem:(id)sender;
+-(IBAction) removeSelectedItem:(id)sender;
+
+- (BOOL) canRemove;
 @end
