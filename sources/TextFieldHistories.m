@@ -8,17 +8,17 @@
 #import "TextFieldHistories.h"
 
 
-@implementation TextFieldHistories
-
+@implementation TextFieldHistories 
 //-- init
 // 初期化
 -(id) init
 {
-	[super init];
-	_histories = [[NSMutableArray alloc] init];
-	[_histories addObject:[NSString stringWithString:@" "]];
-	_historyIndex = 0;
-	
+	self = [super init];
+    if(self != nil){
+        _histories = [[NSMutableArray alloc] init];
+        [_histories addObject:@" "];
+        _historyIndex = 0;
+	}
 	return self;
 }
 
@@ -77,7 +77,7 @@
 {
 	[_histories removeLastObject];
 	[self addHistory:[NSString stringWithString:[textField stringValue]]];
-	[_histories addObject:[NSString stringWithString:@" "]];
+	[_histories addObject:@" "];
 	_historyIndex = [_histories count] - 1;
 }
 

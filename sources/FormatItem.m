@@ -1,6 +1,6 @@
 //
 //  $RCSfile: FormatItem.m,v $
-//  
+//
 //  $Revision: 49 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
@@ -10,27 +10,34 @@
 
 @implementation FormatItem
 
+@synthesize format = _format;
+@synthesize commonFormat = _commonFormat;
+@synthesize appendFormat = _appendFormat;
+@synthesize displayPlace = _displayPlace;
+@synthesize channelPosition = _channelPosition;
+
+
 //-- initWithParams:
-// ‰Šú‰»
+// åˆæœŸåŒ–
 - (id) initWithParams:(NSString*)format
-							  :(NSString*)common
-							  :(NSString*)append
-							  :(int)where
-							  :(int)channel
+                     :(NSString*)common
+                     :(NSString*)append
+                     :(InsertPlace)where
+                     :(int)channel
 {
-	[super init];
-	
-	_format = [format copyWithZone:[self zone]];
-	_commonFormat = [common copyWithZone:[self zone]];
-	_appendFormat = [append copyWithZone:[self zone]];
-	_displayPlace = where;
-	_channelPosition = channel;
-	return self;
-}
+	self = [super init];
+	if(self){
+        _format = [format copyWithZone:[self zone]];
+        _commonFormat = [common copyWithZone:[self zone]];
+        _appendFormat = [append copyWithZone:[self zone]];
+        _displayPlace = where;
+        _channelPosition = channel;
+	}
+    return self;}
 
 
 //-- dealloc
-// ”jŠü
+// ç ´æ£„
 - (void) dealloc
 {
 	[_format release];
@@ -41,7 +48,7 @@
 
 
 //-- formatWithFormat
-// ‰Šú‰»
+// åˆæœŸåŒ–
 + (id) formatWithFormat:(NSDictionary*)format
 {
 	return [[[FormatItem alloc] initWithParams:[format objectForKey:@"format"]
@@ -50,45 +57,4 @@
 											  :[[format objectForKey:@"displayPlace"] intValue]
 											  :[[format objectForKey:@"channelPosition"] intValue]] autorelease];
 }
-
-#pragma mark -
-
-//-- format
-// ƒƒCƒ“ƒtƒH[ƒ}ƒbƒg
-- (NSString*) format
-{
-	return _format;
-}
-
-//-- commonFormat
-// ‹¤’Êview‚É•\¦‚³‚¹‚éformat
-- (NSString*) commonFormat
-{
-	return _commonFormat;
-}
-
-
-//-- appendFormat
-// ’Ç‰Á•¶š—ñ—pƒtƒH[ƒ}ƒbƒg
-- (NSString*) appendFormat
-{
-	return _appendFormat;
-}
-
-
-//-- displayPlace
-// •\¦êŠ
-- (int) displayPlace
-{
-	return _displayPlace;
-}
-
-
-//-- channelPosition
-// ƒ`ƒƒƒ“ƒlƒ‹‚ª‚ ‚éêŠ
-- (int) channelPosition
-{
-	return _channelPosition;
-}
-
 @end

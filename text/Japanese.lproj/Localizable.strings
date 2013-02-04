@@ -1,4 +1,4 @@
-﻿MGJoinDialog = "参加するチャンネル名/ニックネームを入力して下さい。";
+MGJoinDialog = "参加するチャンネル名/ニックネームを入力して下さい。";
 MGPartDialog = "離脱するチャンネル名/ニックネームを入力して下さい。";
 MGNickDialog = "新しいニックネームを入力して下さい。";
 MGWhoisDialog = "誰の情報を取得しますか？";
@@ -48,3 +48,10 @@ MGErrorCannotConnect = "サーバに接続できません。";
 "Friends" = "友人";
 "Log" = "ログ";
 "Etc" = "その他";
+"nf_priv" = "プライベートメッセージを受信";
+"nf_newpv" = "新規プライベートメッセージを受信";
+"nf_inv" = "チャンネルに招待された時";
+"nf_keywd" = "キーワード";
+"Send Notification Center" = "通知センター";
+"DontAllowAccess" = "ログファイルの作成が拒否されました";
+

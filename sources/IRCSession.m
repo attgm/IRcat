@@ -17,27 +17,28 @@
 // 初期化
 - (id) initWithConfig : (NSDictionary*) inConfig
             interface : (id) inInterface
-            identify : (int) inID
+            identify : (NSInteger) inID
 {
-    [super init];
+    self = [super init];
     
-    _config = [inConfig copyWithZone:[self zone]];
-	_nickname = [inConfig objectForKey:kNickname];
-    _serverid = inID;
-    
-    _interface = [inInterface retain];
-	_sessionCondition = IRSessionConditionDisconnected;
-	
-	_encodingFilter = [TextEncodings filterFromEncoding:[inConfig objectForKey:kTextEncoding]];
-	
-	NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
-	[center addObserver:self selector:@selector(windowCloseQuit)
-				   name:@"IRcatWindowWillCloseNotification" object:_interface];
-	
-	_pingInterval = 0.0;
-	_prevousPing = nil;
-	_sessionTimer = nil;
-	
+    if(self != nil){
+        _config = [inConfig copyWithZone:[self zone]];
+        _nickname = [inConfig objectForKey:kNickname];
+        _serverid = inID;
+        
+        _interface = [inInterface retain];
+        _sessionCondition = IRSessionConditionDisconnected;
+        
+        _encodingFilter = [TextEncodings filterFromEncoding:[inConfig objectForKey:kTextEncoding]];
+        
+        NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
+        [center addObserver:self selector:@selector(windowCloseQuit)
+                       name:@"IRcatWindowWillCloseNotification" object:_interface];
+        
+        _pingInterval = 0.0;
+        _prevousPing = nil;
+        _sessionTimer = nil;
+	}
     return self;
 }
 
@@ -129,7 +130,7 @@
 
 //-- serverid
 // サーバID
-- (int) serverid
+- (NSInteger) serverid
 {
     return _serverid;
 }

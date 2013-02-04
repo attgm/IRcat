@@ -57,14 +57,14 @@
 	
 	const unsigned char* bytes = [inData bytes];
 	unsigned char c[2];
-	unsigned int location = 0;
+	NSUInteger location = 0;
 	typedef enum {
 		kJISX0201Encoding,
 		kJISX0208Encoding,
 		kJISX0201ShiftEncoding
 	} JISX0208Encoding;
 	JISX0208Encoding encoding = kJISX0201Encoding;
-	unsigned int end = [inData length];
+	NSUInteger end = [inData length];
 	
 	while(location < end){
 		c[0] = bytes[location];

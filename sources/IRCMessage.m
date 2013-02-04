@@ -53,24 +53,25 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 @implementation IRCMessage
 
 //-- initWithMessage:server
-- (id) initWithMessage:(NSString*) inMessage server:(int)inServerID
+- (id) initWithMessage:(NSString*) inMessage server:(NSInteger)inServerID
 {
-	[super init];
-    _serverid = inServerID;
-    _message = [inMessage copyWithZone:[self zone]];
-    
-    _channelname = nil;
-    _hostname = nil;
-    _nickname = nil;
-    _trailing = nil;
-    _extendString = nil;
-	_hasKeyword = NO;
-	_hasNotification = NO;	
-    _paramList = [[NSMutableArray alloc] init];
-    
-    [self parsePrefix];
-    [self parseParams];
-    
+	self = [super init];
+    if(self != nil){
+        _serverid = inServerID;
+        _message = [inMessage copyWithZone:[self zone]];
+        
+        _channelname = nil;
+        _hostname = nil;
+        _nickname = nil;
+        _trailing = nil;
+        _extendString = nil;
+        _notificationColor = nil;
+        _paramList = [[NSMutableArray alloc] init];
+        _useNotification = NO;
+        
+        [self parsePrefix];
+        [self parseParams];
+    }
     return self;
 }
 
@@ -91,6 +92,8 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
     [_commonMessage release];
     [_additionalMessage release];
 	[_extendString release];
+    
+    [_notificationColor release];
 	[super dealloc];
 }
 
@@ -135,7 +138,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
     
     content = NSMakeRange(0, [_message length]);
     if(_nickname != nil){
-        param = DevideString(_message, @" ", &content);
+        DevideString(_message, @" ", &content);
     }
     
     // get command
@@ -273,7 +276,8 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
     unichar	c;
 
     NSDictionary* currentColor = [inAttributes objectAtIndex:kPlainAttribute];
-    unsigned int keywordPos = -1;
+    NSUInteger keywordPos = 0;
+    BOOL hasBracket = NO;
 	
     if (format.length == 0) return outputString;
         
@@ -362,18 +366,21 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
                     case '[': // %[ : Keyword bracket キーワード開始
 					case '{': // %{ : Keyword/Notification bracket
                         keywordPos = [outputString length];
+                        hasBracket = YES;
 						break;
 					case ']': // %] : keyword bracket キーワード終了
-						if(keywordPos >= 0){
+						if(hasBracket == YES){
 							[self filterMessage:outputString
 										  range:NSMakeRange(keywordPos, [outputString length] - keywordPos)];
 						}
+                        hasBracket = NO;
 						break;
                     case '}': // %} : notification bracket キーワード終了
-						if(keywordPos >= 0){
+						if(hasBracket == YES){
 							[self notifyMessage:outputString
 										  range:NSMakeRange(keywordPos, [outputString length] - keywordPos)];
 						}
+                        hasBracket = NO;
 						break;
 					case 'A': // %A : Additional Message
                         _additionalIndex = [outputString length];
@@ -449,7 +456,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 
 //-- additionalPosition
 // 挿入ポイントの取得
-- (int) additionalPosition
+- (NSUInteger) additionalPosition
 {
     return _additionalPosition;
 }
@@ -457,7 +464,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 
 //-- commonAdditionalPosition
 // 挿入ポイントの取得
-- (int) commonAdditionalPosition
+- (NSUInteger) commonAdditionalPosition
 {
     return _commonAdditionalPosition;
 }
@@ -485,7 +492,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 
 //-- serverid
 // server idを返す
-- (int) serverid
+- (NSInteger) serverid
 {
     return _serverid;
 }
@@ -522,7 +529,7 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
     NSCalendarDate* date = [NSCalendarDate calendarDate];
     
     if([[PreferenceModal prefForKey:kUseInternetTime] boolValue] == YES){
-        int internetTime;
+        NSInteger internetTime;
     
         // Internet timeの場合
         [date setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
@@ -530,10 +537,10 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
         internetTime = (internetTime > 1000) ? (internetTime - 1000) :
                                                 (internetTime < 0) ? (internetTime + 1000) : internetTime;
     
-        return [NSString stringWithFormat:@"@%03d ", internetTime];
+        return [NSString stringWithFormat:@"@%03ld ", (long)internetTime];
     }else{
         // 通常の時刻表示
-        return [NSString stringWithFormat:@"%02d:%02d ", [date hourOfDay], [date minuteOfHour]];
+        return [NSString stringWithFormat:@"%02ld:%02ld ", (long)[date hourOfDay], (long)[date minuteOfHour]];
     }
 }
 
@@ -556,34 +563,40 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 				 range:(NSRange) inRange
 {
 	//if([[PreferenceWindowController preferenceForKey:kColoredNotification] boolValue]){
-	if([[PreferenceModal prefForKey:kColoredKeyword] boolValue]){
-		if(_hasNotification){
-			[inMessage addAttribute:NSForegroundColorAttributeName
-							  value:[PreferenceModal prefForKey:kKeywordColor]
+	if(_notificationColor != nil){
+		[inMessage addAttribute:NSForegroundColorAttributeName
+							  value:_notificationColor
 							  range:inRange];
-		}else{
-			[self parseKeyword:inMessage range:inRange];		
-		}
+    }else{
+        [self parseKeyword:inMessage range:inRange];
 	}
 }
 
 
 //-- setNotification
 // キーワードがあるかどうか
-- (void) setNotification:(BOOL) inNotification
+- (void) setNotificationColor:(NSColor*) inNotificationColor
 {
-	_hasNotification = inNotification;
+    if(_notificationColor){
+        [_notificationColor release];
+    }
+    _notificationColor = [inNotificationColor retain];
 }
 
 
-
-//-- hasNotification
-// キーワードがあるかどうか
-- (BOOL) hasNotification
-{
-	return _hasNotification;
+//-- setUseNotification
+//
+- (void) setUseNotification:(BOOL) inUseNotification{
+    _useNotification = inUseNotification;
 }
 
+
+//-- useNotification
+//
+- (BOOL) useNotification
+{
+    return _useNotification;
+}
 
 #pragma mark Filtering Message
 
@@ -604,67 +617,26 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 - (void) parseKeyword:(NSMutableAttributedString*) inMessage
 				range:(NSRange) inRange
 {
-	/*if([[PreferenceModal prefForKey:kUseAnalysis] boolValue] == YES){
-		_hasKeyword = [self searchKeywordByMorpheme:inMessage range:inRange];
-	}else{*/
-		_hasKeyword = [self searchKeyword:inMessage range:inRange];
-	//}	
-	
-	if(_hasKeyword){
-		[inMessage addAttribute:NSForegroundColorAttributeName
-							  value:[PreferenceModal colorForKey:kKeywordColor]
-							  range:inRange];
-	}
-}
-
-
-//-- searchKeyword
-// keywordの抽出
-- (BOOL) searchKeyword:(NSMutableAttributedString*) inMessage
-				 range:(NSRange) inRange
-{
-	NSEnumerator* e = [[PreferenceModal prefForKey:kKeywords] objectEnumerator];
-	id it;
-	
-	while(it = [e nextObject]){
-		NSRange range = NSMakeRange(NSNotFound, NSNotFound); 
-		id keyword = [it objectForKey:@"name"];
+	NSArray* array = [PreferenceModal prefForKey:kNotifications];
+    for(NSDictionary* it in array){
+        NSRange range = NSMakeRange(NSNotFound, NSNotFound);
+		id keyword = [it objectForKey:IRNotificationKeyword];
 		if(keyword && [keyword length] > 0){
 			range = [[inMessage string] rangeOfString:keyword options:0 range:inRange];
-		}
-		if(range.location != NSNotFound){
-			return YES;
-		}
-	}
-	return NO;
+            if(range.location != NSNotFound){
+                if([[it valueForKey:IRNotificationUseColor] boolValue] == YES){
+                    [inMessage addAttribute:NSForegroundColorAttributeName
+                                      value:[PreferenceModal transforColorNameToColor:[it valueForKey:IRNotificationColor]]
+                                      range:range];
+                }
+                if([[it valueForKey:IRSendUserNotificationCenter] boolValue] == YES){
+                    [self setUseNotification:YES];
+                }
+            }
+        }
+    }
 }
 
-
-//-- searchKeywordByMorpheme
-// keywordの抽出
-- (BOOL) searchKeywordByMorpheme:(NSMutableAttributedString*) inMessage
-						   range:(NSRange) inRange
-{
-	/*
-	NSEnumerator* e = [[PreferenceModal prefForKey:kKeywords] objectEnumerator];
-	id key;
-	
-	NSArray* morphemes = [AnalysisFilter morphemesFromString:[[inMessage string] substringWithRange:inRange]];
-	
-	while(key = [e nextObject]){
-		NSString* keyword = [key objectForKey:@"keyword"];
-		NSEnumerator* it = [morphemes objectEnumerator];
-		NSString* morpheme;
-		while(morpheme = [it nextObject]){
-			if([morpheme isEqualToString:keyword] == YES){
-				return YES;
-			}
-		}
-	}
-	return NO;
-	 */
-	return NO;
-}
 
 //-- parseURL
 // URL文字列を抽出する
@@ -676,9 +648,9 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 	[scanner setCaseSensitive:YES];
 	[scanner setCharactersToBeSkipped:nil];
 	
-	unsigned int location;
-	unsigned int origin = [scanner scanLocation];
-	unsigned int offset = inRange.location;
+	NSUInteger location;
+	NSUInteger origin = [scanner scanLocation];
+	NSUInteger offset = inRange.location;
 	
 	int i;
 	for(i=0; i<kProtocolNum; i++){
@@ -714,12 +686,6 @@ NSRange DevideString(NSString* inString, NSString* inDevide, NSRange* ioContent)
 	return urlCharSet;
 }
 
-//-- hasKeyword
-// キーワードがあるかどうか
-- (BOOL) hasKeyword
-{
-	return _hasKeyword;
-}
 
 
 @end

@@ -13,12 +13,12 @@
 
 @class ChannelWindowController;
 
-@interface ChannelModal : NSObject {
+@interface ChannelModal : NSObject <NSTableViewDataSource> {
     NSString* _channelName;
     NSString* _aliasName;
 	
-    int	_serverID;
-    int _channelID;
+    NSInteger	_serverID;
+    NSInteger _channelID;
     
     NSString* _topic;
     NSString* _iconName;
@@ -38,11 +38,11 @@
 
 - (id) init;
 - (id) initWithName:(NSString*) inChannelName
-           identify:(int) inChannelID
-             server:(int) inServerID;
+           identify:(NSInteger) inChannelID
+             server:(NSInteger) inServerID;
 - (void) dealloc;
 
-- (BOOL) compareForName:(NSString*)inChannelName server:(int)inServerID;
+- (BOOL) compareForName:(NSString*)inChannelName server:(NSInteger)inServerID;
 
 - (BOOL) isJoined:(NSString*)inNick;
 - (NickListItem*) findNick:(NSString*) inNick;
@@ -55,18 +55,22 @@
 - (NSString*) channelFlagString;
 
 - (void) setChannelName:(NSString*)inChannelName;
+
+- (NSString*) topic;
 - (void) setTopic:(NSString*) inChannelTopic;
+
+
 - (void) setEmptyChannel:(BOOL) inEmpty;
 - (void) setLoggingChannel:(BOOL) inLogging;
-- (void) clearChannel:(NSString*)inChannelName server:(int)inServerID;
+- (void) clearChannel:(NSString*)inChannelName server:(NSInteger)inServerID;
 
 - (BOOL) loggingChannel;
 - (NSString*) name;
 - (NSString*) aliasName;
 - (void) setAliasName:(NSString*)inChannelName;
-- (NSString*) topic;
-- (int) serverid;
-- (int) channelid;
+
+- (NSInteger) serverid;
+- (NSInteger) channelid;
 - (id) channelView;
 - (BOOL) isEmptyChannel;
 - (BOOL) isActiveChannel;
@@ -79,13 +83,13 @@
 - (BOOL) appendString:(NSAttributedString*)inString;
 - (BOOL) appendString:(NSAttributedString*)inString
                append:(NSAttributedString*)inAppend
-                   at:(int)inAppendIndex;
+                   at:(NSInteger)inAppendIndex;
 - (void) loggingMessage:(NSString*) inMessage;
 - (NSString*) logDateString;
 - (BOOL) createLogFile;
 
 - (NSArray*) arraySelected:(NSIndexSet*) inSet;
-- (NSString*) stringSelected:(int) inIndex;
+- (NSString*) stringSelected:(NSInteger) inIndex;
 
 
 -(ChannelWindowController*) channelWindowController;

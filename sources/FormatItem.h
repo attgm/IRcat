@@ -1,35 +1,37 @@
 //
 //  $RCSfile: FormatItem.h,v $
-//  
-//  $Revision: 53 $
+//
+//  $Revision: 89 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 #import <Foundation/Foundation.h>
 
-enum {
-    insert_Channel		= 1,
-    insert_Console		= 2,
-    insert_JoinedChannel = 3,
-    insert_Nothing		= 0
+enum InsertPlace {
+//typedef NS_ENUM(NSUInteger, InsertPlace) {
+    IRInsertChannel			= 1,
+    IRInsertConsole			= 2,
+    IRInsertJoinedChannel	= 3,
+    IRInsertNothing			= 0
 };
+typedef NSUInteger InsertPlace;
 
 
 @interface FormatItem : NSObject {
     NSString* _format;			// format
     NSString* _commonFormat; 	// format for common view
     NSString* _appendFormat; 	// append charactor
-    int _displayPlace;			// message Çï\é¶Ç∑ÇÈèÍèä
-    int	_channelPosition;		// channelÇÃà íu
+    InsertPlace _displayPlace;			// message „ÇíË°®Á§∫„Åô„ÇãÂ†¥ÊâÄ
+    int	_channelPosition;		// channel„ÅÆ‰ΩçÁΩÆ
 }
 
+@property (readonly) NSString* format;
+@property (readonly) NSString* commonFormat;
+@property (readonly) NSString* appendFormat;
+@property (readonly) InsertPlace displayPlace;
+@property (readonly) int channelPosition;
 
-- (id) initWithParams:(NSString*)format :(NSString*)commaon  :(NSString*)append :(int)where :(int)channel;
+- (id) initWithParams:(NSString*)format :(NSString*)commaon  :(NSString*)append :(InsertPlace)where :(int)channel;
 + (id) formatWithFormat:(NSDictionary*)inFormat;
 
-- (NSString*) format;
-- (NSString*) commonFormat;
-- (NSString*) appendFormat;
-- (int) displayPlace;
-- (int) channelPosition;
 
 @end

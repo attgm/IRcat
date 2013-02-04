@@ -12,7 +12,7 @@
 #import "IRcatUtilities.h"
 #import "PreferenceConstants.h"
 #import "PreferenceWindowController.h"
-
+#import "PreferenceModal.h"
 
 @implementation IRCSession(Handle)
 
@@ -206,10 +206,22 @@
         if([_interface findChannelWithName:[inMessage nickname] server:[inMessage serverid]] == nil){
             [_interface createNewChannel:[inMessage nickname] server:[inMessage serverid] isActive:NO];
 			// イベントフック
-			if([[PreferenceModal prefForKey:kNotifyOfNewPrivChannel] boolValue]){
-				[inMessage setNotification:YES];
+            id item = [PreferenceModal notificationForType:IRNotificationTypeNewPriv];
+			if(item && [[item objectForKey:IRNotificationUseColor] boolValue] == YES){
+				[inMessage setNotificationColor:[PreferenceModal transforColorNameToColor:[item objectForKey:IRNotificationColor]]];
+                if([[item objectForKey:IRSendUserNotificationCenter] boolValue] == YES){
+                    [inMessage setUseNotification:YES];
+                }
 			}
-		}
+		}else{
+            id item = [PreferenceModal notificationForType:IRNotificationTypePriv];
+			if(item && [[item objectForKey:IRNotificationUseColor] boolValue] == YES){
+				[inMessage setNotificationColor:[PreferenceModal transforColorNameToColor:[item objectForKey:IRNotificationColor]]];
+                if([[item objectForKey:IRSendUserNotificationCenter] boolValue] == YES){
+                    [inMessage setUseNotification:YES];
+                }
+            }
+        }
         [_interface appendMessage:inMessage format:kPrivmsgUserFormat];
     }else{
         [_interface appendMessage:inMessage format:kPrivmsgConsoleFormat];
@@ -239,11 +251,15 @@
 - (void) handleInvite:(IRCMessage*) inMessage
 {
     if([self isMyself:[inMessage paramAtIndex:1]]){ // 自分が招待された場合
-        [_interface appendMessage:inMessage format:kInviteSelfFormat];
-		if([[PreferenceModal prefForKey:kNotifyOfInvitedChannel] boolValue]){
-			[inMessage setNotification:YES];
-		}
-		if([[PreferenceModal prefForKey:kAutoJoin] boolValue]){
+        id item = [PreferenceModal notificationForType:IRNotificationTypeInvite];
+        if(item && [[item objectForKey:IRNotificationUseColor] boolValue] == YES){
+            [inMessage setNotificationColor:[PreferenceModal transforColorNameToColor:[item objectForKey:IRNotificationColor]]];
+            if([[item objectForKey:IRSendUserNotificationCenter] boolValue] == YES){
+                [inMessage setUseNotification:YES];
+            }
+        }
+		[_interface appendMessage:inMessage format:kInviteSelfFormat];
+        if([[PreferenceModal prefForKey:kAutoJoin] boolValue]){
 			[_interface obeyJoin:[inMessage paramAtIndex:2] server:[self serverid] channel:nil]; // auto join
 		}else{
 			[_interface appendCandidateChannel:[inMessage paramAtIndex:2]];
@@ -333,7 +349,7 @@
 	int paramIndex = inStartParam + 1;
 	NSString* modes = [inMessage paramAtIndex:inStartParam];
 	NSString* param = [inMessage paramAtIndex:paramIndex++];
-	int serverid = [inMessage serverid];
+	NSInteger serverid = [inMessage serverid];
 
 	for(i=0; i<[modes length]; i++){
 		flag = [modes characterAtIndex:i];

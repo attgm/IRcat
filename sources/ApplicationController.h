@@ -17,10 +17,12 @@ enum {
 };
 
 @class IRcatInterface;
+@class AcknowledgmentsWindowController;
 
 @interface ApplicationController : NSObject
 {
     IBOutlet IRcatInterface *_interface;
+    AcknowledgmentsWindowController* _ackWindowController;
 }
 
 
@@ -34,6 +36,7 @@ enum {
 - (IBAction)showServerSetupDialog:(id)sender;
 - (IBAction)startLogging:(id)sender;
 - (IBAction)testAction:(id)sender;
+- (IBAction)showAcknowledgments:(id)sender;
 
 - (void) applicationDidFinishLaunching : (NSNotification *) aNotification;
 - (void) applicationWillTerminate : (NSNotification *) aNotification;

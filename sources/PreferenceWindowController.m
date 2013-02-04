@@ -6,6 +6,7 @@
 //
 #import "PreferenceModal.h"
 #import "PreferenceWindowController.h"
+#import "IRcatUtilities.h"
 
 //-- addToolbarItem
 // ツールバーのアイテムを追加するユーテリティ関数
@@ -49,10 +50,10 @@ static PreferenceWindowController *sSharedInstance = nil;
 //
 - (id) init
 {
-	[super init];
-    // 初期設定値
-    _preferenceModal = [PreferenceModal sharedPreference];
-    
+	self = [super init];
+    if(self){
+        _preferenceModal = [PreferenceModal sharedPreference];
+    }
 	return self;
 }
 
@@ -240,7 +241,10 @@ static PreferenceWindowController *sSharedInstance = nil;
 	[_preferenceWindow setFrame:windowFrame display:YES animate:animate];
 	[[_preferenceWindow contentView] replaceSubview:_panelBase with:view];
 	_displayedPanel = view;
-	[_preferenceWindow setShowsResizeIndicator:viewHeightSizable];
+    
+    NSUInteger styleMask = [_preferenceWindow styleMask];
+    [_preferenceWindow setStyleMask:
+        (viewHeightSizable ? (styleMask | NSResizableWindowMask) : (styleMask & ~NSResizableWindowMask))];
 	
 	NSButton *zoomButton = [_preferenceWindow standardWindowButton:NSWindowZoomButton];
 	[zoomButton setEnabled:viewHeightSizable];
@@ -320,27 +324,23 @@ static PreferenceWindowController *sSharedInstance = nil;
 	[op setCanChooseDirectories:YES];
 	[op setResolvesAliases:YES];
 	[op setCanCreateDirectories:YES];
-	
-	[op beginSheetForDirectory:[_preferenceModal valueForKey:kLogFolder]
-						  file:nil
-						 types:nil
-				modalForWindow:_preferenceWindow
-				 modalDelegate:self
-				didEndSelector:@selector(didSelectLogFolder:returnCode:contextInfo:)
-				   contextInfo:nil];
-}
-
-
-//-- didSelectLogFolder:returnCode:contextInfo:
-// log保存場所の反映
-- (void) didSelectLogFolder : (NSOpenPanel *) inSheet
-				 returnCode : (int) inReturnCode
-				contextInfo : (void *) inContextInfo
-{
-    if (inReturnCode == NSOKButton) {
-		[_preferenceController setValue:[inSheet filename] forKeyPath:
-			[NSString stringWithFormat:@"selection.%@", kLogFolder]];
-	}
+	[op setDirectoryURL:[NSURL fileURLWithPath:[_preferenceModal valueForKey:kLogFolder]]];
+    
+    [op beginSheetModalForWindow:_preferenceWindow
+               completionHandler:^(NSInteger result){
+                   if(result == NSOKButton){
+                       NSString* filePath = [[op URL] path];
+                       [_preferenceController setValue:filePath
+                                            forKeyPath:[NSString stringWithFormat:@"selection.%@", kLogFolder]];
+                       
+                       if(IsAppSandboxed()){
+                           NSError *error = nil;
+                           NSData *bookmarkData = [[NSURL fileURLWithPath:filePath]
+                                                   bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:&error];
+                           [PreferenceModal setSecurityBookmark:bookmarkData forPath:filePath];
+                       }
+                   }
+               }];
 }
 
 

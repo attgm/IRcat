@@ -14,9 +14,6 @@ static void *kFontBindingIdentifier = (void *) @"Font";
 
 @implementation ConsoleTextView
 
-
-
-
 #pragma mark Initializing
 //-- initWithFrame
 // 
@@ -244,7 +241,7 @@ static void *kFontBindingIdentifier = (void *) @"Font";
 // 文字列の追加を行う
 - (BOOL) appendString:(NSAttributedString*)inString
 			   append:(NSAttributedString*)inAppend
-				   at:(int)inAppendIndex
+				   at:(NSInteger)inAppendIndex
 		   scrollLock:(BOOL) inScrollLock
 {
     BOOL isAppend, isNewMessage;
@@ -284,8 +281,7 @@ static void *kFontBindingIdentifier = (void *) @"Font";
         _appendIndex += [inAppend length];
     }
 	// 行数をチェックしてオーバしている場合一行削除
-	NSLog(@"%d  %d", [[PreferenceModal prefForKey:kChannelBufferSize] intValue], _lines);
-    if(isNewMessage && ++_lines > [[PreferenceModal prefForKey:kChannelBufferSize] intValue]){
+	if(isNewMessage && ++_lines > [[PreferenceModal prefForKey:kChannelBufferSize] intValue]){
         NSRange range, firstline;
         range = NSMakeRange(0, 0);
         firstline = [[storage string] lineRangeForRange:range];
@@ -307,7 +303,7 @@ static void *kFontBindingIdentifier = (void *) @"Font";
 // すべてのキー入力をtextFieldに渡す
 -(void) keyDown:(NSEvent*) event
 {
-	unsigned int modifier = [event modifierFlags];
+	NSUInteger modifier = [event modifierFlags];
 	unsigned short keycode = [event keyCode];
 	if(((modifier & NSCommandKeyMask) == NSCommandKeyMask) || (keycode == 0x30)){
 		[super keyDown:event];
@@ -351,5 +347,6 @@ static void *kFontBindingIdentifier = (void *) @"Font";
 	}
 	return [super validateMenuItem:menuItem];
 }
+
 
 @end
