@@ -8,7 +8,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface SelectedValueToIndexTransformer : NSObject {
+@interface SelectedValueToIndexTransformer : NSValueTransformer {
 
 }
 

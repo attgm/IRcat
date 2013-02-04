@@ -17,7 +17,6 @@
     IBOutlet NSPopUpButton *_serverLabelPopUp;
     	
 	IBOutlet NSWindow *_serverSetupWindow;
-	IBOutlet NSDrawer *_serverListDrawer;
 	
 	IBOutlet ServersController*		_serversController;
 	IBOutlet EditCellController*	_autoJoinChannelsController;
@@ -38,8 +37,5 @@
 
 - (void) createLabelPopUp;
 - (void) createEncordingPopUp;
-
-
-- (ServersModal*) serversModal;
 
 @end

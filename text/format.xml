@@ -698,7 +698,7 @@
 		<key>displayPlace</key>
 		<integer>2</integer>
 		<key>format</key>
-		<string>%S %n invites you to channel %c</string>
+		<string>%S %{%n invites you to channel %c%}</string>
 	</dict>
 	<key>JOIN</key>
 	<dict>

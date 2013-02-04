@@ -12,33 +12,32 @@
 	SEL		_selector;
 	Class	_valueClass;
 	
-	id	_observedController;
+	id          _observedController;
 	NSString*	_observedKeyPath;
-	NSString*	_transformerName;
-	void*	_identifier;
+	NSString*   _transformerName;
+	NSString*   _identifier;
 }
+
+
+@property (retain) id observedController;
+@property (retain) NSString* observedKeyPath;
+@property (retain) NSString* transformerName;
+@property (readonly) NSString* identifier;
+@property (readonly) SEL selector;
+@property (readonly) Class valueClass;
 
 +(BindingItem*) bindingItemFromSelector : (SEL) selector
 							 valueClass : (Class) valueClass
-							  identifier: (const void*) identifier;
+							  identifier: (NSString*) identifier;
 
 -(id) init;
 -(id) initWithSelector : (SEL) selector
 			valueClass : (Class) valueClass
-			 identifier: (const void*) identifier;
+			 identifier: (NSString*) identifier;
 -(void) dealloc;
 
--(Class) valueClass;
--(SEL) selector;
-
--(void*) identifier;
--(id) observedController;
--(void) setObservedController:(id) controller;
--(NSString*) observedKeyPath;
--(void) setObservedKeyPath:(NSString*) keyPath;
--(NSString*) transformerName;
--(void) setTransformerName:(NSString*) transformerName;
 -(NSDictionary*) infoForBinding;
 -(void) unbind;
+
 
 @end

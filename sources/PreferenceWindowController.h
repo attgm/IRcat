@@ -11,7 +11,7 @@
 #import "EditCellController.h"
 
 
-@interface PreferenceWindowController : NSObject
+@interface PreferenceWindowController : NSObject <NSToolbarDelegate>
 {
     IBOutlet NSPopUpButton *_beepMenu;
     IBOutlet EditCellController *_friendsController;
@@ -37,7 +37,6 @@
 
 - (IBAction) playSelectedSound:(id)sender;
 - (IBAction) selectLogFolder:(id)sender;
-- (IBAction) playSelectedSound:(id) sender;
 - (IBAction) switchPrefPanel:(id) sender;
 
 - (id) init;
@@ -56,9 +55,5 @@
 - (void) createToolbar;
 - (void) switchPrefPanelById:(NSString*) identifier
 					 animate:(BOOL) animate;
-
-- (void) didSelectLogFolder : (NSOpenPanel *) inSheet
-				 returnCode : (int) inReturnCode
-				contextInfo : (void *) inContextInfo;
 
 @end

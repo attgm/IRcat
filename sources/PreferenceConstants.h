@@ -4,6 +4,7 @@
 //  $Revision: 59 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
+#import <Cocoa/Cocoa.h>
 
 #define kWindowSplitRatio @"WindowSplitRatio"
 #define kPaneSplitRatio @"PaneSplitRatio"
@@ -23,7 +24,7 @@
 #define kKeywordColor @"keywordColor"
 #define kNotifyOfNewPrivChannel @"notifyOfNewPrivChannel"
 #define kNotifyOfInvitedChannel @"notifyOfInvitedChannel"
-#define kKeywords @"keywordsList"
+//#define kKeywords @"keywordsList"
 #define kUseAnalysis @"useAnalysisLibrary"
 
 #define kAutoJoin @"autoJoinInvitedChannel"
@@ -52,12 +53,22 @@
 
 #define kColoredKeyword @"coloredKeyword"
 
-//-- notifications
-extern NSString* const IRNotificationTitle;
-extern NSString* const IRNotificationUseAlert;
-extern NSString* const IRNotificationAlertName;
-extern NSString* const IRNotificationUseColor;
-extern NSString* const IRNotificationColor;
+#define kSecureBookmarkTable @"secureBookmarks"
+
+//-- Notifications
+#define kNotifications @"notifications"
+FOUNDATION_EXPORT NSString* const IRNotificationKeyword;
+FOUNDATION_EXPORT NSString* const IRNotificationUseAlert;
+FOUNDATION_EXPORT NSString* const IRNotificationAlertName;
+FOUNDATION_EXPORT NSString* const IRNotificationUseColor;
+FOUNDATION_EXPORT NSString* const IRNotificationColor;
+FOUNDATION_EXPORT NSString* const IRNotificationType;
+FOUNDATION_EXPORT NSString* const IRNotificationTypePriv;
+FOUNDATION_EXPORT NSString* const IRNotificationTypeNewPriv;
+FOUNDATION_EXPORT NSString* const IRNotificationTypeInvite;
+FOUNDATION_EXPORT NSString* const IRNotificationTypeKeyword;
+FOUNDATION_EXPORT NSString* const IRNotificationEnable;
+FOUNDATION_EXPORT NSString* const IRSendUserNotificationCenter;
 
 //-- ServerSetup
 #define kServerDefaults @"Servers"
@@ -77,7 +88,7 @@ extern NSString* const IRNotificationColor;
 #define kServerCondition @"condition"
 #define kTextEncoding @"encoding"
 
-//-- toolbar items
+//-- Toolbar Items
 #define kAddServer @"AddServer"
 #define kRemoveServer @"RemoveServer"
 #define kServerList @"ServerList"

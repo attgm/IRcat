@@ -18,8 +18,8 @@
 	NSString* _fontTransformerName;
 	
 	NSAttributedString* _appendString;
-	int _appendIndex;
-	int _lines;
+	NSInteger _appendIndex;
+	NSInteger _lines;
 }
 
 
@@ -34,6 +34,6 @@
 -(void) setFontTransformerName:(NSString*)name;
 -(void) syncFontToController;
 
--(BOOL) appendString:(NSAttributedString*)string append:(NSAttributedString*)append at:(int)appendIndex scrollLock:(BOOL)scrollLock;
+-(BOOL) appendString:(NSAttributedString*)string append:(NSAttributedString*)append at:(NSInteger)appendIndex scrollLock:(BOOL)scrollLock;
 -(void) keyDown:(NSEvent*)event;
 @end

@@ -1,6 +1,6 @@
 //
 //  $RCSfile: FormatTable.m,v $
-//  
+//
 //  $Revision: 49 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
@@ -11,18 +11,19 @@
 @implementation FormatTable
 
 //-- init
-// format table‚Ì‰Šú‰»
+// format tableã®åˆæœŸåŒ–
 - (id) init
 {
-    [super init];
-    [self initFormatTable];
-        
+    self = [super init];
+    if(self){
+    	[self initFormatTable];
+    }
     return self;
 }
 
 
 //-- dealloc
-// 
+//
 - (void) dealloc
 {
 	[_hashTable release];
@@ -31,7 +32,7 @@
 
 
 //-- initFormatTable
-// format table‚Ìì¬
+// format tableã®ä½œæˆ
 - (void) initFormatTable
 {
     NSString* path = [[NSBundle mainBundle] pathForResource:@"format" ofType:@"xml"];
@@ -41,7 +42,7 @@
 	id key;
 	_hashTable = [[NSMutableDictionary alloc] initWithCapacity:[formats count]];
     
-	// format table‚Ì¶¬
+	// format tableã®ç”Ÿæˆ
 	while (key = [e nextObject]){
 		[_hashTable setObject:[FormatItem formatWithFormat:[formats objectForKey:key]]
 					   forKey:key];
@@ -51,7 +52,7 @@
 
 
 //-- dataForKey
-// key‚Ìitem‚ğŒŸõ‚·‚é Œ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚Ínil‚ğ•Ô‚·
+// keyã®itemã‚’æ¤œç´¢ã™ã‚‹ è¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸå ´åˆã¯nilã‚’è¿”ã™
 - (FormatItem*) dataForKey:(NSString*)inKey
 {
     return [_hashTable objectForKey:inKey];

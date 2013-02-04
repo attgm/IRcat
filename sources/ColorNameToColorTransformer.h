@@ -8,7 +8,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface ColorNameToColorTransformer : NSObject {
+@interface ColorNameToColorTransformer : NSValueTransformer {
 
 }
 

@@ -33,7 +33,7 @@ typedef enum {
     NSMutableArray* _candidateChannel;    
     FormatTable* _formatTable;
     
-    int _channelMenuOffset;
+    NSInteger _channelMenuOffset;
 	ChannelWindowController* _keyWindowController;
 	
 	NSObjectController*	_preferenceController;
@@ -46,52 +46,52 @@ typedef enum {
 
 - (void) createNewSession;
 - (void) createSession:(ServerModal*) inServer;
-- (void) removeSessionByID : (int) inServerID;
-- (void) disconnectSessionByID : (int) inServerID;
+- (void) removeSessionByID : (NSInteger) inServerID;
+- (void) disconnectSessionByID : (NSInteger) inServerID;
 - (void) selectAndDisconnectSession;
 -(void) sessionConditionChanged:(NSNotification*) sender;
 
 - (void) selectAndCreateNewSession;
-- (void) createNewChannel:(NSString*)inChannelName server:(int)inServerID;
-- (void) createNewChannel:(NSString*)inChannelName server:(int)inServerID isActive:(BOOL)inActive;
-- (void) removeAllChannelAt:(int)inServerID;
-- (void) removeChannel:(NSString*)inChannelName server:(int)inServerID;
+- (void) createNewChannel:(NSString*)inChannelName server:(NSInteger)inServerID;
+- (void) createNewChannel:(NSString*)inChannelName server:(NSInteger)inServerID isActive:(BOOL)inActive;
+- (void) removeAllChannelAt:(NSInteger)inServerID;
+- (void) removeChannel:(NSString*)inChannelName server:(NSInteger)inServerID;
 - (void) removeChannel:(ChannelModal*)inChannel;
 
-- (ChannelModal*) findChannelWithName:(NSString*)inChannel server:(int)inServerID;
-- (BOOL) switchChannelAtIndex:(int)inIndex;
-- (ChannelModal*) channelAtIndex:(int)inIndex;
+- (ChannelModal*) findChannelWithName:(NSString*)inChannel server:(NSInteger)inServerID;
+- (BOOL) switchChannelAtIndex:(NSInteger)inIndex;
+- (ChannelModal*) channelAtIndex:(NSInteger)inIndex;
 - (ChannelModal*) consoleChannelModal;
 - (ChannelModal*) activeChannel;
-- (IRCSession*) findSessionWithID:(int) inSessionID;
+- (IRCSession*) findSessionWithID:(NSInteger) inSessionID;
 - (void) appendCandidateChannel:(NSString*) inChannelName;
-- (ChannelModal*) reserveChannelModal:(NSString*) inChannelName server:(int) inServerID;
+- (ChannelModal*) reserveChannelModal:(NSString*) inChannelName server:(NSInteger) inServerID;
 - (void) switchNextChannel;
 - (void) switchPreviousChannel;
 
-- (void) setFlag:(int)inFlag channel:(NSString*)inChannelName server:(int)inServerID nick:(NSString*)inNickname ison:(BOOL)inIsOn;
-- (void) setChannelFlag:(unichar)inFlag channel:(NSString*)inChannelName server:(int)inServerID ison:(BOOL)inIsOn;
+- (void) setFlag:(int)inFlag channel:(NSString*)inChannelName server:(NSInteger)inServerID nick:(NSString*)inNickname ison:(BOOL)inIsOn;
+- (void) setChannelFlag:(unichar)inFlag channel:(NSString*)inChannelName server:(NSInteger)inServerID ison:(BOOL)inIsOn;
 
-- (void) setTopic:(NSString*)inTopic channel:(NSString*)inChannel server:(int)inServerID; 
+- (void) setTopic:(NSString*)inTopic channel:(NSString*)inChannel server:(NSInteger)inServerID; 
 
-- (void) appendNick:(NSString*)inNick toChannel:(NSString*) inChannel server:(int) inServerID;
-- (void) appendNicks:(NSArray*)inAppendNicks toChannel:(NSString*)inMessage server:(int)inServerID;
+- (void) appendNick:(NSString*)inNick toChannel:(NSString*) inChannel server:(NSInteger) inServerID;
+- (void) appendNicks:(NSArray*)inAppendNicks toChannel:(NSString*)inMessage server:(NSInteger)inServerID;
 - (void) appendNick:(NSString*)inNick toChannelModal:(ChannelModal*)inChannelModal;
-- (void) removeNick:(NSString*)inNick fromChannel:(NSString*) inChannel server:(int) inServerID;
-- (void) removeNick:(NSString*)inNick server:(int) inServerID;
-- (void) renameNick:(NSString*)inNick to:(NSString*)inNewNick server:(int)inServerID;
-- (void) refleshNickList:(NSString*)inChannel server:(int)inServerID;
+- (void) removeNick:(NSString*)inNick fromChannel:(NSString*) inChannel server:(NSInteger) inServerID;
+- (void) removeNick:(NSString*)inNick server:(NSInteger) inServerID;
+- (void) renameNick:(NSString*)inNick to:(NSString*)inNewNick server:(NSInteger)inServerID;
+- (void) refleshNickList:(NSString*)inChannel server:(NSInteger)inServerID;
 
 - (void) initChannelMenu;
-- (void) channelMenuItemToSeparator:(int)inIndex;
+- (void) channelMenuItemToSeparator:(NSInteger)inIndex;
 - (void) addChannelMenuItem:(NSString*) inChannelName;
-- (void) renameMenuItem:(NSString*)inString atIndex:(int) inIndex withID:(int)inChannelID;
+- (void) renameMenuItem:(NSString*)inString atIndex:(NSInteger) inIndex withID:(NSInteger)inChannelID;
 - (void) removeLastChannelMenuItem;
 
 - (void) refleshLogIcon;
 
 //- (NSString*) targetChannelName;
-- (int) activeServer;
+- (NSInteger) activeServer;
 - (void) enterMessageByString:(NSString*)inMessage to:(ChannelModal*)inChannel;
 - (void) sendMessage:(NSString*)inMessage to:(ChannelModal*)inChannel;
 - (NSMenu*) connectedServerMenu;
@@ -102,21 +102,21 @@ typedef enum {
 - (void) appendMessageToChannel:(IRCMessage*) inMessage;
 - (void) appendMessageToJoinedChannel:(IRCMessage*) inMessage;
 
-- (void) obeyJoin:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
-- (void) obeyPart:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
-- (void) obeyNick:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
-- (void) obeyQuit:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
-- (void) obeyWhois:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
-- (void) obeyTopic:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
-- (void) obeyMode:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
-- (void) obeyAction:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
-- (void) obeyNotice:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
-- (void) obeyInvite:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
-- (void) obeyCtcp:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
-- (void) obeyCommand:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyJoin:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyPart:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyNick:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyQuit:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyWhois:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyTopic:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyMode:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyAction:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyNotice:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyInvite:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyCtcp:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyCommand:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
 - (void) obeyIRCCommand:(NSString*)inMessage;
 - (void) obeyIRCCommand:(NSString*)inMessage to:(ChannelModal*)inChannelModal;
-- (void) obeyDisconnect:(NSString*)inParams server:(int)inServerID channel:(ChannelModal*)inChannelModal;
+- (void) obeyDisconnect:(NSString*)inParams server:(NSInteger)inServerID channel:(ChannelModal*)inChannelModal;
 
 - (void) performContextMenu:(NSString*)inCommand context:(NSArray*)inContext channel:(ChannelModal*)inChannel;
 -(void) tearChannel:(ChannelModal*) inChannelModal;

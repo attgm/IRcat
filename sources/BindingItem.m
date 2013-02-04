@@ -7,33 +7,38 @@
 
 #import "BindingItem.h"
 
-
-
-
-
 @implementation BindingItem
+
+@synthesize observedController = _observedController;
+@synthesize observedKeyPath = _observedKeyPath;
+@synthesize transformerName = _transformerName;
+@synthesize identifier = _identifier;
+@synthesize selector = _selector;
+@synthesize valueClass = _valueClass;
 
 #pragma mark Initializing
 //-- init
 -(id) init
 {
-	[super init];
-	_observedController = _observedKeyPath = _transformerName = nil;
-	return self;
+	self = [super init];
+    if(self != nil){
+        _observedController = _observedKeyPath = _transformerName = nil;
+	}
+    return self;
 }
 
 
 //-- initWithSelector:valueClass:
 -(id) initWithSelector:(SEL) selector
 			valueClass:(Class) valueClass
-			identifier:(const void*) identifier
+			identifier:(NSString*) identifier
 {
-	[super init];
-	if(self){
+	self = [super init];
+    if(self != nil){
 		_observedController = _observedKeyPath = _transformerName = nil;
 		_selector = selector;
 		_valueClass = valueClass;
-		_identifier = (void*) identifier;
+		_identifier = identifier;
 	}
 	return self;
 }
@@ -53,7 +58,7 @@
 //
 + (BindingItem*) bindingItemFromSelector : (SEL) selector
 							  valueClass : (Class) valueClass
-							   identifier: (const void*) identifier
+							   identifier: (NSString*) identifier
 {
 	return [[[BindingItem alloc] initWithSelector:selector
 									   valueClass:valueClass
@@ -62,81 +67,6 @@
 
 
 #pragma mark Interface
-//-- selector
-//
--(SEL) selector
-{
-	return _selector;
-}
-
-//-- valueClass
-//
--(Class) valueClass
-{
-	return _valueClass;
-}
-
-
-//-- identifier
-//
--(void*) identifier
-{
-	return _identifier;
-}
-
-
-//-- observedController
-//
--(id) observedController
-{
-	return _observedController;
-}
-
-
-//-- setObservedController
-//
--(void) setObservedController:(id) controller
-{
-	[_observedController release];
-	_observedController = [controller retain];
-}
-
-
-//-- observedKeyPath
-//
--(NSString*) observedKeyPath
-{
-	return _observedKeyPath;
-}
-
-
-
-//-- observedKeyPath
-//
--(void) setObservedKeyPath:(NSString*) keyPath
-{
-	[_observedKeyPath release];
-	_observedKeyPath = [keyPath copyWithZone:[self zone]];
-}
-
-
-//-- transformerName
-//
--(NSString*) transformerName
-{
-	return _transformerName;
-}
-
-
-//-- setTransformerName
-//
--(void) setTransformerName:(NSString*) transformerName
-{
-	[_transformerName release];
-	_transformerName = [transformerName copyWithZone:[self zone]];
-}
-
-
 //-- infoForBinding
 //
 -(NSDictionary*) infoForBinding

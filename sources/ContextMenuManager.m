@@ -22,9 +22,11 @@ static ContextMenuManager* sSharedContextMenuManager = nil;
 // 初期化
 - (id) init
 {
-	NSString* path = [[NSBundle mainBundle] pathForResource:@"ContextMenu" ofType:@"xml"];
-	_menus = [[NSDictionary alloc] initWithContentsOfFile:path];
-	
+    self = [super init];
+    if(self != nil){
+        NSString* path = [[NSBundle mainBundle] pathForResource:@"ContextMenu" ofType:@"xml"];
+        _menus = [[NSDictionary alloc] initWithContentsOfFile:path];
+	}
 	return self;
 }
 
@@ -107,7 +109,7 @@ static ContextMenuManager* sSharedContextMenuManager = nil;
 					[outputString appendString:[inChannel name]];
 					break;				
 				case 's': // $s : server id
-					[outputString appendString:[NSString stringWithFormat:@"@%d", [inChannel serverid]]];
+					[outputString appendString:[NSString stringWithFormat:@"@%ld", (long)[inChannel serverid]]];
 					break;				
 				case '_': // $_ : context(only one)
 					[outputString appendString:[inParam objectAtIndex:0]];

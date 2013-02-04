@@ -3,25 +3,31 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>ja_JP</string>
 	<key>CFBundleExecutable</key>
-	<string>IRcat</string>
-	<key>CFBundleHelpBookFolder</key>
-	<string>IRcatHelp</string>
-	<key>CFBundleHelpBookName</key>
-	<string>IRcatHelp</string>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
 	<string>ircat.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>jp.afternooncafe.ircat</string>
+	<string>jp.afternooncafe.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>IRcat</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>20090926</string>
+	<string>340</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.social-networking</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 1998-2013 Atsushi Tagami.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

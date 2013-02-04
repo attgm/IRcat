@@ -6,7 +6,6 @@
 //
 #import "ChannelViewController.h"
 #import "ChannelModal.h"
-#import "ScrollView.h"
 #import "IRcatInterface.h"
 #import "ConsoleTextView.h"
 
@@ -17,9 +16,11 @@
 // 初期化
 - (id) initWithInterface:(IRcatInterface*) inInterface;
 {
-    [super init];
-	[self setInterface:inInterface];
-	[self setChannelModal:nil];
+    self = [super init];
+    if(self != nil){
+        [self setInterface:inInterface];
+        [self setChannelModal:nil];
+    }
     return self;
 }
 
@@ -28,23 +29,19 @@
 // データの削除
 - (void) dealloc
 {
+    [_channelView unbind:@"font"];
+	[_channelView unbind:@"urlColor"];
+	[_channelView unbind:@"backgroundColor"];
+    
+#if !__has_feature(objc_arc)
     [_scrollView release];
 	[_channelModal release];
 	[_channelView release];
 	[_interface release];
+#endif
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
-
-
-//-- finalize
-// 後片付け
--(void) finalize
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super finalize];
-}
-
 
 //-- setInterface
 // interfaceの設定
@@ -64,47 +61,49 @@
 
 
 //-- createChannelView
-// Channel Viewをnibから作成する
+// create channel view text field
 - (void) createChannelView
 {
-    id textView;
     NSNotificationCenter*   center;
     
-    if (![NSBundle loadNibNamed:@"ChannelView" owner:self]) {
-        NSLog(@"Failed to load ChannelView.nib");
-        NSBeep();
-        return;
-    }
-
-    // scroll viewのaccessoryの設定
-    [_scrollView addVerticalAccessoryView:_tearButton];
-    [_scrollView addVerticalAccessoryView:_latchButton];
+    _scrollView = [[NSScrollView alloc] initWithFrame:NSMakeRect(0,0,200,200)];
+    [_scrollView setBorderType:NSNoBorder];
+    [_scrollView setHasVerticalScroller:YES];
+    [_scrollView setHasHorizontalScroller:NO];
+    [_scrollView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+    NSSize contentSize = [_scrollView contentSize];
     
-    [_scrollView tile];
-    textView = [_scrollView contentView];
+    _channelView = [[ConsoleTextView alloc] initWithFrame:NSMakeRect(0,0, contentSize.width, contentSize.height)];
+    [_channelView setMinSize:NSMakeSize(0.0, 0.0)];
+    [_channelView setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+    [_channelView setVerticallyResizable:YES];
+    [_channelView setHorizontallyResizable:NO];
+    [_channelView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+    [_channelView setEditable:YES];
+    
+    [[_channelView textContainer] setContainerSize:NSMakeSize(contentSize.width, FLT_MAX)];
+    [[_channelView textContainer] setWidthTracksTextView:YES];
+    
+    [_scrollView setDocumentView:_channelView];
+    
     // サイズ変更の notificationを受け取る
     center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(didScroll:)
 				   name:NSViewBoundsDidChangeNotification
-				 object:textView];
-    [textView setPostsBoundsChangedNotifications:YES];
-    [_scrollView retain];
-	[_channelView retain];
-	// 親viewは使用しないので捨てる.
-	NSView* view = [_scrollView superview];
-    [_scrollView removeFromSuperview];
-	[view release];
-   
+				 object:_channelView];
+    [_channelView setPostsBoundsChangedNotifications:YES];
+    
 	NSObjectController* prefController = [_interface sharedPreferenceController];
 	[_channelView bind:@"font" toObject:prefController withKeyPath:@"selection.textFont"
-			options:[NSDictionary dictionaryWithObject:[NSString stringWithString:@"FontNameToFontTransformer"]
+			options:[NSDictionary dictionaryWithObject:@"FontNameToFontTransformer"
 												forKey:@"NSValueTransformerName"]];
 	[_channelView bind:@"urlColor" toObject:prefController withKeyPath:@"selection.urlColor"
-			options:[NSDictionary dictionaryWithObject:[NSString stringWithString:@"ColorNameToColorTransformer"]
+			options:[NSDictionary dictionaryWithObject:@"ColorNameToColorTransformer"
 												forKey:@"NSValueTransformerName"]];
 	[_channelView bind:@"backgroundColor" toObject:prefController withKeyPath:@"selection.backgroundColor"
-			   options:[NSDictionary dictionaryWithObject:[NSString stringWithString:@"ColorNameToColorTransformer"]
+			   options:[NSDictionary dictionaryWithObject:@"ColorNameToColorTransformer"
 												   forKey:@"NSValueTransformerName"]];
+
 }
 
 
@@ -178,10 +177,13 @@
 
 //-- appendString:append:
 // 文字列の追加を行う
-- (BOOL) appendString:(NSAttributedString*)inString append:(NSAttributedString*)inAppend at:(int)inAppendIndex
+- (BOOL) appendString:(NSAttributedString*)inString append:(NSAttributedString*)inAppend at:(NSInteger)inAppendIndex
 {
 	return [_channelView appendString:inString append:inAppend at:inAppendIndex scrollLock:_lockedScroll];
 }
+
+
+
 
 @end
 

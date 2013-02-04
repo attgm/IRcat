@@ -1,15 +1,16 @@
 //
 //  $RCSfile: PreferenceModal.m,v $
-//  
-//  $Revision: 59 $
+//
+//  $Revision: 89 $
 //  $Date: 2008-01-21 21:07:07 +0900#$
 //
 
 #import "PreferenceModal.h"
 #import "PreferenceConstants.h"
 #import "ColorNameToColorTransformer.h"
+#import "IRcatUtilities.h"
 
-struct PreferenceModal* sSharedPreferenceModal = nil;
+static PreferenceModal* sSharedPreferenceModal = nil;
 
 static NSDictionary *defaultValues()
 {
@@ -17,63 +18,98 @@ static NSDictionary *defaultValues()
     
     if(!defaults){
         defaults = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[NSNumber numberWithBool:NO], kAutoJoin,
-			[NSString stringWithString:@"1.0 1.0 1.0 1.0"], kBackgroundColor,
-			[NSNumber numberWithBool:YES], kBeepKeyword,
-			[NSNumber numberWithInt:100], kChannelBufferSize,
-			[NSNumber numberWithBool:YES], kColoredCommand,
-			[NSNumber numberWithBool:YES], kColoredError,
-			[NSNumber numberWithBool:YES], kColoredFriends,
-			[NSNumber numberWithBool:YES], kColoredKeyword,
-			[NSNumber numberWithBool:YES], kColoredTime,
-			[NSNumber numberWithBool:YES], kColoredURL,
-			[NSString stringWithString:@"0.0 0.5 0.0 1.0"], kCommandColor,
-			[NSNumber numberWithBool:YES], kDisplayCTCP,
-			[NSNumber numberWithBool:YES], kDisplayTime,
-			[NSString stringWithString:@"0.5 0.0 0.0 1.0"], kErrorColor,
-			[NSString stringWithString:@"0.5 0.0 0.0 1.0"], kFriendsColor,
-			[NSString stringWithString:@"0.5 0.0 0.0 1.0"], kKeywordColor,
-			[NSString stringWithString:@"IRcat"], kQuitMessage,
-			[NSString stringWithString:@"0.0 0.0 0.0 1.0"], kTextColor,
-			[NSString stringWithString:@"0.0 0.0 1.0 1.0"], kTimeColor,
-			[NSString stringWithString:@"0.0 0.0 1.0 1.0"], kURLColor,
-			[NSNumber numberWithBool:YES], kColoredNotification,
-			[NSNumber numberWithBool:YES], kUseAnalysis,
-			[NSNumber numberWithBool:NO], kUseCommand,
-			[NSNumber numberWithBool:NO], kUseInternetTime,
-			[NSNumber numberWithBool:NO], kAllowMultiLineMessage,
-			[NSNumber numberWithBool:NO], kNotifyOfNewPrivChannel,
-			[NSNumber numberWithBool:NO], kNotifyOfInvitedChannel,
-			[NSString stringWithString:@"I'm IRcat user"], kUserInfo,
-			[NSString stringWithString:@"Funk"], kBeepFile,
-			[NSString stringWithFormat:@"%@/Desktop", NSHomeDirectory()], kLogFolder,
-			[NSNumber numberWithInt:10], kHistoryNum ,
-			[NSNumber numberWithBool:NO], kLogPrivChannel,
-			[NSString stringWithFormat:@"%@ %.0f",
-				[[NSFont userFontOfSize:0.0] fontName],
-				[[NSFont userFontOfSize:0.0] pointSize]], kTextFont,
-			[NSNumber numberWithBool:NO], kDisplayCommandTime,
-			[NSArray arrayWithObject:
-				[NSDictionary dictionaryWithObjectsAndKeys:
-					[NSString stringWithString:@"nick"], @"name", 
-					[NSString stringWithString:@"0.5 0.0 0.0 1.0"], @"color", nil]], kFriends,
-			[NSArray arrayWithObject:
-				[NSDictionary dictionaryWithObjectsAndKeys:
-					[NSString stringWithString:@"keyword"], IRNotificationTitle,
-					[NSString stringWithString:@""], IRNotificationAlertName,
-					[NSString stringWithString:@"0.5 0.0 0.0 1.0"], IRNotificationColor,
-					[NSNumber numberWithBool:YES], IRNotificationUseAlert,
-					[NSNumber numberWithBool:YES], IRNotificationUseColor, nil]], kKeywords,
-			[NSArray arrayWithObject:
-				[NSDictionary dictionaryWithObjectsAndKeys:
-					[NSString stringWithString:@"#channel"], @"name", nil]], kLogChannels,
-	    nil];
+                    [NSNumber numberWithBool:NO], kAutoJoin,
+                    @"1.0 1.0 1.0 1.0", kBackgroundColor,
+                    [NSNumber numberWithBool:YES], kBeepKeyword,
+                    [NSNumber numberWithInt:100], kChannelBufferSize,
+                    [NSNumber numberWithBool:YES], kColoredCommand,
+                    [NSNumber numberWithBool:YES], kColoredError,
+                    [NSNumber numberWithBool:YES], kColoredFriends,
+                    [NSNumber numberWithBool:YES], kColoredKeyword,
+                    [NSNumber numberWithBool:YES], kColoredTime,
+                    [NSNumber numberWithBool:YES], kColoredURL,
+                    @"0.0 0.5 0.0 1.0", kCommandColor,
+                    [NSNumber numberWithBool:YES], kDisplayCTCP,
+                    [NSNumber numberWithBool:YES], kDisplayTime,
+                    @"0.5 0.0 0.0 1.0", kErrorColor,
+                    @"0.5 0.0 0.0 1.0", kFriendsColor,
+                    @"0.5 0.0 0.0 1.0", kKeywordColor,
+                    @"IRcat", kQuitMessage,
+                    @"0.0 0.0 0.0 1.0", kTextColor,
+                    @"0.0 0.0 1.0 1.0", kTimeColor,
+                    @"0.0 0.0 1.0 1.0", kURLColor,
+                    [NSNumber numberWithBool:YES], kColoredNotification,
+                    [NSNumber numberWithBool:YES], kUseAnalysis,
+                    [NSNumber numberWithBool:NO], kUseCommand,
+                    [NSNumber numberWithBool:NO], kUseInternetTime,
+                    [NSNumber numberWithBool:NO], kAllowMultiLineMessage,
+                    [NSNumber numberWithBool:NO], kNotifyOfNewPrivChannel,
+                    [NSNumber numberWithBool:NO], kNotifyOfInvitedChannel,
+                    @"I'm IRcat user", kUserInfo,
+                    @"Funk", kBeepFile,
+                    [NSString stringWithFormat:@"%@/Desktop", NSHomeDirectory()], kLogFolder,
+                    [NSNumber numberWithInt:10], kHistoryNum ,
+                    [NSNumber numberWithBool:NO], kLogPrivChannel,
+                    [NSString stringWithFormat:@"%@ %.0f",
+                     [[NSFont userFontOfSize:0.0] fontName],
+                     [[NSFont userFontOfSize:0.0] pointSize]], kTextFont,
+                    [NSNumber numberWithBool:NO], kDisplayCommandTime,
+                    [NSArray array], kNotifications,
+                    [NSArray arrayWithObject:
+                     [NSDictionary dictionaryWithObjectsAndKeys:
+                      @"#channel", @"name", nil]], kLogChannels,
+                    [NSDictionary dictionary], kSecureBookmarkTable,
+                    nil];
     }
     return defaults;
 };
 
 
 
+static NSArray *defaultNotifications()
+{
+    static NSArray *notifications = nil;
+    
+    if(!notifications){
+        notifications = [[NSArray alloc] initWithObjects:
+                         [[NSDictionary alloc] initWithObjectsAndKeys:
+                          IRNotificationTypeInvite, IRNotificationType,
+                          @"1.0 0.0 0.0 1.0", IRNotificationColor,
+                          [NSNumber numberWithBool:YES], IRNotificationUseColor,
+                          [NSNumber numberWithBool:NO], IRNotificationEnable,
+                          [NSNumber numberWithBool:YES], IRSendUserNotificationCenter,
+                          nil],
+                         [[NSDictionary alloc] initWithObjectsAndKeys:
+                          IRNotificationTypePriv, IRNotificationType,
+                          @"1.0 0.0 0.0 1.0", IRNotificationColor,
+                          [NSNumber numberWithBool:YES], IRNotificationUseColor,
+                          [NSNumber numberWithBool:NO], IRNotificationEnable,
+                          [NSNumber numberWithBool:NO], IRSendUserNotificationCenter,
+                          nil],
+                         [[NSDictionary alloc] initWithObjectsAndKeys:
+                          IRNotificationTypeNewPriv, IRNotificationType,
+                          @"1.0 0.0 0.0 1.0", IRNotificationColor,
+                          [NSNumber numberWithBool:YES], IRNotificationUseColor,
+                          [NSNumber numberWithBool:NO], IRNotificationEnable,
+                          [NSNumber numberWithBool:YES], IRSendUserNotificationCenter,
+                          nil],
+                         nil
+        ];
+    }
+    return notifications;
+}
+
+
+//-- FindNotificationsByTypes
+// タイプによってNotificationsを探す
+NSDictionary* FindNotificationsByType(NSArray* array, NSString* type){
+    for (NSDictionary* dictionary in array){
+        if([type isEqualToString:[dictionary objectForKey:IRNotificationType]]){
+            return dictionary;
+        }
+    }
+    return nil;
+}
 
 @implementation PreferenceModal
 
@@ -83,7 +119,7 @@ static NSDictionary *defaultValues()
 +(PreferenceModal*) sharedPreference
 {
 	if(!sSharedPreferenceModal){
-		[[PreferenceModal alloc] init];
+		sSharedPreferenceModal = [[PreferenceModal alloc] init];
 	}
 	return sSharedPreferenceModal;
 }
@@ -103,6 +139,21 @@ static NSDictionary *defaultValues()
 	return [PreferenceModal transforColorNameToColor:[PreferenceModal prefForKey:key]];
 }
 
+
+//-- notificationForType
+// notification for type
++(NSDictionary*) notificationForType:(NSString*) type
+{
+    NSArray* array = [[PreferenceModal sharedPreference] valueForKey:kNotifications];
+    for(NSDictionary* item in array){
+        if([[item valueForKey:IRNotificationType] isEqualToString:type]){
+            return item;
+        }
+    }
+    return nil;
+}
+
+
 //-- transforColorNameToColor
 //
 + (NSColor*) transforColorNameToColor:(NSString*) value
@@ -112,12 +163,13 @@ static NSDictionary *defaultValues()
 	NSArray* colorTable = [value componentsSeparatedByString:@" "];
     if([colorTable count] > 2){
 		return	[NSColor colorWithCalibratedRed:[[colorTable objectAtIndex:0] floatValue]
-										  green:[[colorTable objectAtIndex:1] floatValue]
-										   blue:[[colorTable objectAtIndex:2] floatValue]
-										  alpha:1.0];
+                                         green:[[colorTable objectAtIndex:1] floatValue]
+                                          blue:[[colorTable objectAtIndex:2] floatValue]
+                                         alpha:1.0];
     }
 	return [NSColor whiteColor];
 }
+
 
 //-- soundArray
 // サウンドの一覧を返す
@@ -125,23 +177,23 @@ static NSDictionary *defaultValues()
 {
 	static NSArray* soundArray = nil;
 	if(soundArray == nil){
-		NSArray	*fileType = [NSSound soundUnfilteredFileTypes];
 		NSMutableArray* sounds = [[NSMutableArray alloc] initWithCapacity:1];
 		NSEnumerator* dirs = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES) objectEnumerator];
 		
 		id dir;
 		while(dir = [dirs nextObject]){
+            NSError* error;
 			NSEnumerator* paths = [[[NSFileManager defaultManager]
-									directoryContentsAtPath:[dir stringByAppendingPathComponent:@"Sounds"]]
-								   objectEnumerator];
+									contentsOfDirectoryAtPath:[dir stringByAppendingPathComponent:@"Sounds"] error:&error]
+                                   objectEnumerator];
 			id filename;
 			while(filename = [paths nextObject]){
-				if([fileType containsObject:[filename pathExtension]]){
-					NSString* soundName = [filename stringByDeletingPathExtension];
-					if(![sounds containsObject:soundName]){
-						[sounds addObject:soundName];
-					}
-				}
+				//if([fileType containsObject:[filename pathExtension]]){
+                NSString* soundName = [filename stringByDeletingPathExtension];
+                if(![sounds containsObject:soundName]){
+                    [sounds addObject:soundName];
+                }
+				//}
 			}
 		}
 		soundArray = [[NSArray arrayWithArray:sounds] retain];
@@ -171,14 +223,16 @@ static NSDictionary *defaultValues()
 // 初期化
 - (id) init
 {
-	[super init];
-	if(sSharedPreferenceModal){
-		[self release];
-		return sSharedPreferenceModal;
+	self = [super init];
+    if(self){
+        if(sSharedPreferenceModal){
+            [self release];
+            return sSharedPreferenceModal;
+        }
+        sSharedPreferenceModal = self;
+        [self preferencesFromDefaults];
 	}
-	sSharedPreferenceModal = self;
-	[self preferencesFromDefaults];
-	return self;
+    return self;
 }
 
 
@@ -241,12 +295,30 @@ static NSDictionary *defaultValues()
 			}
 		}
 	}
+    [self appendDefaultNotifications];
 }
+
+
+//-- appendDefaultNotifications
+// 削除不可能なNotificationをCurrentValuesに設定する.
+- (void) appendDefaultNotifications
+{
+    NSMutableArray* notifications = [self valueForKey:kNotifications];
+    NSArray* defaults = defaultNotifications();
+    
+    for(NSDictionary* item in defaults){
+        if(FindNotificationsByType(notifications, [item objectForKey:IRNotificationType]) == nil){
+            [notifications addObject:[item mutableCopy]];
+        }
+    }
+}
+
+
 
 
 //-- savePreferencesToDefaults
 // 初期設定ファイルに設定を書き込む
-- (void) savePreferencesToDefaults 
+- (void) savePreferencesToDefaults
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -274,9 +346,9 @@ static NSDictionary *defaultValues()
 	while(it = [e nextObject]){
 		NSMutableDictionary* item;
 		if([it isKindOfClass:[NSDictionary class]]){
-			item = [it mutableCopy];
+			item = [[it mutableCopy] autorelease];
 		}else{
-			item = [NSMutableDictionary dictionaryWithObject:[it copyWithZone:[self zone]] 
+			item = [NSMutableDictionary dictionaryWithObject:[[it copyWithZone:[self zone]] autorelease]
 													  forKey:@"name"];
 		}
 		if(defaults && [defaults isKindOfClass:[NSDictionary class]]){
@@ -293,4 +365,34 @@ static NSDictionary *defaultValues()
 	return copy;
 }
 
+#pragma mark Security Scoped Bookmark
+//-- setSecurityBookmark:
+// Secutiry-scoped bookmarkを保存する
++(void) setSecurityBookmark:(NSData*)bookmark forPath:(NSString*)path
+{
+    [[PreferenceModal sharedPreference] setValue:[NSDictionary dictionaryWithObject:bookmark forKey:path]
+                                          forKey:kSecureBookmarkTable];
+}
+
+
+//-- setSecurityBookmark:
+// Secutiry-scoped bookmarkを取得する
++(NSURL*) securityBookmarkForPath:(NSString*)path
+{
+    if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6) return nil;
+    if (IsAppSandboxed() == NO) return nil;
+    
+    NSData *bookmark = [[PreferenceModal prefForKey:kSecureBookmarkTable] objectForKey:path];
+    if(bookmark){
+        NSError* error = nil;
+        BOOL stale;
+        NSURL* bookmarkUrl = [NSURL URLByResolvingBookmarkData:bookmark
+                                                       options:NSURLBookmarkResolutionWithSecurityScope
+                                                 relativeToURL:nil
+                                           bookmarkDataIsStale:&stale
+                                                         error:&error];
+        if (stale == false && error == nil) return bookmarkUrl;
+    }
+    return nil;
+}
 @end

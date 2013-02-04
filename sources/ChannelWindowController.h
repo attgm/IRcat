@@ -24,11 +24,15 @@
     IBOutlet NickListView *_nickListView;
     IBOutlet PopSplitView *_popSplitView;
     IBOutlet NSWindow *_window;
+
     NSWindow* _activeSheet;
 	
 	IRcatInterface* _interface;
 	ChannelModal* _activeChannel;
 	
+    NSTextField*        _topicTextField;
+    NSTextField*        _channelName;
+    
 	BufferedFieldEditor* _fieldEditor;
 }
 
@@ -44,11 +48,11 @@
 
 -(void) createWindow;
 
-- (int) selectedIndexOnNickList;
+- (NSInteger) selectedIndexOnNickList;
 - (void) showSheet:(InputSheet*) inSheetl;
 
 
-- (void) updatePreferences:(NSNotification*) notification;
+//- (void) updatePreferences:(NSNotification*) notification;
 
 - (void) refleshNickList;
 - (void) refleshLogIcon;
@@ -64,5 +68,14 @@
 
 -(id) fieldEditor;
 -(id) windowWillReturnFieldEditor:(NSWindow *)sender toObject:(id) obj;
+
+-(NSTextField*) createToolbarTopicTextField;
+-(NSTextField*) createToolbarChannelNameTextField;
+
+
+-(CGFloat)          splitView:(NSSplitView *)splitView
+       constrainMinCoordinate:(CGFloat)proposedMin
+                  ofSubviewAt:(NSInteger)dividerIndex;
+-(IRcatInterface*) interface;
 
 @end

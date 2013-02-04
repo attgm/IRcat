@@ -20,12 +20,13 @@ const char code_LF = '\n';
 
 //--- skipNextLine
 // 次のCRもしくはLFまで読み飛ばす
-const unsigned char* skipNextLine(const unsigned char* inString,
-			 unsigned int inLength,
+const unsigned char* skipNextLine(
+             const unsigned char* inString,
+			 NSUInteger inLength,
 			 unsigned int* outLength)
 {
     const unsigned char* pos = inString;
-    unsigned int length = inLength;
+    NSUInteger length = inLength;
     *outLength = 0;
 
     if (pos == nil || length == 0) return pos;
@@ -36,7 +37,7 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 		if (--length < 1) return inString;
     }
     // 読み飛ばしたbyte数を出力
-    *outLength = pos - inString;
+    *outLength = (unsigned int)(pos - inString);
     // 後ろのCR LFも読み飛ばす
     while(*pos == code_CR || *pos == code_LF){
 		pos++;
@@ -55,11 +56,13 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 // 初期化
 - (id) initWithSession:(id) inSession
 {
-    [super init];
-    _localDataBuffer = [[NSMutableData alloc] init];
-    _state = IRStateDisconnect;
-    _session = [inSession retain];
-    _dataQueue = [[NSMutableArray alloc] initWithCapacity:5];
+    self = [super init];
+    if(self != nil){
+        _localDataBuffer = [[NSMutableData alloc] init];
+        _state = IRStateDisconnect;
+        _session = [inSession retain];
+        _dataQueue = [[NSMutableArray alloc] initWithCapacity:5];
+    }
     return self;
 }
 
@@ -134,7 +137,7 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 			[self handleDisconnect];
 			break;
         default:
-			NSLog(@"%d", eventCode);
+			//NSLog(@"%ld", eventCode);
             break;
     }
 }
@@ -155,7 +158,7 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 			[self handleDisconnect];
 			break;
 		default:
-			NSLog(@"%d", eventCode);
+			NSLog(@"%ld", (unsigned long)eventCode);
 			break;
 	}
 }
@@ -256,7 +259,7 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 	while([_inputStream hasBytesAvailable]){
 		uint8_t		buffer[1024];
 		
-		NSInteger length = [_inputStream read:(void*)&buffer maxLength:1024];
+		NSUInteger length = [_inputStream read:(void*)&buffer maxLength:1024];
 		[_localDataBuffer appendBytes:buffer length:length];
     
 		data = [_localDataBuffer bytes];
@@ -274,7 +277,7 @@ const unsigned char* skipNextLine(const unsigned char* inString,
 		}
 		// 途中のデータがあった場合bufferに保存しておく
 		if(length > 0){
-			unsigned int endOfData = [_localDataBuffer length];
+			NSUInteger endOfData = [_localDataBuffer length];
 			[_localDataBuffer setData:
 			 [_localDataBuffer subdataWithRange:NSMakeRange(endOfData - length,length)]];
 		}else{
