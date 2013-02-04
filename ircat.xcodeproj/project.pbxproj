@@ -117,6 +117,7 @@
 		0D9A5FC716ACD98B00466D71 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9A5FC616ACD98A00466D71 /* NotificationController.m */; };
 		0DA087D4166EDFBD0043119C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0DA087D3166EDFBD0043119C /* InfoPlist.strings */; };
 		0DE68CCF16BCE12D00A9E868 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 0DE68CCE16BCE12D00A9E868 /* Credits.html */; };
+		0DE68CD216BCEB6A00A9E868 /* IsKeywordEventTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DE68CD116BCEB6A00A9E868 /* IsKeywordEventTransformer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -297,6 +298,8 @@
 		0DA087D2166EDFA60043119C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = SOURCE_ROOT; };
 		0DA087D3166EDFBD0043119C /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = text/InfoPlist.strings; sourceTree = "<group>"; };
 		0DE68CCE16BCE12D00A9E868 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Credits.html; path = text/Credits.html; sourceTree = SOURCE_ROOT; };
+		0DE68CD016BCEB6A00A9E868 /* IsKeywordEventTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IsKeywordEventTransformer.h; path = sources/IsKeywordEventTransformer.h; sourceTree = SOURCE_ROOT; };
+		0DE68CD116BCEB6A00A9E868 /* IsKeywordEventTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IsKeywordEventTransformer.m; path = sources/IsKeywordEventTransformer.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -529,6 +532,8 @@
 				0D30EEC4166DBFAD00BF0639 /* IsEmptyStringTransformer.m */,
 				0D30EEC5166DBFAD00BF0639 /* SelectedValueToIndexTransformer.h */,
 				0D30EEC6166DBFAD00BF0639 /* SelectedValueToIndexTransformer.m */,
+				0DE68CD016BCEB6A00A9E868 /* IsKeywordEventTransformer.h */,
+				0DE68CD116BCEB6A00A9E868 /* IsKeywordEventTransformer.m */,
 			);
 			name = "Value Transformer";
 			sourceTree = "<group>";
@@ -848,6 +853,7 @@
 				0D847DB31671B5E600DBE21A /* ChannelModal.m in Sources */,
 				0D847DBB1671B79200DBE21A /* INAppStoreWindow.m in Sources */,
 				0D9A5FC716ACD98B00466D71 /* NotificationController.m in Sources */,
+				0DE68CD216BCEB6A00A9E868 /* IsKeywordEventTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -976,6 +982,7 @@
 				INFOPLIST_FILE = Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};

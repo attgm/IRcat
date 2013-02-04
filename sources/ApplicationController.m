@@ -17,6 +17,7 @@
 #import "ImageNameToImageTransformer.h"
 #import "IsEmptyStringTransformer.h"
 #import "SelectedValueToIndexTransformer.h"
+#import "IsKeywordEventTransformer.h"
 
 #import "IRcatConstants.h"
 
@@ -63,6 +64,11 @@ static NSArray *commandMenu()
 									forName:[IsEmptyStringTransformer className]];
     [NSValueTransformer setValueTransformer:[[[SelectedValueToIndexTransformer alloc] init] autorelease]
 									forName:[SelectedValueToIndexTransformer className]];
+    [NSValueTransformer setValueTransformer:[[[IsKeywordEventTransformer alloc] init] autorelease]
+									forName:[IsKeywordEventTransformer className]];
+    
+    
+    
 	_interface = [[IRcatInterface alloc] init];
     _ackWindowController = nil;
 }

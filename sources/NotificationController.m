@@ -14,6 +14,9 @@
 -(IBAction) addItem:(id)sender {
 	[self addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                      IRNotificationTypeKeyword, IRNotificationType,
+                     @"1.0 0.0 0.0 1.0", IRNotificationColor,
+                     [NSNumber numberWithBool:YES], IRNotificationUseColor,
+                     [NSNumber numberWithBool:YES], IRSendUserNotificationCenter,
                      @"", IRNotificationKeyword,
                      nil]];
 	NSUInteger index = [[self arrangedObjects] count] - 1;

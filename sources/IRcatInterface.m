@@ -146,16 +146,19 @@ MessageAttribute bindingIdentifier2MessageAttribute(void* identifier)
     return self;
 }
 
+
 //-- showNotification
 // 
 -(void) showNotification:(NSString*)title message:(NSString*)message
 {
-    NSUserNotification *notification = [[NSUserNotification alloc] init];
-    notification.title = title;
-    notification.informativeText = message;
-    notification.soundName = NSUserNotificationDefaultSoundName;
+    if([NSUserNotification class]){
+        NSUserNotification *notification = [[NSUserNotification alloc] init];
+        notification.title = title;
+        notification.informativeText = message;
+        notification.soundName = NSUserNotificationDefaultSoundName;
     
-    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    }
 }
 
 //-- dealloc
